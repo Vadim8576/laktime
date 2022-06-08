@@ -4,13 +4,30 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import { IPriceList } from './pricePage';
+import { IPriceList } from '../../../store/priceStore'
 import cardPhoto from '../../../images/manicure.jpg';
+import { styled } from '@mui/material/styles';
 
+const CustomizedTypography = styled(Typography)`
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 16px;
+  height: 32px;
+/*
+  :hover {
+    height: auto;
+    overflow: visible;
+    display: inline-block;
+  }
+*/
+`;
 
 
 export interface IPriceCardProps {
-  price: IPriceList;
+  price: IPriceList
 }
 
 
@@ -28,9 +45,9 @@ export const PriceCard: React.FC<IPriceCardProps> = ({ price }) => {
           <Typography gutterBottom variant="h5" component="div">
             {price.service}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <CustomizedTypography variant="body2" color="text.secondary">
             {price.description}
-          </Typography>
+          </CustomizedTypography>
           <Typography gutterBottom variant="h6" component="div" sx={{
             color: 'red', textAlign: 'right'
           }}>

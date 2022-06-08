@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const instance: any = axios.create({
     baseURL: 'http://localhost:4000/',
     headers: {
@@ -14,7 +13,9 @@ const pricesAPI = {
      getPrices() {
         return instance
             .get('price')
-            .then((response: { data: any; }) => response.data)
+            .then((response: any) => {
+                return response.data
+            })
     }
     
 }

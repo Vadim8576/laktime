@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import React from "react";
 
 export interface IPageTitle {
@@ -23,16 +23,19 @@ export interface IPageTitle {
 export const PageTitle: React.FC<IPageTitle> = ({ title }) => {
   // const { variant, text } = params;
   return (
-    <Typography
-      variant='h3'
-      component='h1'
-      align='center'
-      mt={14}
-      mb={3}
-      sx={{letterSpacing: '2px'}}
-    >
-      {title}
-    </Typography>
+    <>
+      <Typography
+        variant='h3'
+        component='h1'
+        align='center'
+        mt={12}
+        mb={3}
+        sx={{ letterSpacing: '2px' }}
+      >
+        {title}
+      </Typography>
+      <Divider />
+    </>
   )
 }
 

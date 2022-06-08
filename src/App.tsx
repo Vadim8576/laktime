@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import authAPI from './api/authAPI';
 import pricesAPI from './api/priceAPI';
-import PriceLists from './components/pages/price/pricePage';
-import UserInfo from './components/userInfo';
+import PriceListPage from './components/pages/price/priceListPage';
 import Header from './components/header/header';
 import '@fontsource/roboto/400.css';
 import { AuthContext } from '../src/context/context';
+import priceStore from './store/priceStore';
+import authStore from './store/authStore';
+import { observer } from 'mobx-react-lite';
+
+
 
 interface PriceList {
   id: number,
@@ -15,45 +19,21 @@ interface PriceList {
   description: string
 }
 
-
 interface IauthContext {
   auth: boolean
 }
 
 
-const App = () => {
-
-  const [priceList, setPriceList] = useState([])
-  const [auth, setAuth] = useState(false)
-  const [message, setMessage] = useState('')
-
+const App = observer(() => {
 
   useEffect(() => {
-
-    authAPI.login().then((response: any) => {
-      const resp = response.data;
-      console.log(resp)
-
-      const token = resp.data.token
-      const refreshToken = resp.data.refreshToken
-
-      console.log('token: ', token)
-      console.log('refreshToken: ', refreshToken)
-
-
-      if (resp.ok) {
-        setAuth(true);
-      }
-    }).catch((error: any) => {
-      setAuth(false);
-      setMessage(error.response.data.message)
-    })
-
+    authStore.login()
   }, [])
 
   useEffect(() => {
-    pricesAPI.getPrices().then((response: { data: any; }) => setPriceList(response.data))
+    priceStore.getPrices()    
   }, [])
+
 
   return (
     <div className="App" style={{
@@ -61,13 +41,14 @@ const App = () => {
       height: '100vh',
       overflowX: 'hidden'
     }}>
-      <AuthContext.Provider value={auth}>
+      <AuthContext.Provider value={authStore?.isAuth}>
         <Header />
-        {/* <UserInfo message={message} /> */}
-        <PriceLists priceList={priceList} />
+        <PriceListPage />
       </AuthContext.Provider>
     </div>
   );
-}
+})
+
+  
 
 export default App;
