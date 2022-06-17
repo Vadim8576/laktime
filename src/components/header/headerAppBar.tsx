@@ -43,8 +43,10 @@ const HeaderAppBar: React.FC<AppBarProps> = ({setMenuState}) => {
 	};
 
 	return (
-		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="fixed">
+		<Box sx={{
+			flexGrow: 1
+			}}>
+			<AppBar position="fixed" sx={{backgroundColor: '#4444b0'}}>
 				<Toolbar>
 					<IconButton
 						size="large"

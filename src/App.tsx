@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import authAPI from './api/authAPI';
-import pricesAPI from './api/priceAPI';
-import PriceListPage from './components/pages/price/priceListPage';
+import React, { useEffect } from 'react';
+import PricePage from './components/pages/price/pricePage';
 import Header from './components/header/header';
-import '@fontsource/roboto/400.css';
 import { AuthContext } from '../src/context/context';
 import priceStore from './store/priceStore';
 import authStore from './store/authStore';
 import { observer } from 'mobx-react-lite';
-
-
-
-interface PriceList {
-  id: number,
-  service: string,
-  price: string,
-  active: boolean,
-  description: string
-}
-
-interface IauthContext {
-  auth: boolean
-}
+import { CssBaseline } from '@mui/material';
+import { withCustomTheme } from './hoc/withCustomTheme'
+import Footer from './components/footer/footer';
 
 
 const App = observer(() => {
@@ -31,24 +17,27 @@ const App = observer(() => {
   }, [])
 
   useEffect(() => {
-    priceStore.getPrices()    
+    priceStore.getPrices()
   }, [])
 
-
   return (
-    <div className="App" style={{
-      width: '100vw',
-      height: '100vh',
-      overflowX: 'hidden'
-    }}>
-      <AuthContext.Provider value={authStore?.isAuth}>
-        <Header />
-        <PriceListPage />
-      </AuthContext.Provider>
-    </div>
-  );
+    <>
+       <CssBaseline />
+      <div className="App" style={{
+        width: '100vw',
+        height: '100vh',
+        overflowX: 'hidden'
+      }}>
+        <AuthContext.Provider value={authStore?.isAuth}>
+          <Header />
+          <PricePage />
+          {/* <Footer /> */}
+        </AuthContext.Provider>
+      </div>
+    </>  
+  )
 })
 
-  
+export default withCustomTheme(App);
 
-export default App;
+

@@ -20,21 +20,20 @@ export interface IPageTitle {
   title: string;
 }
 
-export const PageTitle: React.FC<IPageTitle> = ({ title }) => {
-  // const { variant, text } = params;
+export const PagesTitle: React.FC<IPageTitle> = ({ title }) => {
   return (
     <>
       <Typography
-        variant='h3'
+        variant='h4'
         component='h1'
-        align='center'
-        mt={12}
-        mb={3}
-        sx={{ letterSpacing: '2px' }}
+        align='left'
+        // mt={12}
+        mb={5}
+        sx={{ letterSpacing: '1.5px' }}
       >
         {title}
       </Typography>
-      <Divider />
+      {/* <Divider /> */}
     </>
   )
 }
