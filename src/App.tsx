@@ -1,34 +1,37 @@
 import React, { useEffect } from 'react';
 import PricePage from './components/pages/price/pricePage';
 import Header from './components/header/header';
-import { AuthContext } from '../src/context/context';
+import { AuthContext } from './context/authContext';
+// import { IAuthContext } from './context/authContextTypes';
 import priceStore from './store/priceStore';
 import authStore from './store/authStore';
 import { observer } from 'mobx-react-lite';
 import { CssBaseline } from '@mui/material';
 import { withCustomTheme } from './hoc/withCustomTheme'
 import Footer from './components/footer/footer';
+import { IUser } from './store/authStoreTypes';
+
 
 
 const App = observer(() => {
 
   useEffect(() => {
-    authStore.login()
+    authStore.login();
   }, [])
 
   useEffect(() => {
-    priceStore.getPrices()
+    priceStore.getPrices();
   }, [])
 
   return (
     <>
-       <CssBaseline />
+       {/* <CssBaseline /> */}
       <div className="App" style={{
         width: '100vw',
         height: '100vh',
         overflowX: 'hidden'
       }}>
-        <AuthContext.Provider value={authStore?.isAuth}>
+        <AuthContext.Provider value={authStore.isAuth}>
           <Header />
           <PricePage />
           {/* <Footer /> */}

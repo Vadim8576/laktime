@@ -27,9 +27,12 @@ export const PagesTitle: React.FC<IPageTitle> = ({ title }) => {
         variant='h4'
         component='h1'
         align='left'
-        // mt={12}
-        mb={5}
-        sx={{ letterSpacing: '1.5px' }}
+        
+        mb={2}
+        sx={{
+          letterSpacing: '1.5px',
+          padding: '0 24px 0 24px'
+        }}
       >
         {title}
       </Typography>

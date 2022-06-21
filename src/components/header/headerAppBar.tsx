@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,7 +9,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
-import { AuthContext } from '../../context/context';
+import { AuthContext } from '../../context/authContext';
 import { useContext } from 'react';
 
 
@@ -20,7 +20,7 @@ interface AppBarProps {
 
 const HeaderAppBar: React.FC<AppBarProps> = ({setMenuState}) => {
 
-	const auth = useContext(AuthContext)
+	const isAuth = useContext(AuthContext);
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -35,7 +35,7 @@ const HeaderAppBar: React.FC<AppBarProps> = ({setMenuState}) => {
 
 	const handleMainMenu = (event: React.MouseEvent<HTMLElement>) => {
 		// setAnchorEl(event.currentTarget);
-		setMenuState(true)
+		setMenuState(true);
 	};
 
 	const handleClose = () => {
@@ -61,7 +61,7 @@ const HeaderAppBar: React.FC<AppBarProps> = ({setMenuState}) => {
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						Laktime
 					</Typography>
-					{auth && (
+					{isAuth && (
 						<div>
 							<IconButton
 								size="large"
@@ -88,12 +88,12 @@ const HeaderAppBar: React.FC<AppBarProps> = ({setMenuState}) => {
 								open={Boolean(anchorEl)}
 								onClose={handleClose}
 							>
-								<MenuItem onClick={handleClose}>Profile</MenuItem>
+								<MenuItem onClick={handleClose}>Profile ({'user'})</MenuItem>
 								<MenuItem onClick={handleClose}>My account</MenuItem>
 							</Menu>
 						</div>
 					)}
-					{!auth &&
+					{!isAuth &&
 						<Button color="inherit">Login</Button>
 					}
 				</Toolbar>

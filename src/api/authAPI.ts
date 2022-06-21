@@ -4,7 +4,7 @@ import axios from "axios";
 const instance: any = axios.create({
     baseURL: 'http://localhost:4000/user/',
     headers: {
-        withCredentials: true, // делаем запрос от авторизованного пользователя
+        withCredentials: true,
         'Content-Type': 'application/json',
         'api-key': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
     }

@@ -4,9 +4,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box, Button, CardActionArea, CardActions, Grow, Paper, Skeleton } from '@mui/material';
-import { IPriceList } from '../../../store/priceStore'
-import cardPhoto from '../../../images/manicure.jpg';
+import cardPhoto from '../../../../images/manicure.jpg';
 import { styled } from '@mui/material/styles';
+import { IPriceList } from '../../../../store/priceStoreTypes';
+
+
 
 
 const CustomizedTypography = styled(Typography)`
@@ -21,12 +23,12 @@ const CustomizedTypography = styled(Typography)`
 
 
 
-export interface IPriceCardProps {
+export interface IPriceCardItemProps {
   price: IPriceList;
 }
 
 
-export const PriceCard: React.FC<IPriceCardProps> = ({ price }) => {
+export const PriceCardItem: React.FC<IPriceCardItemProps> = ({ price }) => {
 
   const [imgIsLoading, setImgIsLoading] = useState(true)
 
@@ -58,27 +60,45 @@ export const PriceCard: React.FC<IPriceCardProps> = ({ price }) => {
             :
             <Grow in={true}>
               <Skeleton variant="rectangular" animation="wave" width='100%' height={140} />
-            </Grow>       
+            </Grow>
           }
           <CardContent>
-            <Typography gutterBottom variant="h6" component="div" sx={{ letterSpacing: '1.4px' }}>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="div"
+              sx={{ letterSpacing: '1.4px' }}
+            >
               {price.service}
             </Typography>
             <CustomizedTypography variant="body2" color="text.secondary" sx={{ letterSpacing: '1px' }}>
               {price.description}
             </CustomizedTypography>
-            <Typography gutterBottom variant="h6" component="div" sx={{
-              color: 'red', textAlign: 'right'
-            }}>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="div"
+              sx={{
+                color: 'red',
+                textAlign: 'right'
+              }}
+            >
               {price.price} &#8381;
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions sx={{
-          justifyContent: 'left'
+          justifyContent: 'left',
+          padding: '16px'
         }}>
-          {/* <Button size="small" color="primary" variant="outlined" > */}
-          <Button size="medium" color="primary" variant="text" sx={{ letterSpacing: '1px' }}>
+          <Button
+            size="medium"
+            color="primary"
+            variant="contained"
+            sx={{
+              letterSpacing: '1px'
+            }}
+          >
             Записаться
           </Button>
         </CardActions>

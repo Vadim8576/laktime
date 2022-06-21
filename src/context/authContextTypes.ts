@@ -1,0 +1,1 @@
+export type IAuthContext = boolean | null;
