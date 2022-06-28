@@ -1,5 +1,5 @@
 export interface IPriceList {
-  id: number;
+  id: string;
   service: string;
   price: string;
   active: boolean;

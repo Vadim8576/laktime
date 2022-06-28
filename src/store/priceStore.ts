@@ -45,8 +45,19 @@ class PriceStore {
   //   })
   // }
 
-  deletePrice(id: number) {
-    this.priceList = this.priceList.filter((price: IPriceList) => price.id !== id);
+  async deletePrice(id: string) {
+    const response = await pricesAPI.deletePrice(id);
+
+    console.log(response)
+    
+    if(response.status === 'ok') {
+      let priceList = this.priceList.filter((price: IPriceList) => price.id !== id);
+      this.setPrices(priceList);
+    }
+    else {
+      // Вывести ошибку!
+      console.log(response.message)
+    }
   }
 
   deleteAllPrice() {

@@ -11,6 +11,10 @@ import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
 import { AuthContext } from '../../context/authContext';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { observe } from 'mobx';
+import authStore from '../../store/authStore';
 
 
 interface AppBarProps {
@@ -18,7 +22,7 @@ interface AppBarProps {
 }
 
 
-const HeaderAppBar: React.FC<AppBarProps> = ({setMenuState}) => {
+const HeaderAppBar: React.FC<AppBarProps> = observer(({setMenuState}) => {
 
 	const isAuth = useContext(AuthContext);
 
@@ -37,6 +41,7 @@ const HeaderAppBar: React.FC<AppBarProps> = ({setMenuState}) => {
 		// setAnchorEl(event.currentTarget);
 		setMenuState(true);
 	};
+	
 
 	const handleClose = () => {
 		setAnchorEl(null);
@@ -60,7 +65,25 @@ const HeaderAppBar: React.FC<AppBarProps> = ({setMenuState}) => {
 					</IconButton>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						Laktime
+						
 					</Typography>
+					<Link style={{color: 'yellow'}} to='../price'>Прайс</Link>
+					<Button
+						style={{color: 'yellow'}}
+						onClick={() => {
+							authStore.logout()
+						}}
+					>
+						LogOut
+					</Button>
+					<Button
+						style={{color: 'yellow'}}
+						onClick={() => {
+							authStore.login()
+						}}
+					>
+						LogIn
+					</Button>
 					{isAuth && (
 						<div>
 							<IconButton
@@ -100,7 +123,7 @@ const HeaderAppBar: React.FC<AppBarProps> = ({setMenuState}) => {
 			</AppBar>
 		</Box>
 	);
-}
+})
 
 
 export default HeaderAppBar;

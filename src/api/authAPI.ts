@@ -1,4 +1,14 @@
-import axios from "axios";
+import axios, { AxiosResponse, AxiosError } from "axios";
+import { getErrorMessage } from "../helpers/getErrorMessage";
+
+interface IAuthResponse {
+    data: {
+        email: string;
+        nickname: string;
+        refreshToken: string;
+        token: string;
+    }
+}
 
 
 const instance: any = axios.create({
@@ -19,9 +29,18 @@ const authAPI = {
     login() {
         return instance
             .post('login', body)
-            .then((response: any) => response)
+            .then((response: AxiosResponse<IAuthResponse>) =>{
+                return {
+                    data: response.data.data,
+                    status: 'ok'
+                }
+            })
+            .catch((error: AxiosError) => {
+                return getErrorMessage(error);
+            })
     }
     
 }
+
 
 export default authAPI;

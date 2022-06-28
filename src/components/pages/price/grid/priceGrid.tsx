@@ -1,5 +1,6 @@
 import React from "react";
 import { PriceCardItem } from "./priceCardItem";
+import PriceCardItem2 from "./priceCardItem2";
 import Grid from '@mui/material/Grid';
 import { Container } from '@mui/material';
 import { IPriceList } from '../../../../store/priceStoreTypes';
@@ -14,7 +15,7 @@ export const PriceGrid: React.FC<IPriceListTypeGridProps> = ({ priceList }) => {
       <Grid container spacing={{ xs: 4 }} columns={{ xs: 4, sm: 8, md: 12 }} mt={0}>
         {priceList.map((price: IPriceList) => (
           <Grid item xs={12} sm={4} md={4} key={price.id}>
-            <PriceCardItem key={price.id} price={price} />
+            <PriceCardItem2 key={price.id} price={price} />
           </Grid>
         ))}
       </Grid>

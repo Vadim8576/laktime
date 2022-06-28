@@ -43,7 +43,7 @@ export const PriceCardItem: React.FC<IPriceCardItemProps> = ({ price }) => {
   return (
     <Grow in={true}>
       <Card sx={{ minWidth: 250 }} elevation={3}>
-        <CardActionArea>
+        <CardActionArea disabled>
           {!imgIsLoading
             ?
             <Grow in={true}>
