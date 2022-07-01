@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import { getTokenFromLocalStorage } from '../helpers/localStorage';
+import { IPrice } from '../store/priceStoreTypes';
 
 
 interface IPriceResponse {
@@ -28,6 +29,21 @@ const pricesAPI = {
         return instance
             .get('price')
             .then((response: AxiosResponse<IPriceResponse>) => {
+                return {
+                    data: response.data.data,
+                    status: 'ok'
+                }
+            })
+            .catch((error: AxiosError) => {
+                return getErrorMessage(error);
+            })
+    },
+
+    addPrice(price: IPrice) {
+        return instance
+            .post(`price/`, {...price, active: true})
+            .then((response: AxiosResponse<IPriceResponse>) => {
+                console.log(response)
                 return {
                     data: response.data.data,
                     status: 'ok'

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import pricesAPI from "../api/priceAPI";
-import { IPriceList } from './priceStoreTypes';
+import { IPrice, IPriceList } from './priceStoreTypes';
 
 
 
@@ -35,8 +35,10 @@ class PriceStore {
     this.priceError = error;
   }
 
-  addPrice(price: IPriceList) {
-    this.priceList.push(price);
+  async addPrice(price: IPrice) {
+    // this.priceList.push(price);
+    const response = await pricesAPI.addPrice(price);
+
   }
 
   // patchPrice(id: number) {

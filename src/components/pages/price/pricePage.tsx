@@ -8,6 +8,7 @@ import priceStore from "../../../store/priceStore";
 import { Spiner } from '../../ui/spiner';
 import AddOutlined from '@mui/icons-material/AddOutlined';
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
+import PriceForm from './priceForm';
 
 const actions = [
   { icon: <AddOutlined />, name: 'Добавить' },
@@ -26,8 +27,11 @@ const PricePage: React.FC = observer(() => {
     }
   };
 
+
+  const [formOpen, setFormOpen] = React.useState(true);
+
   const handleSpeedDialClick = () => {
-    console.log('Нажал')
+    setFormOpen(true);
   }
 
   return (
@@ -47,6 +51,8 @@ const PricePage: React.FC = observer(() => {
           :
           <Spiner open={priceIsLoading} />
         }
+
+        <PriceForm formOpen={formOpen} setFormOpen={setFormOpen} addPrice={priceStore.addPrice} />
 
         <SpeedDial
           ariaLabel="SpeedDial basic example"

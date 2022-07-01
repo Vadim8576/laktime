@@ -1,7 +1,10 @@
-export interface IPriceList {
-  id: string;
+export interface IPrice {
   service: string;
   price: string;
-  active: boolean;
   description: string
+  active: boolean;
+}
+
+export interface IPriceList extends IPrice {
+  id: string;
 }
