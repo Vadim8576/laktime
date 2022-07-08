@@ -28,7 +28,7 @@ export const PagesTitle: React.FC<IPageTitle> = ({ title }) => {
         component='h1'
         align='left'
         
-        mb={2}
+        mb={4}
         sx={{
           letterSpacing: '1.5px',
           padding: '0 24px 0 24px'

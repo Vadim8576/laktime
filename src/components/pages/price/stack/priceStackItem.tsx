@@ -60,7 +60,7 @@ export const PriceStackItem: React.FC<IPriceStackItemProps> = ({ price }) => {
               <CardMedia
                 component="img"
                 image={cardPhoto}
-                alt={price.service}
+                alt={price.servicename}
                 sx={{
                   background: '#e9e9e9',
                   width: '125px',
@@ -92,7 +92,7 @@ export const PriceStackItem: React.FC<IPriceStackItemProps> = ({ price }) => {
                 letterSpacing: '1.8px'
               }}
             >
-              {price.service}
+              {price.servicename}
             </Typography>
             <CustomizedTypography
               variant="body2"

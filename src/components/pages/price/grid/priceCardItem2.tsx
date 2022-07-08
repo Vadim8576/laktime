@@ -10,17 +10,15 @@ import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IPriceList } from '../../../../store/priceStoreTypes';
 import cardPhoto from '../../../../images/manicure.jpg';
-import { Box, Button, Grow, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, Paper, Skeleton } from '@mui/material';
+import { Button, Grow, Paper, Skeleton } from '@mui/material';
 import CardMenu from '../../../ui/cardMenu';
-import ConfirmationDialog from '../../../ui/confirmationDialog';
 import { observer } from 'mobx-react-lite';
 import priceStore from '../../../../store/priceStore';
+import useState from 'react';
 
 
 
@@ -48,8 +46,9 @@ interface IPriceCardItemProps {
 
 const PriceCardItem2: React.FC<IPriceCardItemProps> = ({ price }) => {
 
-  const [imgIsLoading, setImgIsLoading] = React.useState(true);
-  
+  const [cardVisible, setCardVisible] = React.useState<boolean>(true);
+
+  const [imgIsLoading, setImgIsLoading] = React.useState<boolean>(true);
   useEffect(() => {
     const img = new Image();
     img.src = cardPhoto;
@@ -58,30 +57,31 @@ const PriceCardItem2: React.FC<IPriceCardItemProps> = ({ price }) => {
     }
   }, []);
 
-  const [confirmed, setConfirmed] = React.useState<boolean>(false);
 
+  const [confirmed, setConfirmed] = React.useState<boolean>(false);
   useEffect(() => {
     if(confirmed) {
-      console.log('удаление подтверждено, id= ', price.id)
-      priceStore.deletePrice(price.id);
+      console.log('удаление подтверждено, id= ', price.id)     
+      // priceStore.deletePrice(price.id).then(response => setCardVisible(!response))
+      priceStore.deletePrice(price.id);  
+      setConfirmed(false);
     }
   }, [confirmed]);
 
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const [expanded, setExpanded] = React.useState(false);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Grow in={true}>
+    <Grow in={cardVisible}>
       <Card sx={{ minWidth: 250 }}>
 
         <CardHeader
@@ -95,7 +95,7 @@ const PriceCardItem2: React.FC<IPriceCardItemProps> = ({ price }) => {
               <MoreVertIcon />
             </IconButton>
           }
-          title={price.service}
+          title={price.servicename + ' ' + price.id}
         // subheader="September 14, 2016"
         />
 
@@ -134,7 +134,7 @@ const PriceCardItem2: React.FC<IPriceCardItemProps> = ({ price }) => {
               textAlign: 'right'
             }}
           >
-            Краткое описание услуги
+            Описание услуги
           </Typography>
           <ExpandMore
             expand={expanded}

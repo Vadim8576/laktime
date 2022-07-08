@@ -1,80 +1,95 @@
-import React from 'react'
-import { Container, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material'
+import React, { useEffect } from 'react'
+import { Container } from '@mui/material'
 import { PagesTitle } from '../../pagesTitle/pagesTitle'
 import { ToggleButtons } from '../../ui/toggleButtons';
-import Prices from './prices';
 import { observer } from 'mobx-react-lite';
 import priceStore from "../../../store/priceStore";
 import { Spiner } from '../../ui/spiner';
-import AddOutlined from '@mui/icons-material/AddOutlined';
-import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 import PriceForm from './priceForm';
-
-const actions = [
-  { icon: <AddOutlined />, name: 'Добавить' },
-  { icon: <DeleteSweepOutlinedIcon />, name: 'Удалить все' },
-];
+import { PriceGrid } from "./grid/priceGrid";
+import { PriceStack } from "./stack/priceStack";
+import ErrorMessage from '../../popupMessages/errorMessage';
+import EditMenu from '../../ui/editMenu';
+import SuccessMessage from '../../popupMessages/successMessage';
 
 
 
 const PricePage: React.FC = observer(() => {
-  const { priceIsLoading, priceList, priceError } = priceStore.getPriceStore();
-  const [view, setView] = React.useState('module');
 
-  const toggleButtonChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
-    if (nextView !== null) {
-      setView(nextView);
-    }
-  };
+  const { priceIsLoading, getPrices, priceError, priceSuccess } = priceStore;
 
 
-  const [formOpen, setFormOpen] = React.useState(true);
+ 
+  useEffect(() => {
+    console.log('useEffect price')
+    getPrices();
+  }, [])
 
-  const handleSpeedDialClick = () => {
-    setFormOpen(true);
-  }
 
   return (
-    <>
-      <Container maxWidth='lg' sx={{
-        // background: '#fff',
-        marginBottom: 10,
-        position: 'relative',
-        marginTop: '102px'
-      }}>
-        <PagesTitle title={'Услуги и цены'} />
-        <ToggleButtons view={view} toggleButtonChange={toggleButtonChange} />
+    <Container maxWidth='lg' sx={{
+      // background: '#fff',
+      marginBottom: 10,
+      position: 'relative',
+      marginTop: '102px'
+    }}>
+      <PagesTitle title={'Услуги и цены'} />
 
-        {!priceIsLoading
-          ?
-          <Prices view={view} priceList={priceList} />
-          :
-          <Spiner open={priceIsLoading} />
-        }
+      {!priceIsLoading
+        ?
+        <Prices error={priceError} success={priceSuccess} />
+        :
+        <Spiner open={priceIsLoading} />
+      }
 
-        <PriceForm formOpen={formOpen} setFormOpen={setFormOpen} addPrice={priceStore.addPrice} />
-
-        <SpeedDial
-          ariaLabel="SpeedDial basic example"
-          sx={{
-            position: 'fixed',
-            bottom: 50,
-            right: 'calc(50% - 28px)'
-          }}
-          icon={<SpeedDialIcon />}
-        >
-          {actions.map((action) => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-              onClick={handleSpeedDialClick}
-            />
-          ))}
-        </SpeedDial>
-      </Container>
-    </>
+    </Container>
   )
 })
 
 export default PricePage;
+
+
+
+
+interface IPricesProps {
+  // view: string;
+  error: string;
+  success: boolean;
+}
+
+const Prices: React.FC<IPricesProps> = ({ error, success }) => {
+
+  const [formOpen, setFormOpen] = React.useState<boolean>(false);
+
+  /*
+    const [view, setView] = React.useState('module');
+  
+    const toggleButtonChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
+      if (nextView !== null) {
+        setView(nextView);
+      }
+    }
+  */
+  return (
+    <>
+      {/* {view === 'list' //module
+        ?
+        <PriceStack />
+        :
+        <PriceGrid />
+      } */}
+
+      {/* <ToggleButtons view={view} toggleButtonChange={toggleButtonChange} /> */}
+      
+      {/* {error && <ErrorShow error={error} />} */}
+      <ErrorMessage error={error} />
+      <SuccessMessage success={success} />
+      <PriceGrid />
+      <PriceForm formOpen={formOpen} setFormOpen={setFormOpen} />
+      <EditMenu action={setFormOpen} />
+
+    </>
+  )
+}
+
+

@@ -1,8 +1,8 @@
 export interface IPrice {
-  service: string;
+  servicename: string;
   price: string;
   description: string
-  active: boolean;
+  active: string;
 }
 
 export interface IPriceList extends IPrice {

@@ -69,7 +69,7 @@ export const PriceCardItem: React.FC<IPriceCardItemProps> = ({ price }) => {
               component="div"
               sx={{ letterSpacing: '1.4px' }}
             >
-              {price.service}
+              {price.servicename}
             </Typography>
             <CustomizedTypography variant="body2" color="text.secondary" sx={{ letterSpacing: '1px' }}>
               {price.description}

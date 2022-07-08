@@ -1,15 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { PriceCardItem } from "./priceCardItem";
 import PriceCardItem2 from "./priceCardItem2";
 import Grid from '@mui/material/Grid';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { IPriceList } from '../../../../store/priceStoreTypes';
+import { observer } from 'mobx-react-lite';
+import priceStore from "../../../../store/priceStore";
+import { toJS } from "mobx";
 
 interface IPriceListTypeGridProps {
-  priceList: IPriceList[]
+  // priceList: IPriceList[]
 }
 
-export const PriceGrid: React.FC<IPriceListTypeGridProps> = ({ priceList }) => {
+export const PriceGrid: React.FC<IPriceListTypeGridProps> = observer(() => {
+  
+  let priceList = priceStore.sortPrice;
+
+  if(!priceList.length) return <NoPriceList />
+
   return (
     <Container>
       <Grid container spacing={{ xs: 4 }} columns={{ xs: 4, sm: 8, md: 12 }} mt={0}>
@@ -19,6 +27,18 @@ export const PriceGrid: React.FC<IPriceListTypeGridProps> = ({ priceList }) => {
           </Grid>
         ))}
       </Grid>
+    </Container>
+  )
+})
+
+export default PriceGrid;
+
+
+
+const NoPriceList = () => {
+  return (
+    <Container>
+      <Typography>Услуги отсутствуют</Typography>
     </Container>
   )
 }

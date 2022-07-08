@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Loading from '../ui/loading';
 import Login from '../login/login';
 import PrivateRoute from "./privateRoute";
+import Loading2 from "../ui/loading2";
 
 const Price = React.lazy(() => import('../pages/price/pricePage'));
 const Portfolio = React.lazy(() => import('../pages/portfolio/portfolioPage'));
@@ -23,7 +24,7 @@ const AppRoutes = () => {
         <Route
           path='price'
           element={
-            <React.Suspense fallback={<Loading />}>
+            <React.Suspense fallback={<Loading2 />}>
               <Price />
             </React.Suspense>
           }

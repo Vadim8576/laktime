@@ -40,8 +40,9 @@ const pricesAPI = {
     },
 
     addPrice(price: IPrice) {
+        console.log(price)
         return instance
-            .post(`price/`, {...price, active: true})
+            .post(`price/`, {...price})
             .then((response: AxiosResponse<IPriceResponse>) => {
                 console.log(response)
                 return {

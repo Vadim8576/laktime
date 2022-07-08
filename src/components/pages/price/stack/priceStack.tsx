@@ -5,13 +5,15 @@ import { styled } from '@mui/material/styles';
 import { IPriceList } from '../../../../store/priceStoreTypes';
 import { PriceCardItem } from '../grid/priceCardItem';
 import { PriceStackItem } from "./priceStackItem";
+import priceStore from "../../../../store/priceStore";
 
 
 interface IPriceStackProps {
-  priceList: IPriceList[]
+  // priceList: IPriceList[]
 }
 
-export const PriceStack: React.FC<IPriceStackProps> = ({ priceList }) => {
+export const PriceStack: React.FC<IPriceStackProps> = () => {
+  const { priceList } = priceStore;
   return (
     <Container>
       <Stack>
