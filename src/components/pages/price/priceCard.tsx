@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -12,13 +12,13 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { IPriceList } from '../../../../store/priceStoreTypes';
-import cardPhoto from '../../../../images/manicure.jpg';
+import { IPriceList } from '../../../store/priceStoreTypes';
+import cardPhoto from '../../../images/manicure.jpg';
 import { Button, Grow, Paper, Skeleton } from '@mui/material';
-import CardMenu from '../../../ui/cardMenu';
+import ContextMenu from '../../ui/contextMenu';
 import { observer } from 'mobx-react-lite';
-import priceStore from '../../../../store/priceStore';
-import useState from 'react';
+import priceStore from '../../../store/priceStore';
+
 
 
 
@@ -40,13 +40,21 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 
 
+export interface IContextMenuList {
+  actionName: string;
+  confirmed: boolean;
+  openForm: boolean;
+  onConfirm: (id: string) => any;
+}
+
+
 interface IPriceCardItemProps {
   price: IPriceList;
 }
 
-const PriceCardItem2: React.FC<IPriceCardItemProps> = ({ price }) => {
 
-  const [cardVisible, setCardVisible] = React.useState<boolean>(true);
+
+const PriceCard: React.FC<IPriceCardItemProps> = observer(({ price }) => {
 
   const [imgIsLoading, setImgIsLoading] = React.useState<boolean>(true);
   useEffect(() => {
@@ -58,32 +66,38 @@ const PriceCardItem2: React.FC<IPriceCardItemProps> = ({ price }) => {
   }, []);
 
 
-  const [confirmed, setConfirmed] = React.useState<boolean>(false);
-  useEffect(() => {
-    if(confirmed) {
-      console.log('удаление подтверждено, id= ', price.id)     
-      // priceStore.deletePrice(price.id).then(response => setCardVisible(!response))
-      priceStore.deletePrice(price.id);  
-      setConfirmed(false);
+
+  const menuItemList: IContextMenuList[] = [
+    {
+      actionName: 'Удалить',
+      confirmed: true,
+      openForm: false,
+      onConfirm: priceStore.deletePrice
+    },
+    {
+      actionName: 'Редактировать',
+      confirmed: false,
+      openForm: true,
+      onConfirm: priceStore.patchPrice
     }
-  }, [confirmed]);
+  ];
 
-
+  // context Menu
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const cardMenuOpen = Boolean(anchorEl);
+  const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
+  // price Description
   const [expanded, setExpanded] = React.useState(false);
-  const handleExpandClick = () => {
+  const handleExpandClick = useCallback(() => {
     setExpanded(!expanded);
-  };
+  }, [expanded]);
 
   return (
-    <Grow in={cardVisible}>
+    <Grow in={true}>
       <Card sx={{ minWidth: 250 }}>
-
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -95,15 +109,16 @@ const PriceCardItem2: React.FC<IPriceCardItemProps> = ({ price }) => {
               <MoreVertIcon />
             </IconButton>
           }
-          title={price.servicename + ' ' + price.id}
-        // subheader="September 14, 2016"
+          title={price.servicename}
+          subheader={price.id}
         />
 
-        <CardMenu
+        <ContextMenu
           anchorEl={anchorEl}
           setAnchorEl={setAnchorEl}
-          open={open}
-          setConfirmed={setConfirmed}
+          cardMenuOpen={cardMenuOpen}
+          menuItemList={menuItemList}
+          id={price.id}
         />
 
         {!imgIsLoading
@@ -188,7 +203,7 @@ const PriceCardItem2: React.FC<IPriceCardItemProps> = ({ price }) => {
       </Card>
     </Grow>
   );
-}
+})
 
 
-export default observer(PriceCardItem2);
+export default PriceCard;

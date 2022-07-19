@@ -9,7 +9,7 @@ interface IErrorShowProps {
 
 const SuccessMessage: React.FC<IErrorShowProps> = ({ success }) => {
 
-  console.log('SuccessShow', success)
+  // console.log('SuccessShow', success)
 
   const [open, setOpen] = React.useState<boolean>(false);
 
@@ -27,7 +27,6 @@ const SuccessMessage: React.FC<IErrorShowProps> = ({ success }) => {
     <Snackbar
       open={open}
       autoHideDuration={6000}
-      // autoHideDuration={6000}
       onClose={handleClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       sx={{top: '65px'}}

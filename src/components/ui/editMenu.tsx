@@ -1,7 +1,10 @@
+import React, {useCallback} from "react";
 import { AddOutlined } from "@mui/icons-material";
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
-import React from "react";
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
+import useConfirm from "../../hooks/useConfirm";
+import priceStore from "../../store/priceStore";
+
 
 const actions = [
   { icon: <AddOutlined />, name: 'Добавить' },
@@ -15,15 +18,21 @@ interface IEditMenu {
 
 const EditMenu: React.FC<IEditMenu> = ({ action }) => {
 
-  const handleSpeedDialClick = (event:  React.MouseEvent<HTMLElement>) => {
+
+  const { confirm } = useConfirm();
+
+  const showConfirm = async () => {
+    let isConfirmed = await confirm('Удалить все записи?');
+    if(isConfirmed) priceStore.deleteAllPrice();   
+  }
+
+  const handleSpeedDialClick = useCallback((event:  React.MouseEvent<HTMLElement>) => {
     let target = event.currentTarget.ariaLabel
-    console.log(target)
     if(target === 'Добавить') action(true);
     if(target === 'Удалить все') {
-      // action(true);
-      console.log('Удалить все')
+      showConfirm();
     }
-  }
+  }, [])
 
   return (
     <SpeedDial

@@ -50,13 +50,13 @@ class PriceStore {
 
   }
 
-  // patchPrice(id: number) {
-  //   this.priceList = this.priceList.map((price: IPriceList) => {
-  //     if(price.id === id) 
-  //   })
-  // }
+  patchPrice = async (id: string) => {
+    // const response = await pricesAPI.deletePrice(id);
+    console.log('priceStore > Patch')
+  }
 
   deletePrice = async (id: string) => {
+    
     this.setError('');
     this.setSuccess(false);
     
@@ -67,15 +67,27 @@ class PriceStore {
       this.getPrices();
     }
     else {
-      // Вывести ошибку!
       console.log(response.error)
       this.setError(response.error);
       this.setLoading(false);
     }
   }
 
-  deleteAllPrice = () => {
-    this.priceList = [];
+  deleteAllPrice = async () => {
+    this.setError('');
+    this.setSuccess(false);
+    
+    const response = await pricesAPI.deleteAllPrice();
+    
+    if(response.status === 'ok') {
+      this.setSuccess(true);
+      this.getPrices();
+    }
+    else {
+      console.log(response.error)
+      this.setError(response.error);
+      this.setLoading(false);
+    }
   }
 
   getPrices = async () => {
@@ -98,6 +110,10 @@ class PriceStore {
   get sortPrice() {
     const sort = 'id'; //сотировка по ID
     return [...this.priceList].sort((a: IPriceList, b: IPriceList) => parseInt(a[sort]) - parseInt(b[sort]));
+  }
+
+  get priceListLength() {
+    return this.priceList.length;
   }
 
 

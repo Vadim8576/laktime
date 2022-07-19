@@ -1,29 +1,26 @@
 import React, {useEffect} from "react";
-import { PriceCardItem } from "./priceCardItem";
-import PriceCardItem2 from "./priceCardItem2";
+import PriceCard from "./priceCard";
 import Grid from '@mui/material/Grid';
 import { Container, Typography } from '@mui/material';
-import { IPriceList } from '../../../../store/priceStoreTypes';
 import { observer } from 'mobx-react-lite';
-import priceStore from "../../../../store/priceStore";
-import { toJS } from "mobx";
+import priceStore from "../../../store/priceStore";
+import { IPriceList } from '../../../store/priceStoreTypes';
 
-interface IPriceListTypeGridProps {
-  // priceList: IPriceList[]
-}
 
-export const PriceGrid: React.FC<IPriceListTypeGridProps> = observer(() => {
+
+
+export const PriceGrid = observer(() => {
   
-  let priceList = priceStore.sortPrice;
+  const {sortPrice, priceListLength} = priceStore;
 
-  if(!priceList.length) return <NoPriceList />
+  if(!priceListLength) return <NoPriceList />
 
   return (
     <Container>
       <Grid container spacing={{ xs: 4 }} columns={{ xs: 4, sm: 8, md: 12 }} mt={0}>
-        {priceList.map((price: IPriceList) => (
+        {sortPrice.map((price: IPriceList) => (
           <Grid item xs={12} sm={4} md={4} key={price.id}>
-            <PriceCardItem2 key={price.id} price={price} />
+            <PriceCard key={price.id} price={price} />
           </Grid>
         ))}
       </Grid>

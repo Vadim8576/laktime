@@ -9,11 +9,11 @@ interface IErrorShowProps {
 
 const ErrorMessage: React.FC<IErrorShowProps> = ({ error }) => {
 
-  console.log('ErrorShow', error)
+  // console.log('ErrorShow', error)
 
   const [open, setOpen] = React.useState<boolean>(false);
 
-  console.log(open)
+  // console.log(open)
 
   useEffect(() => {
     setOpen(error ? true : false);

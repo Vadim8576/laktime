@@ -68,6 +68,21 @@ const pricesAPI = {
             .catch((error: AxiosError) => {
                 return getErrorMessage(error);
             })
+    },
+    
+    deleteAllPrice() {
+        return instance
+            .delete(`price/`)
+            .then((response: AxiosResponse<IPriceResponse>) => {
+                console.log(response)
+                return {
+                    data: response.data.data,
+                    status: 'ok'
+                }
+            })
+            .catch((error: AxiosError) => {
+                return getErrorMessage(error);
+            })
     }
 
 }

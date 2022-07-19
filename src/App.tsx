@@ -7,6 +7,7 @@ import { CssBaseline } from '@mui/material';
 import { withCustomTheme } from './hoc/withCustomTheme'
 import Footer from './components/footer/footer';
 import AppRoutes from './components/routes/appRoutes';
+import ConfirmDialog from './components/ui/confirmDialog';
 
 
 
@@ -20,16 +21,10 @@ const App = observer(() => {
 
 
   return (
-    <div
-      className="App"
-      style={{
-        width: '100vw',
-        height: '100vh',
-        overflowX: 'hidden'
-      }}
-    >
+    <div className="App">
       <Header />
       <AppRoutes />
+      <ConfirmDialog />
       {/* <Footer /> */}
     </div>
   )
