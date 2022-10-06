@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react'
 import { Container } from '@mui/material'
 import { PagesTitle } from '../../pagesTitle/pagesTitle'
-import { ToggleButtons } from '../../ui/toggleButtons';
 import { observer } from 'mobx-react-lite';
 import priceStore from "../../../store/priceStore";
 import { Spiner } from '../../ui/spiner';
-import PriceForm from './priceForm';
-import { PriceGrid } from "./priceGrid";
-import ErrorMessage from '../../popupMessages/errorMessage';
-import EditMenu from '../../ui/editMenu';
-import SuccessMessage from '../../popupMessages/successMessage';
+
+import Prices from './prices';
 
 
 
@@ -46,26 +42,5 @@ const PricePage: React.FC = observer(() => {
 export default PricePage;
 
 
-
-
-interface IPricesProps {
-  error: string;
-  success: boolean;
-}
-
-const Prices: React.FC<IPricesProps> = ({ error, success }) => {
-
-  const [formOpen, setFormOpen] = React.useState<boolean>(false);
-
-  return (
-    <>
-      <ErrorMessage error={error} />
-      <SuccessMessage success={success} />
-      <PriceGrid />
-      <PriceForm formOpen={formOpen} setFormOpen={setFormOpen} />
-      <EditMenu action={setFormOpen} />
-    </>
-  )
-}
 
 

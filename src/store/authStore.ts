@@ -1,15 +1,14 @@
 import { makeAutoObservable } from "mobx";
 import authAPI from "../api/authAPI";
-import { IAuthContext } from "../context/authContextTypes";
-import { IUser } from "./authStoreTypes";
 import { setTokenToLocalStorage } from '../helpers/localStorage';
+import { IUser } from './storeTypes';
 
 
 
 class Authorization {
 
   user: IUser = null;
-  isAuth: IAuthContext = false;
+  isAuth: Boolean = false;
   // token: string | null = null;
   // refreshToken: string | null = '';
 
@@ -21,7 +20,7 @@ class Authorization {
     this.user = name;
   }
 
-  setAuth(isAuth: IAuthContext) {
+  setAuth(isAuth: Boolean) {
     this.isAuth = isAuth;
   }
 
@@ -40,8 +39,8 @@ class Authorization {
     let response = await authAPI.login();
 
     if (response.status === 'ok') {
+      console.log('logout')
       console.log(response)
-
 
       const userName = response.nickname;
       this.setUser(userName);
@@ -55,8 +54,12 @@ class Authorization {
   }
 
   logout() {
+
+    console.log('logout')
     this.setAuth(false);
     this.setUser(null);
+    this.setToken('');
+    this.setRefreshToken('');
   }
 
 }

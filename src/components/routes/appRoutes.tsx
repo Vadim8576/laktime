@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes } from 'react-router-dom';
-import Loading from '../ui/loading';
 import Login from '../login/login';
 import PrivateRoute from "./privateRoute";
 import Loading2 from "../ui/loading2";
@@ -16,7 +15,7 @@ const AppRoutes = () => {
         <Route
           path='login'
           element={
-            <React.Suspense fallback={<Loading />}>
+            <React.Suspense fallback={<Loading2 />}>
               <Login />
             </React.Suspense>
           }
@@ -43,7 +42,7 @@ const AppRoutes = () => {
         <Route
           path='portfolio'
           element={
-            <React.Suspense fallback={<Loading />}>
+            <React.Suspense fallback={<Loading2 />}>
               <Portfolio />
             </React.Suspense>
           }

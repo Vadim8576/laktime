@@ -9,11 +9,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
-import { AuthContext } from '../../context/authContext';
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { observe } from 'mobx';
 import authStore from '../../store/authStore';
 
 
@@ -22,16 +19,11 @@ interface AppBarProps {
 }
 
 
-const HeaderAppBar: React.FC<AppBarProps> = observer(({setMenuState}) => {
+const HeaderAppBar: React.FC<AppBarProps> = observer(({ setMenuState }) => {
 
-	const isAuth = useContext(AuthContext);
+	const isAuth = authStore.isAuth;
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		// setAuth(event.target.checked);
-	};
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -41,7 +33,7 @@ const HeaderAppBar: React.FC<AppBarProps> = observer(({setMenuState}) => {
 		// setAnchorEl(event.currentTarget);
 		setMenuState(true);
 	};
-	
+
 
 	const handleClose = () => {
 		setAnchorEl(null);
@@ -50,8 +42,8 @@ const HeaderAppBar: React.FC<AppBarProps> = observer(({setMenuState}) => {
 	return (
 		<Box sx={{
 			flexGrow: 1
-			}}>
-			<AppBar position="fixed" sx={{backgroundColor: '#4444b0'}}>
+		}}>
+			<AppBar position="fixed" sx={{ backgroundColor: '#4444b0' }}>
 				<Toolbar>
 					<IconButton
 						size="large"
@@ -65,25 +57,34 @@ const HeaderAppBar: React.FC<AppBarProps> = observer(({setMenuState}) => {
 					</IconButton>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						Laktime
-						
+
 					</Typography>
-					<Link style={{color: 'yellow'}} to='../price'>Прайс</Link>
-					<Button
-						style={{color: 'yellow'}}
-						onClick={() => {
-							authStore.logout()
-						}}
-					>
-						LogOut
-					</Button>
-					<Button
-						style={{color: 'yellow'}}
-						onClick={() => {
-							authStore.login()
-						}}
-					>
-						LogIn
-					</Button>
+					<Link style={{ color: 'yellow' }} to='../price'>Прайс</Link>
+					<Link style={{ color: 'yellow' }} to='../portfolio'>Портфолио</Link>
+
+					{isAuth
+						?
+						<Button
+							style={{ color: 'yellow' }}
+							onClick={() => {
+								authStore.logout()
+							}}
+						>
+							LogOut
+						</Button>
+						:
+						<Button
+							style={{ color: 'yellow' }}
+							onClick={() => {
+								authStore.login()
+							}}
+						>
+							LogIn
+						</Button>
+					}
+
+
+
 					{isAuth && (
 						<div>
 							<IconButton
@@ -116,9 +117,6 @@ const HeaderAppBar: React.FC<AppBarProps> = observer(({setMenuState}) => {
 							</Menu>
 						</div>
 					)}
-					{!isAuth &&
-						<Button color="inherit">Login</Button>
-					}
 				</Toolbar>
 			</AppBar>
 		</Box>

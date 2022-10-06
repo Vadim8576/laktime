@@ -1,8 +1,6 @@
 import { makeAutoObservable, toJS } from "mobx";
 import pricesAPI from "../api/priceAPI";
-import { IPrice, IPriceList } from './priceStoreTypes';
-
-
+import { IPriceList, IPrice } from './storeTypes';
 
 
 class PriceStore {
@@ -32,17 +30,18 @@ class PriceStore {
   }
 
   addPrice = async (price: IPrice) => {
+    console.log('addPrice API')
     this.setError('');
     this.setSuccess(false);
     
+    // const response = await pricesAPI.addPrice(price, formData);
     const response = await pricesAPI.addPrice(price);
 
     if(response.status === 'ok') {
       this.setSuccess(true);
       this.getPrices();
-    }
-    else {
-      // Вывести ошибку!
+
+    } else {
       console.log(response.error)
       this.setError(response.error);
       this.setLoading(false);
@@ -50,9 +49,20 @@ class PriceStore {
 
   }
 
-  patchPrice = async (id: string) => {
-    // const response = await pricesAPI.deletePrice(id);
-    console.log('priceStore > Patch')
+  patchPrice = async (id: string, price: IPrice) => {
+    this.setError('');
+    this.setSuccess(false);
+
+    const response = await pricesAPI.patchPrice(id, price);
+
+    if(response.status === 'ok') {
+      this.setSuccess(true);
+      this.getPrices();
+    } else {
+      console.log(response.error)
+      this.setError(response.error);
+      this.setLoading(false);
+    }
   }
 
   deletePrice = async (id: string) => {
@@ -65,8 +75,7 @@ class PriceStore {
     if(response.status === 'ok') {
       this.setSuccess(true);
       this.getPrices();
-    }
-    else {
+    } else {
       console.log(response.error)
       this.setError(response.error);
       this.setLoading(false);
@@ -81,9 +90,8 @@ class PriceStore {
     
     if(response.status === 'ok') {
       this.setSuccess(true);
-      this.getPrices();
-    }
-    else {
+      this.setPrices([]);
+    } else {
       console.log(response.error)
       this.setError(response.error);
       this.setLoading(false);
@@ -98,8 +106,7 @@ class PriceStore {
       this.setLoading(false);
       this.setPrices(response.data);
       console.log(toJS(this.priceList))
-    }
-    else {
+    } else {
       // Вывести ошибку!
       console.log(response.error)
       this.setError(response.error);
@@ -107,15 +114,28 @@ class PriceStore {
     } 
   }
 
+
+  getOnePrice(id2: string): IPrice {
+    let list = this.priceList.filter((price) => price.id === id2)[0];
+    let list2: IPrice = {
+      servicename: list.servicename,
+      price: list.price,
+      description: list.description,
+      active: list.active
+    }
+    return list2;
+  }
+
   get sortPrice() {
     const sort = 'id'; //сотировка по ID
+    // переписать функцию для сортировки по буквам
+    // const sort = 'servicename'; //сотировка по ID
     return [...this.priceList].sort((a: IPriceList, b: IPriceList) => parseInt(a[sort]) - parseInt(b[sort]));
   }
 
   get priceListLength() {
     return this.priceList.length;
   }
-
 
 }
 

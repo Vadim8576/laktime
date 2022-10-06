@@ -1,16 +1,11 @@
-import { Navigate, Route, useLocation } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/authContext';
+import { Navigate, useLocation } from 'react-router-dom';
+import authStore from '../../store/authStore';
+
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-  let isAuth = useContext(AuthContext);
+  let isAuth = authStore.isAuth;
   let location = useLocation();
-
-  if (!isAuth) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return children;
+  return isAuth ? children : <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 export default PrivateRoute;

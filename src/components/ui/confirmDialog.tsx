@@ -13,14 +13,14 @@ const ConfirmDialog = observer(() => {
 
     const { onConfirm, onCancel, confirmState } = useConfirm();
 
-    const onClose = useCallback(() => {
+    const onClose = () => {
       onCancel();
-    }, [])
+    }
 
-    const handleOk = useCallback(() => {
+    const handleOk = () => {
       onConfirm();
       onClose();
-    }, [])
+    }
    
     
     return (

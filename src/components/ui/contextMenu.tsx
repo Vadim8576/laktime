@@ -1,9 +1,12 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { IContextMenuList } from '../pages/price/priceCard';
 import useConfirm from "../../hooks/useConfirm";
-
+import usePayload from "../../hooks/usePayload";
+import formStore from "../../store/formStore";
+import priceStore from "../../store/priceStore";
+import { MenuActionType } from '../pages/price/prices';
 
 
 
@@ -13,6 +16,8 @@ interface ICardMenuProps {
   cardMenuOpen: boolean;
   menuItemList: IContextMenuList[];
   id: string;
+  setMenuActionType: (actionType: MenuActionType) => void;
+  setFormOpen: (formOpen: boolean) => void;
 }
 
 
@@ -21,33 +26,56 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
   setAnchorEl,
   cardMenuOpen,
   menuItemList,
-  id
+  id,
+  setMenuActionType,
+  setFormOpen
 }) => {
 
 
-  const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+  const [isConfirmed, setIsConfirmed] = React.useState<boolean>(false);
+  const [itemNumber, setItemNumber] = React.useState<number | null>(null);
+  const { confirm } = useConfirm();
+  const { formOnSubmit } = usePayload();
 
-  const handleClick = (index: number) => {
-    const confirmed = menuItemList[index].confirmed;
-    showConfirm(confirmed, index);
-    handleClose();
+
+  useEffect(() => {
+    if(isConfirmed && itemNumber !== null) {
+      formStore.setId(id);
+      let type = menuItemList[itemNumber].actionType;
+      switch(type) {
+        case 'DELETE':
+          formOnSubmit(type);
+          break; 
+        case 'EDIT':  
+          const data = priceStore.getOnePrice(id);
+          formStore.setDefaultFormData(data);
+          setMenuActionType(type);
+          setFormOpen(true);
+          break;
+        default:
+      }
+      setItemNumber(null);
+      setIsConfirmed(false);
+    }
+  }, [isConfirmed])
+
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
+  const handleClick = useCallback((index: number) => {
+    const ind: string = index.toString();
+    const confirmed = menuItemList[index].confirmed;
+    setItemNumber(index);
+    confirmed ? showConfirm(ind) : setIsConfirmed(true);
+    handleClose();
+  }, []);
 
-  const { confirm } = useConfirm();
-
-  const showConfirm = async (confirmed: boolean, index: number) => {
-    let isConfirmed;
-
-    confirmed
-    ? isConfirmed = await confirm('Удалить эту запись?')
-    : isConfirmed = true
-
-    isConfirmed && menuItemList[index].onConfirm(id);   
+  const showConfirm = async (ind: string) => {
+    let confirmed = await confirm('Вы уверены?')
+    confirmed && setIsConfirmed(true)
   }
-
 
 
   return (

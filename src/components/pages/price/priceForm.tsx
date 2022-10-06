@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useCallback } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -6,33 +6,34 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import priceStore from '../../../store/priceStore';
 import { Checkbox, FormControlLabel } from '@mui/material';
+import usePayload from '../../../hooks/usePayload';
+import { observer } from 'mobx-react-lite';
+import formStore from '../../../store/formStore';
+import useFormText from '../../../hooks/useFormText';
+import { useState } from 'react';
+import { MenuActionType } from './prices';
+import ChangeImage from './changeImage';
+import { IPrice } from '../../../store/storeTypes';
 
 
-interface IService {
-  servicename: string;
-  price: string;
-  description: string;
-  active: string;
-}
-
-interface IPriceForm {
+interface IPriceFormProps {
   formOpen: boolean;
   setFormOpen: (formOpen: boolean) => void;
+  menuActionType: MenuActionType;
 }
 
-const resetFormObj: IService = {
-  servicename: '',
-  price: '',
-  description: '',
-  active: ''
-};
+const PriceForm: React.FC<IPriceFormProps> = observer(({ formOpen, setFormOpen, menuActionType }) => {
 
-const PriceForm: React.FC<IPriceForm> = ({ formOpen, setFormOpen }) => {
+  // получаем дефолтные данные формы из стора
+  const defaultFormData: IPrice = formStore.defaultFormData;
+
+  const [checkBoxState, setCheckBoxState] = useState<boolean>(defaultFormData.active);
+  const formTittle = useFormText(defaultFormData);
+  const { setPayload, formOnSubmit } = usePayload();
 
   const validationSchema = Yup.object().shape({
     servicename: Yup.string()
@@ -49,36 +50,43 @@ const PriceForm: React.FC<IPriceForm> = ({ formOpen, setFormOpen }) => {
 
   const {
     register,
-    control,
     handleSubmit,
+    control,
     formState: { errors },
     reset
-  } = useForm<IService>({
+  } = useForm<IPrice>({
     resolver: yupResolver(validationSchema)
   });
 
   useEffect(() => {
-    reset(resetFormObj);
+    reset(defaultFormData);
+    setCheckBoxState(defaultFormData.active);
   }, [formOpen])
- 
+
   const onSubmit = (data: any) => {
     console.log(data)
-    let payload = {...data, active: `${data.active}`};
-    priceStore.addPrice(payload);
+    console.log('actionType = ', menuActionType)
+    const payload = { ...data, active: `${data.active}` };
+    setPayload(payload);
+    formOnSubmit(menuActionType);
     setFormOpen(false);
   };
 
-
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClose = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setFormOpen(false);
-    reset(resetFormObj);
-  };
+    reset(defaultFormData);
+  }, []);
+
+  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckBoxState(event.target.checked);
+  }, []);
+
 
 
   return (
     <div>
       <Dialog open={formOpen} onClose={handleClose}>
-        <DialogTitle>Добавить услугу</DialogTitle>
+        <DialogTitle>{formTittle}</DialogTitle>
         <DialogContent dividers sx={{
           paddingBottom: '32px'
         }}>
@@ -90,7 +98,7 @@ const PriceForm: React.FC<IPriceForm> = ({ formOpen, setFormOpen }) => {
             autoFocus
             margin="dense"
             id="service"
-            label="Название услуги"
+            label="Название"
             fullWidth
             variant="outlined"
             {...register('servicename')}
@@ -121,22 +129,35 @@ const PriceForm: React.FC<IPriceForm> = ({ formOpen, setFormOpen }) => {
             helperText={errors.description?.message}
           />
 
+          <ChangeImage />
+
           <FormControlLabel
             control={
-              <Checkbox defaultChecked {...register('active')
-            } />}
+              <Checkbox
+                // defaultChecked
+                {...register('active')}
+                checked={checkBoxState}
+                onChange={handleChange}
+              />
+            }
             label="Услуга доступна для заказа"
           />
-
 
         </DialogContent>
         <DialogActions>
           <Button name="cancel" onClick={handleClose}>Отмена</Button>
-          <Button name="add" onClick={handleSubmit(onSubmit)}>Добавить</Button>
+          <Button name="add" onClick={handleSubmit(onSubmit)}>Сохранить</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+})
 
 export default PriceForm;
+
+
+
+
+
+
+

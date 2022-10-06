@@ -36,17 +36,7 @@ const ErrorMessage: React.FC<IErrorShowProps> = ({ error }) => {
       </Alert>
     </Snackbar>
   )
-  return (
-    // <Box>
-      <Alert
-        severity="error"
-        variant="filled"
-        sx={{margin: '24px'}}
-      >
-        {/* {error} */}
-      </Alert>
-    // </Box>
-  )
+
 }
 
 

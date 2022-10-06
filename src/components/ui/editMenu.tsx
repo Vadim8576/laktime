@@ -1,9 +1,12 @@
-import React, {useCallback} from "react";
+import React from "react";
 import { AddOutlined } from "@mui/icons-material";
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 import useConfirm from "../../hooks/useConfirm";
-import priceStore from "../../store/priceStore";
+import usePayload from '../../hooks/usePayload';
+import { observer } from "mobx-react-lite";
+import formStore from "../../store/formStore";
+import { MenuActionType } from '../pages/price/prices';
 
 
 const actions = [
@@ -12,27 +15,31 @@ const actions = [
 ];
 
 
-interface IEditMenu {
-  action: (open: boolean) => void;
+interface IEditMenuProps {
+  setFormOpen: (open: boolean) => void;
+  setMenuActionType: (actionType: MenuActionType) => void;
 }
 
-const EditMenu: React.FC<IEditMenu> = ({ action }) => {
+const EditMenu: React.FC<IEditMenuProps> = observer(({ setFormOpen, setMenuActionType }) => {
 
-
+  const { formOnSubmit } = usePayload();
   const { confirm } = useConfirm();
-
   const showConfirm = async () => {
     let isConfirmed = await confirm('Удалить все записи?');
-    if(isConfirmed) priceStore.deleteAllPrice();   
+    if(isConfirmed) formOnSubmit('DELETE-ALL');   
   }
 
-  const handleSpeedDialClick = useCallback((event:  React.MouseEvent<HTMLElement>) => {
+  const handleSpeedDialClick = (event:  React.MouseEvent<HTMLElement>) => {
     let target = event.currentTarget.ariaLabel
-    if(target === 'Добавить') action(true);
+    if(target === 'Добавить') {
+      formStore.clearDefaultFormData();
+      setMenuActionType('ADD');
+      setFormOpen(true);
+    }
     if(target === 'Удалить все') {
       showConfirm();
     }
-  }, [])
+  }
 
   return (
     <SpeedDial
@@ -54,6 +61,6 @@ const EditMenu: React.FC<IEditMenu> = ({ action }) => {
       ))}
     </SpeedDial>
   )
-}
+})
 
 export default EditMenu;
