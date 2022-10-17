@@ -128,8 +128,8 @@ class PriceStore {
 
 
   getPriceValues(priceId: string): IPrice {
-    const value = this.priceList.filter((price) => price.id === priceId)[0];
-    const  { id, ...newValue } = {...value};
+    const value: IPriceList = this.priceList.filter((price) => price.id === priceId)[0];
+    const  { id, ...newValue } = value;
     return newValue;
   }
 
