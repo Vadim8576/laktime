@@ -47,7 +47,7 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
           formOnSubmit(type);
           break; 
         case 'EDIT':  
-          const data = priceStore.getOnePrice(id);
+          const data = priceStore.getPriceValues(id);
           formStore.setDefaultFormData(data);
           setMenuActionType(type);
           setFormOpen(true);

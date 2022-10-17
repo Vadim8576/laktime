@@ -1,7 +1,5 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { getErrorMessage } from '../helpers/getErrorMessage';
+import axios, { AxiosResponse } from "axios";
 import { getTokenFromLocalStorage } from '../helpers/localStorage';
-// import { IPrice } from '../store/priceStoreTypes';
 import { toJS } from 'mobx';
 import { IPrice } from '../store/storeTypes';
 
@@ -29,7 +27,6 @@ const instance: any = axios.create({
 });
 
 
-
 const pricesAPI = {
     getPrices() {
         return instance
@@ -40,37 +37,8 @@ const pricesAPI = {
                     status: 'ok'
                 }
             })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
-            })
     },
 
-    // addPrice(price: IPrice, formData: any) {
-
-    //     console.log(toJS(price));
-    //     console.log(formData);
-
-    //     const priceWithFormData = {...price, formData};
-    //     console.log('priceWithFormData = ', priceWithFormData);
-
-    //     return instance
-    //         // .post(`price/`, {...price, formData: formData}, {
-    //         .post(`price/`, formData, {
-    //             headers: {               
-    //               'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-    //             }
-    //         })
-    //         .then((response: AxiosResponse<IPriceResponse>) => {
-    //             console.log(response)
-    //             return {
-    //                 data: response.data.data,
-    //                 status: 'ok'
-    //             }
-    //         })
-    //         .catch((error: AxiosError) => {
-    //             return getErrorMessage(error);
-    //         })
-    // },
     addPrice(price: IPrice) {
         console.log(toJS(price));
         return instance
@@ -81,9 +49,6 @@ const pricesAPI = {
                     data: response.data.data,
                     status: 'ok'
                 }
-            })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
             })
     },
 
@@ -98,9 +63,6 @@ const pricesAPI = {
                     status: 'ok'
                 }
             })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
-            })
     },
 
     deletePrice(id: string) {
@@ -113,9 +75,6 @@ const pricesAPI = {
                     status: 'ok'
                 }
             })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
-            })
     },
     
     deleteAllPrice() {
@@ -127,9 +86,6 @@ const pricesAPI = {
                     data: response.data.data,
                     status: 'ok'
                 }
-            })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
             })
     }
 

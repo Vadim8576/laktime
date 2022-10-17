@@ -9,8 +9,7 @@ import { observer } from "mobx-react-lite";
 
 const PortfolioPage = observer(() => {
 
-  const { portfolioIsLoading, getImages, portfolioError, portfolioSuccess } = portfolioStore;
-
+  const { portfolioIsLoading, getImages } = portfolioStore;
 
   useEffect(() => {
     console.log('useEffect images')
@@ -26,10 +25,8 @@ const PortfolioPage = observer(() => {
     }}>
       <PagesTitle title={'Портфолио'} />
 
-      {!portfolioIsLoading
-        ?
-        <Portfolio error={portfolioError} success={portfolioSuccess} />
-        :
+      <Portfolio />
+      {portfolioIsLoading &&
         <Spiner open={portfolioIsLoading} />
       }
 

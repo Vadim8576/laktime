@@ -4,6 +4,7 @@ import { Container, Stack } from '@mui/material';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Event } from './portfolio';
+import { observer } from 'mobx-react-lite';
 
 
 const Panel = styled.div`
@@ -23,7 +24,7 @@ interface IPortfolioPanelProps {
   removeAllHandler: () => void;
 }
 
-const PortfolioPanel: React.FC<IPortfolioPanelProps> = ({ ...props }) => {
+const PortfolioPanel: React.FC<IPortfolioPanelProps> = observer(({ ...props }) => {
 
   const {changeHandler, uploadHandler, removeAllHandler} = props;
 
@@ -43,7 +44,7 @@ const PortfolioPanel: React.FC<IPortfolioPanelProps> = ({ ...props }) => {
       </Container>
     </Panel>
   )
-}
+})
 
 
 export default PortfolioPanel;

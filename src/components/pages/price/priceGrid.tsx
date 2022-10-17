@@ -17,7 +17,7 @@ interface IPriceGridProps {
 }
 
 
-export const PriceGrid: React.FC<IPriceGridProps> = observer(
+const PriceGrid: React.FC<IPriceGridProps> = observer(
   ({ setFormOpen, menuActionType, setMenuActionType }) => {
   
   const {sortPrice, priceListLength} = priceStore;

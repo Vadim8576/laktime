@@ -1,6 +1,7 @@
 import { makeAutoObservable, toJS } from "mobx";
 import pricesAPI from "../api/priceAPI";
 import { IPriceList, IPrice } from './storeTypes';
+import { getErrorMessage } from '../helpers/getErrorMessage';
 
 
 class PriceStore {
@@ -13,11 +14,17 @@ class PriceStore {
     makeAutoObservable(this);
   }
 
+  resetFlags = () => {
+    this.setLoading(true);
+    this.setError('');
+    this.setSuccess(false);    
+  }
+
   setPrices = (prices: IPriceList[]) => {
     this.priceList = prices;
   }
 
-  setLoading = async (priceIsLoading: boolean) => {
+  setLoading = (priceIsLoading: boolean) => {
     this.priceIsLoading = priceIsLoading;
   }
 
@@ -30,100 +37,100 @@ class PriceStore {
   }
 
   addPrice = async (price: IPrice) => {
-    console.log('addPrice API')
-    this.setError('');
-    this.setSuccess(false);
-    
-    // const response = await pricesAPI.addPrice(price, formData);
-    const response = await pricesAPI.addPrice(price);
+    this.resetFlags();
 
-    if(response.status === 'ok') {
-      this.setSuccess(true);
-      this.getPrices();
-
-    } else {
-      console.log(response.error)
-      this.setError(response.error);
+    try {
+      const response = await pricesAPI.addPrice(price);
+      if(response.status === 'ok') { 
+        this.setSuccess(true);
+        this.setPrices(response.data);
+      }
+    }
+    catch (error: any) {
+      this.setError(getErrorMessage(error).error);
+    }
+    finally {
       this.setLoading(false);
     }
-
   }
 
   patchPrice = async (id: string, price: IPrice) => {
-    this.setError('');
-    this.setSuccess(false);
+    this.resetFlags();
 
-    const response = await pricesAPI.patchPrice(id, price);
-
-    if(response.status === 'ok') {
-      this.setSuccess(true);
-      this.getPrices();
-    } else {
-      console.log(response.error)
-      this.setError(response.error);
+    try {
+      const response = await pricesAPI.patchPrice(id, price);
+      if(response.status === 'ok') { 
+        this.setSuccess(true);
+        this.setPrices(response.data);
+      }
+    }
+    catch (error: any) {
+      this.setError(getErrorMessage(error).error);
+    }
+    finally {
       this.setLoading(false);
     }
   }
 
   deletePrice = async (id: string) => {
-    
-    this.setError('');
-    this.setSuccess(false);
-    
-    const response = await pricesAPI.deletePrice(id);
-    
-    if(response.status === 'ok') {
-      this.setSuccess(true);
-      this.getPrices();
-    } else {
-      console.log(response.error)
-      this.setError(response.error);
+    this.resetFlags();
+
+    try {
+      const response = await pricesAPI.deletePrice(id);
+      if(response.status === 'ok') { 
+        this.setSuccess(true);
+        this.setPrices(response.data);
+      }
+    }
+    catch (error: any) {
+      this.setError(getErrorMessage(error).error);
+    }
+    finally {
       this.setLoading(false);
     }
+    
   }
 
   deleteAllPrice = async () => {
-    this.setError('');
-    this.setSuccess(false);
-    
-    const response = await pricesAPI.deleteAllPrice();
-    
-    if(response.status === 'ok') {
-      this.setSuccess(true);
-      this.setPrices([]);
-    } else {
-      console.log(response.error)
-      this.setError(response.error);
+    this.resetFlags();
+
+    try {
+      const response = await pricesAPI.deleteAllPrice();
+      if(response.status === 'ok') { 
+        this.setSuccess(true);
+        this.setPrices([]);
+      }
+    }
+    catch (error: any) {
+      this.setError(getErrorMessage(error).error);
+    }
+    finally {
       this.setLoading(false);
     }
   }
 
   getPrices = async () => {
-    this.setError('');
-    const response = await pricesAPI.getPrices();
-  
-    if(response.status === 'ok') {
+    this.resetFlags();
+
+    try {
+      const response = await pricesAPI.getPrices();
+      if(response.status === 'ok') { 
+        this.setPrices(response.data);
+      }
+    }
+    catch (error: any) {
+      this.setError(getErrorMessage(error).error);
+    }
+    finally {
       this.setLoading(false);
-      this.setPrices(response.data);
-      console.log(toJS(this.priceList))
-    } else {
-      // Вывести ошибку!
-      console.log(response.error)
-      this.setError(response.error);
-      this.setLoading(false);
-    } 
+    }
   }
 
 
-  getOnePrice(id2: string): IPrice {
-    let list = this.priceList.filter((price) => price.id === id2)[0];
-    let list2: IPrice = {
-      servicename: list.servicename,
-      price: list.price,
-      description: list.description,
-      active: list.active
-    }
-    return list2;
+  getPriceValues(priceId: string): IPrice {
+    const value = this.priceList.filter((price) => price.id === priceId)[0];
+    const  { id, ...newValue } = {...value};
+    return newValue;
   }
 
   get sortPrice() {

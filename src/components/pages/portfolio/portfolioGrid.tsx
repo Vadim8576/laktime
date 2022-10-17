@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, ImageList, ImageListItem, Typography, Skeleton } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import portfolioStore from "../../../store/portfolioStore";
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Box from '@mui/material/Box';
 import styled from 'styled-components';
 import NoData from '../../noData';
+import { toJS } from 'mobx';
+import useMediaQueryMatches from '../../../hooks/useMediaQueryMatches';
 
 
 // const Image = styled.img`
@@ -27,52 +28,51 @@ interface IPortfolioGridProps {
 }
 
 
-export const PortfolioGrid: React.FC<IPortfolioGridProps> = observer(() => {
+const PortfolioGrid: React.FC<IPortfolioGridProps> = observer(() => {
 
   console.log('PortfolioGrid')
 
-    const { sortImages, imageListLength } = portfolioStore;
+  const { sortImages, imageListLength } = portfolioStore;
 
-    if (!imageListLength) return <NoData text={'Нет изображений'} />
+  if (!imageListLength) return <NoData text={'Нет изображений'} />
 
-    const [imageGrid, setImageGrid] = useState({ cols: 3, gap: 8 })
-    const matches = useMediaQuery('(max-width:1000px)');
 
-    useEffect(() => {
-      matches ? setImageGrid({ cols: 2, gap: 20 }) : setImageGrid({ cols: 3, gap: 8 })
-    }, [matches])
+  // const {cols, gap} = useMediaQueryMatches('(max-width:1000px)');
+  const cols = 3
+  const gap = 8
 
-    const mouseEnterHandler = () => {
-      // console.log('Enter')
-    }
-    const mouseLeaveHandler = () => {
-      // console.log('Leave')
-    }
 
-    return (
-      <Container sx={{ height: '100%' }}>
-        <Box sx={{ width: '100%', height: '100%', overflowY: 'auto' }}>
-          <ImageList variant="masonry" cols={imageGrid.cols} gap={imageGrid.gap}>
-            {sortImages.map((image) => (
-              <ImageListItem
-                key={image.id}
-                onMouseEnter={mouseEnterHandler}
-                onMouseLeave={mouseLeaveHandler}
-              >
-                <img
-                  src={'http://localhost:4000/images/' + `${image.image_path}?w=248&fit=crop&auto=format`}
-                  srcSet={'http://localhost:4000/images/' + `${image.image_path}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={image.id}
-                  loading="lazy"
-                />
-                <IDOut>{image.id}</IDOut>
-              </ImageListItem>
-            ))}
-          </ImageList>
-        </Box>
-      </Container>
-    )
-  })
+  const mouseEnterHandler = () => {
+    // console.log('Enter')
+  }
+  const mouseLeaveHandler = () => {
+    // console.log('Leave')
+  }
+
+  return (
+    <Container sx={{ height: '100%' }}>
+      <Box sx={{ width: '100%', height: '100%', overflowY: 'auto' }}>
+        <ImageList variant="masonry" cols={cols} gap={gap}>
+          {sortImages.map((image) => (
+            <ImageListItem
+              key={image.image_id}
+              onMouseEnter={mouseEnterHandler}
+              onMouseLeave={mouseLeaveHandler}
+            >
+              <img
+                src={`http://localhost:4000/images/${image.image_path}?w=248&fit=crop&auto=format`}
+                srcSet={`http://localhost:4000/images/${image.image_path}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                alt={image.id}
+                loading="lazy"
+              />
+              <IDOut>{image.id}</IDOut>
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </Box>
+    </Container>
+  )
+})
 
 export default PortfolioGrid;
 

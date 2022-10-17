@@ -2,15 +2,18 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import { getTokenFromLocalStorage } from '../helpers/localStorage';
 import { toJS } from 'mobx';
-import { IPrice, IPortfolio } from '../store/storeTypes';
+import { IPortfolioList } from '../store/storeTypes';
+import { Console } from "console";
 
 
-interface IPortfolioResponse {
-    data: {
-        id: number;
-        image_id: string;
-        image_path: string;
-    }
+export interface IPortfolioData {
+    data: IPortfolioList;
+}
+
+export interface IPortfolioResponse {
+    data: IPortfolioList[];
+    status: string;
+    error: string;
 }
 
 
@@ -32,59 +35,47 @@ const portfolioAPI = {
     getImages() {
         return instance
             .get('images/')
-            .then((response: AxiosResponse<IPortfolioResponse>) => {
+            .then((response: AxiosResponse<IPortfolioData>) => {
                 return {
                     data: response.data.data,
                     status: 'ok'
                 }
-            })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
             })
     },
 
     uploadImages(images: any) {
         return instance
             .post(`images/`, images)
-            .then((response: AxiosResponse<IPortfolioResponse>) => {
+            .then((response: AxiosResponse<IPortfolioData>) => {
                 console.log(response)
                 return {
                     data: response.data.data,
                     status: 'ok'
                 }
-            })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
             })
     },
 
     deleteImage(id: string) {
         return instance
             .delete(`image/${id}`)
-            .then((response: AxiosResponse<IPortfolioResponse>) => {
+            .then((response: AxiosResponse<IPortfolioData>) => {
                 console.log(response)
                 return {
                     data: response.data.data,
                     status: 'ok'
                 }
-            })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
             })
     },
     
     deleteAllImages() {
         return instance
             .delete(`images/`)
-            .then((response: AxiosResponse<IPortfolioResponse>) => {
+            .then((response: AxiosResponse<IPortfolioData>) => {
                 console.log(response)
                 return {
                     data: response.data.data,
                     status: 'ok'
                 }
-            })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
             })
     }
 

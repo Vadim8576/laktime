@@ -26,14 +26,14 @@ const PricePage: React.FC = observer(() => {
       position: 'relative',
       marginTop: '102px'
     }}>
-      <PagesTitle title={'Услуги и цены'} />
+      
+    <PagesTitle title={'Услуги и цены'} />
 
-      {!priceIsLoading
-        ?
-        <Prices error={priceError} success={priceSuccess} />
-        :
-        <Spiner open={priceIsLoading} />
-      }
+    <Prices />
+    {priceIsLoading &&
+      <Spiner open={priceIsLoading} />
+    }
+
 
     </Container>
   )

@@ -2,8 +2,8 @@ import { observer } from 'mobx-react-lite';
 import React, { useState, useCallback } from 'react';
 import authStore from '../../../store/authStore';
 import portfolioStore from '../../../store/portfolioStore';
-import ErrorMessage from '../../popupMessages/errorMessage';
-import SuccessMessage from '../../popupMessages/successMessage';
+import ErrorMessage from '../../popupMessages/showMessage';
+import ShowMessage from '../../popupMessages/showMessage';
 // import PriceGrid from './priceGrid';
 // import PriceForm from './priceForm';
 // import EditMenu from '../../ui/editMenu';
@@ -18,14 +18,13 @@ export interface Event<T = EventTarget> {
 export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL';
 
 interface IPortfolioProps {
-  error: string;
-  success: boolean;
+  // error: string;
+  // success: boolean;
 }
 
-const Portfolio: React.FC<IPortfolioProps> = observer(({ ...props }) => {
-  const {error, success} = props;
-  const isAuth = authStore.isAuth;
-  const { uploadImages, deleteAllImages  } = portfolioStore;
+const Portfolio: React.FC<IPortfolioProps> = observer(() => {
+  const { isAuth } = authStore;
+  const { uploadImages, deleteAllImages, portfolioError, portfolioSuccess } = portfolioStore;
   // const [formOpen, setFormOpen] = React.useState<boolean>(false);
   // const [menuActionType, setMenuActionType] = React.useState<MenuActionType>('ADD');
 
@@ -59,8 +58,10 @@ const Portfolio: React.FC<IPortfolioProps> = observer(({ ...props }) => {
 
   return (
     <>
-      <ErrorMessage error={error} />
-      <SuccessMessage success={success} />
+      <ShowMessage
+        error={portfolioError}
+        success={portfolioSuccess}
+      />
       <PortfolioGrid />
 
       {isAuth &&

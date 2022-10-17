@@ -1,6 +1,10 @@
 import { makeAutoObservable, toJS } from "mobx";
 import portfolioAPI from "../api/portfolioAPI";
-import { IPortfolioList, IPortfolio } from './storeTypes';
+import { IPortfolioList } from './storeTypes';
+import AxiosResponse from 'axios';
+import { IPortfolioResponse } from '../api/portfolioAPI';
+import { getErrorMessage } from '../helpers/getErrorMessage';
+import { AxiosError } from "axios";
 
 
 
@@ -14,13 +18,19 @@ class PortfolioStore {
     makeAutoObservable(this);
   }
 
-  setImages = (images: IPortfolioList[]) => {
-    this.portfolioList = images;
+  resetFlags = () => {
+    this.setLoading(true);
+    this.setError('');
+    this.setSuccess(false);    
   }
 
-  setLoading = async (imageIsLoading: boolean) => {
-    this.portfolioIsLoading = imageIsLoading;
-    console.log(this.portfolioIsLoading)
+  setImages = (images: IPortfolioList[]) => {
+    this.portfolioList = images;
+    console.log(toJS(this.portfolioList))
+  }
+
+  setLoading = (isLoading: boolean) => {
+    this.portfolioIsLoading = isLoading;
   }
 
   setError = (error: string) => {
@@ -32,79 +42,79 @@ class PortfolioStore {
   }
 
   uploadImages = async (images: any) => {
-    this.setError('');
-    this.setSuccess(false);
-    
-    const response = await portfolioAPI.uploadImages(images);
-
-    if(response.status === 'ok') {
-      this.setSuccess(true);
-      // this.getImages();
-      let newImgList = [...this.portfolioList, ...images]
-      this.setImages(newImgList);
-
-    } else {
-      console.log(response.error)
-      this.setError(response.error);
+    this.resetFlags();
+    try {
+      const response = await portfolioAPI.uploadImages(images);
+      if(response.status === 'ok') { 
+        this.setSuccess(true);
+        this.setImages(response.data);
+      }
+    }
+    catch (error: any) {
+      this.setError(getErrorMessage(error).error);
+    }
+    finally {
       this.setLoading(false);
     }
-
   }
 
   
-  deleteImage = async (id: string) => {  
-    this.setError('');
-    this.setSuccess(false);
-    
-    const response = await portfolioAPI.deleteImage(id);
-    
-    if(response.status === 'ok') {
-      this.setSuccess(true);
-      this.getImages();
-    } else {
-      console.log(response.error)
-      this.setError(response.error);
+  deleteImage = async (id: string) => { 
+    this.resetFlags();  
+    try {
+      const response = await portfolioAPI.deleteImage(id);
+      if(response.status === 'ok') {
+        this.setSuccess(true);
+        this.setImages(response.data);
+        // this.setImages(
+        //   [...this.portfolioList.filter((item) => item.id !== id)]
+        // )
+      }
+    }
+    catch (error: any) {
+      this.setError(getErrorMessage(error).error);
+    }
+    finally {
       this.setLoading(false);
     }
   }
 
   deleteAllImages = async () => {
-    this.setError('');
-    this.setSuccess(false);
-    
-    const response = await portfolioAPI.deleteAllImages();
-    
-    if(response.status === 'ok') {
-      this.setSuccess(true);
-      this.setImages([]);
-    } else {
-      console.log(response.error)
-      this.setError(response.error);
+    this.resetFlags();  
+    try {
+      const response = await portfolioAPI.deleteAllImages();
+      if(response.status === 'ok') {
+        this.setSuccess(true);
+        this.setImages([]);
+      }
+    }
+    catch (error: any) {
+      this.setError(getErrorMessage(error).error);
+    } finally {
       this.setLoading(false);
     }
   }
 
   getImages = async () => {
-    this.setError('');
-    const response = await portfolioAPI.getImages();
-  
-    if(response.status === 'ok') {
-      this.setLoading(false);
-      this.setImages(response.data);
-      console.log(toJS(this.portfolioList))
-    } else {
-      // Вывести ошибку!
-      console.log(response.error)
-      this.setError(response.error);
+    this.resetFlags();
+    try {
+      const response = await portfolioAPI.getImages();
+      if(response.status === 'ok')  {
+        this.setImages(response.data);
+      }
+    }
+    catch(error: any) {
+      this.setError(getErrorMessage(error).error);
+    }
+    finally {
       this.setLoading(false);
     } 
   }
 
-
   get sortImages() {
     const sort = 'id'; //сотировка по ID
     // переписать функцию для сортировки по буквам
-    // const sort = 'servicename'; //сотировка по ID
+    // const sort = 'servicename';   
     return [...this.portfolioList].sort((a: IPortfolioList, b: IPortfolioList) => parseInt(a[sort]) - parseInt(b[sort]));
   }
 
