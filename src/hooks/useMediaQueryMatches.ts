@@ -1,9 +1,13 @@
-import React from 'react';
+import { useMemo, useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
  const useMediaQueryMatches = (query: string) => {
-  const matches = useMediaQuery(query);  
-  return matches ? { cols: 2, gap: 20 } : { cols: 3, gap: 8 };
+  const matches = useMediaQuery(query);
+  const mediaQueryMatches = useMemo(() => {    
+    return matches ? { cols: 2, gap: 20 } : { cols: 4, gap: 8 };
+  }, [matches])
+  
+  return mediaQueryMatches;
 }
 
 export default useMediaQueryMatches;

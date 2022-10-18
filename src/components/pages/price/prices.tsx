@@ -4,8 +4,11 @@ import authStore from '../../../store/authStore';
 import ShowMessage from '../../popupMessages/showMessage';
 import PriceGrid from './priceGrid';
 import PriceForm from './priceForm';
-import EditMenu from '../../ui/editMenu';
 import priceStore from '../../../store/priceStore';
+import formStore from '../../../store/formStore';
+import useConfirm from '../../../hooks/useConfirm';
+import usePayload from '../../../hooks/usePayload';
+import EditPanel from '../../ui/EditPanel';
 
 
 interface IPricesProps {
@@ -19,8 +22,27 @@ export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL';
 const Prices: React.FC<IPricesProps> = observer(() => {
   const { isAuth } = authStore;
   const { priceError, priceSuccess } = priceStore;
-  const [formOpen, setFormOpen] = React.useState<boolean>(false);
-  const [menuActionType, setMenuActionType] = React.useState<MenuActionType>('ADD');
+  const [ formOpen, setFormOpen ] = React.useState<boolean>(false);
+  const [ menuActionType, setMenuActionType ] = React.useState<MenuActionType>('');
+  const { confirm } = useConfirm();
+  const { formOnSubmit } = usePayload();
+  
+
+  const showConfirm = async () => {
+    const isConfirmed = await confirm('Удалить все записи?');
+    if(isConfirmed) formOnSubmit('DELETE-ALL');   
+  }
+
+  const addHandler = () => {
+    formStore.clearDefaultFormData();
+    setMenuActionType('ADD');
+    setFormOpen(true);
+  }
+
+  const removeAllHandler = () => {
+    showConfirm();
+  }
+
 
   return (
     <>
@@ -34,17 +56,20 @@ const Prices: React.FC<IPricesProps> = observer(() => {
         menuActionType={menuActionType}
         setMenuActionType={setMenuActionType}
       />
+
       <PriceForm
         formOpen={formOpen}
         setFormOpen={setFormOpen}
         menuActionType={menuActionType}
       />
+     
       {isAuth &&
-        <EditMenu
-          setFormOpen={setFormOpen}
-          setMenuActionType={setMenuActionType}
+        <EditPanel
+          changeHandler={null}
+          addHandler={addHandler}
+          removeAllHandler={removeAllHandler}
         />
-      }
+      }  
     </>
   )
 })

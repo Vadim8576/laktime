@@ -25,7 +25,7 @@ const PriceGrid: React.FC<IPriceGridProps> = observer(
   if(!priceListLength) return <NoData text={'Нет доступных услуг'} />
 
   return (
-    <Container>
+    <Container  sx={{ height: '100%' }}>
       <Grid container spacing={{ xs: 4 }} columns={{ xs: 4, sm: 8, md: 12 }} mt={0}>
         {sortPrice.map((price: IPriceList) => (
           <Grid item xs={12} sm={4} md={4} key={price.id}>

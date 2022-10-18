@@ -41,7 +41,7 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
   useEffect(() => {
     if(isConfirmed && itemNumber !== null) {
       formStore.setId(id);
-      let type = menuItemList[itemNumber].actionType;
+      const type = menuItemList[itemNumber].actionType;
       switch(type) {
         case 'DELETE':
           formOnSubmit(type);
@@ -73,7 +73,7 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
   }, []);
 
   const showConfirm = async (ind: string) => {
-    let confirmed = await confirm('Вы уверены?')
+    const confirmed = await confirm('Вы уверены?')
     confirmed && setIsConfirmed(true)
   }
 
