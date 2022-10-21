@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import authAPI from "../api/authAPI";
 import { setTokenToLocalStorage } from '../helpers/localStorage';
 import { IUser } from './storeTypes';
+import { getErrorMessage } from '../helpers/getErrorMessage';
 
 
 
@@ -9,6 +10,7 @@ class Authorization {
 
   user: IUser = null;
   isAuth: Boolean = false;
+  authError: string = '';
   // token: string | null = null;
   // refreshToken: string | null = '';
 
@@ -16,44 +18,49 @@ class Authorization {
     makeAutoObservable(this);
   }
 
-  setUser(name: IUser) {
+  setUser = (name: IUser) => {
     this.user = name;
   }
 
-  setAuth(isAuth: Boolean) {
+  setAuth = (isAuth: Boolean) => {
     this.isAuth = isAuth;
   }
 
-  setToken(token: string) {
+  setError = (error: string) => {
+    this.authError = error;
+  }
+
+  setToken = (token: string) => {
     // this.token = token;
     setTokenToLocalStorage('token', token);
   }
 
-  setRefreshToken(refreshToken: string) {
+  setRefreshToken = (refreshToken: string) => {
     // this.refreshToken = refreshToken;
     setTokenToLocalStorage('refreshToken', refreshToken);
   }
 
 
-  async login() {
-    let response = await authAPI.login();
 
-    if (response.status === 'ok') {
-      console.log('logout')
-      console.log(response)
+  login = async() => {
+    try {
+      const response = await authAPI.login();
 
-      const userName = response.nickname;
-      this.setUser(userName);
-      this.setAuth(true);
-      this.setToken(response.data.token);
-      this.setRefreshToken(response.data.refreshToken);
-    } else {
-      // Вывести ошибку!
-      console.log(response.message)
+      if (response.status === 'ok') {
+        console.log(response)
+
+        const userName = response.nickname;
+        this.setUser(userName);
+        this.setAuth(true);
+        this.setToken(response.data.token);
+        this.setRefreshToken(response.data.refreshToken);
+      }
+    } catch (error: any) {
+      this.setError('Ошибка авторизации!');
     }
   }
 
-  logout() {
+  logout = () => {
 
     console.log('logout')
     this.setAuth(false);

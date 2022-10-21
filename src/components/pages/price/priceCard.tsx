@@ -55,15 +55,27 @@ interface IPriceCardItemProps {
 }
 
 
+const menuItemList: IContextMenuList[] = [
+  {
+    actionName: 'Удалить',
+    actionType: 'DELETE',
+    confirmed: true
+  },
+  {
+    actionName: 'Редактировать',
+    actionType: 'EDIT',
+    confirmed: false
+  }
+];
+
 
 const PriceCard: React.FC<IPriceCardItemProps> = observer(
   ({ price, menuActionType, setMenuActionType, setFormOpen }) => {
 
-    const isAuth = authStore.isAuth;
-
+    const { isAuth } = authStore;
     const buttonText = price.active ? 'Записаться' : 'Недоступно';
-
     const [imgIsLoading, setImgIsLoading] = React.useState<boolean>(true);
+
     useEffect(() => {
       const img = new Image();
       img.src = cardPhoto;
@@ -71,22 +83,6 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
         setImgIsLoading(false);
       }
     }, []);
-
-
-
-    const menuItemList: IContextMenuList[] = [
-      {
-        actionName: 'Удалить',
-        actionType: 'DELETE',
-        confirmed: true
-      },
-      {
-        actionName: 'Редактировать',
-        actionType: 'EDIT',
-        confirmed: false
-      }
-    ];
-
 
 
     // context Menu
@@ -101,21 +97,6 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
     const handleExpandClick = useCallback(() => {
       setExpanded(!expanded);
     }, [expanded]);
-
-
-    useEffect(() => {
-      // удалить
-      if (menuActionType === menuItemList[0].actionType) {
-        console.log('Удалить')
-        setMenuActionType('DELETE');
-      }
-      // Редактировать
-      if (menuActionType === menuItemList[1].actionType) {
-        console.log('Редактировать')
-        setMenuActionType('EDIT');
-      }
-    }, [menuActionType]);
-
 
 
     return (
@@ -136,7 +117,6 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
             subheader={price.id}
           />
 
-
           <ContextMenu
             anchorEl={anchorEl}
             setAnchorEl={setAnchorEl}
@@ -146,7 +126,6 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
             setMenuActionType={setMenuActionType}
             setFormOpen={setFormOpen}
           />
-
 
           {!imgIsLoading
             ?

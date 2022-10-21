@@ -8,9 +8,11 @@ import { observer } from "mobx-react-lite";
 
 
 const PortfolioPage = observer(() => {
+  console.log('PortfolioPage')
 
   const { portfolioIsLoading, getImages } = portfolioStore;
 
+  
   useEffect(() => {
     console.log('useEffect images')
     getImages();

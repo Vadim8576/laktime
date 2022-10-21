@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { Container, ImageList, ImageListItem, Skeleton } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import portfolioStore from "../../../store/portfolioStore";
@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import NoData from '../../noData';
 import { toJS } from 'mobx';
 import useMediaQueryMatches from '../../../hooks/useMediaQueryMatches';
-import { useState } from 'react';
 import ImageItem from './imageItem';
 
 
@@ -40,29 +39,28 @@ const PortfolioGrid: React.FC<IPortfolioGridProps> = observer(() => {
   const { sortImages, imageListLength } = portfolioStore;
   const { cols, gap } = useMediaQueryMatches('(max-width:1000px)');
 
-  if (!imageListLength) return <NoData text={'Нет изображений'} />
 
-
-  const mouseEnterHandler = () => {
+  const mouseEnterHandler = useCallback(() => {
     // console.log('Enter')
-  }
-  const mouseLeaveHandler = () => {
+  }, [])
+  const mouseLeaveHandler = useCallback(() => {
     // console.log('Leave')
-  }
+  }, [])
 
-
+  if (!imageListLength) return <NoData text={'Нет изображений'} />
+  
   return (
     <Container sx={{ height: '100%' }}>
       <Box sx={{ width: '100%', height: '100%', overflowY: 'hidden' }}>
-        <ImageList variant="masonry" cols={cols} gap={gap}>
+        <ImageList cols={cols} gap={gap}>
           {sortImages.map((image) => (
             <ImageItem key={image.id} imagePath={image.image_path} />
-            // <IDOut>{image.id}</IDOut>
           ))}
         </ImageList>
       </Box>
     </Container>
   )
 })
+
 
 export default PortfolioGrid;

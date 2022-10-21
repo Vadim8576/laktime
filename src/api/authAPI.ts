@@ -35,9 +35,6 @@ const authAPI = {
                     status: 'ok'
                 }
             })
-            .catch((error: AxiosError) => {
-                return getErrorMessage(error);
-            })
     }
     
 }

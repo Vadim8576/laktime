@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Alert, Box } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
 import { observer } from "mobx-react-lite";
@@ -12,7 +12,6 @@ interface IErrorShowProps {
 const ShowMessage: React.FC<IErrorShowProps> = observer(({ ...props }) => {
 
   const {error, success} = props;
-
   const severity = error ? 'error' : 'success';
   const [open, setOpen] = React.useState<boolean>(false);
   
@@ -20,9 +19,9 @@ const ShowMessage: React.FC<IErrorShowProps> = observer(({ ...props }) => {
     (error !== '' || success) ? setOpen(true) : setOpen(false);
   }, [error, success])
   
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
-  };
+  }, [])
 
   return (
     <Snackbar
