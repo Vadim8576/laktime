@@ -1,10 +1,7 @@
 import { makeAutoObservable, toJS } from "mobx";
 import portfolioAPI from "../api/portfolioAPI";
 import { IPortfolioList } from './storeTypes';
-import AxiosResponse from 'axios';
-import { IPortfolioResponse } from '../api/portfolioAPI';
 import { getErrorMessage } from '../helpers/getErrorMessage';
-import { AxiosError } from "axios";
 
 
 
@@ -66,9 +63,6 @@ class PortfolioStore {
       if(response.status === 'ok') {
         this.setSuccess(true);
         this.setImages(response.data);
-        // this.setImages(
-        //   [...this.portfolioList.filter((item) => item.id !== id)]
-        // )
       }
     }
     catch (error: any) {

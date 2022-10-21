@@ -9,7 +9,6 @@ import priceStore from "../../store/priceStore";
 import { MenuActionType } from '../pages/price/prices';
 
 
-
 interface ICardMenuProps {
   anchorEl: null | HTMLElement;
   setAnchorEl: (anchorEl: null | HTMLElement) => void;
@@ -19,7 +18,6 @@ interface ICardMenuProps {
   setMenuActionType: (actionType: MenuActionType) => void;
   setFormOpen: (formOpen: boolean) => void;
 }
-
 
 const ContextMenu: React.FC<ICardMenuProps> = ({
   anchorEl,
@@ -39,14 +37,14 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
 
 
   useEffect(() => {
-    if(isConfirmed && itemNumber !== null) {
+    if (isConfirmed && itemNumber !== null) {
       formStore.setId(id);
       const type = menuItemList[itemNumber].actionType;
-      switch(type) {
+      switch (type) {
         case 'DELETE':
           formOnSubmit(type);
-          break; 
-        case 'EDIT':  
+          break;
+        case 'EDIT':
           const data = priceStore.getPriceValues(id);
           formStore.setDefaultFormData(data);
           setMenuActionType(type);
@@ -60,9 +58,9 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
   }, [isConfirmed])
 
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   const handleClick = useCallback((index: number) => {
     const ind: string = index.toString();
@@ -79,28 +77,26 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
 
 
   return (
-    <>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={cardMenuOpen}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        {menuItemList.map((menuItem: IContextMenuList, index: number) => {
-          return (
-            <MenuItem key={menuItem.actionName} onClick={() => handleClick(index)} >
-              <ListItemIcon>
-                <EditOutlinedIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>{menuItem.actionName}</ListItemText>
-            </MenuItem>
-          )
-        })}
-      </Menu>
-    </>
+    <Menu
+      id="basic-menu"
+      anchorEl={anchorEl}
+      open={cardMenuOpen}
+      onClose={handleClose}
+      MenuListProps={{
+        'aria-labelledby': 'basic-button',
+      }}
+    >
+      {menuItemList.map((menuItem: IContextMenuList, index: number) => {
+        return (
+          <MenuItem key={menuItem.actionName} onClick={() => handleClick(index)} >
+            <ListItemIcon>
+              <EditOutlinedIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{menuItem.actionName}</ListItemText>
+          </MenuItem>
+        )
+      })}
+    </Menu>
   )
 }
 

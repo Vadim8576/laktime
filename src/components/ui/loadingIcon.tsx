@@ -32,7 +32,10 @@ const LoadingIcon = () => {
   return (
     <LoadingIconContainer>
       <Rotate>
-        <CameraOutlinedIcon fontSize='large' sx={{ 'color': 'tomato' }} />
+        <CameraOutlinedIcon
+          fontSize='large'
+          sx={{ 'color': 'tomato' }}
+        />
       </Rotate>
     </LoadingIconContainer>
   )

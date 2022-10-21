@@ -66,13 +66,11 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
 
       <PortfolioGrid />
 
-      {isAuth &&
-        <EditPanel
-          changeHandler={changeHandler}
-          addHandler={addHandler}
-          removeAllHandler={removeAllHandler}
-        />
-      }
+      <EditPanel
+        changeHandler={changeHandler}
+        addHandler={addHandler}
+        removeAllHandler={removeAllHandler}
+      />
     </>
   )
 })

@@ -12,13 +12,12 @@ import NoData from "../../noData";
 
 interface IPriceGridProps {
   setFormOpen: (formOpen: boolean) => void;
-  menuActionType: MenuActionType;
   setMenuActionType: (actionType: MenuActionType) => void;
 }
 
 
 const PriceGrid: React.FC<IPriceGridProps> = observer(
-  ({ setFormOpen, menuActionType, setMenuActionType }) => {
+  ({ setFormOpen, setMenuActionType }) => {
   
   const {sortPrice, priceListLength} = priceStore;
 
@@ -27,12 +26,11 @@ const PriceGrid: React.FC<IPriceGridProps> = observer(
   return (
     <Container  sx={{ height: '100%' }}>
       <Grid container spacing={{ xs: 4 }} columns={{ xs: 4, sm: 8, md: 12 }} mt={0}>
-        {sortPrice.map((price: IPriceList) => (
-          <Grid item xs={12} sm={4} md={4} key={price.id}>
+        {sortPrice.map((priceList: IPriceList) => (
+          <Grid item xs={12} sm={4} md={4} key={priceList.id}>
             <PriceCard
-              key={price.id}
-              price={price}
-              menuActionType={menuActionType}
+              key={priceList.id}
+              priceList={priceList}
               setMenuActionType={setMenuActionType}
               setFormOpen={setFormOpen}
             />
@@ -44,13 +42,3 @@ const PriceGrid: React.FC<IPriceGridProps> = observer(
 })
 
 export default PriceGrid;
-
-
-
-const NoPriceList = () => {
-  return (
-    <Container>
-      <Typography>Услуги не доступны</Typography>
-    </Container>
-  )
-}

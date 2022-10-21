@@ -4,6 +4,10 @@ import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import LoadingIcon from '../../ui/loadingIcon';
 import { useSrc } from '../../../hooks/useSrc';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import DeleteButton from '../../ui/deleteButton';
+import portfolioStore from '../../../store/portfolioStore';
+import useConfirm from '../../../hooks/useConfirm';
 
 
 interface ImgProps {
@@ -17,40 +21,58 @@ const Img = styled.img<ImgProps>`
   width: 100%;
   height: auto;
   flex-grow: 1;
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 
 interface IImageToRenderProps {
   imagePath: string;
+  id: string;
 }
 
-const ImageItem: React.FC<IImageToRenderProps> = observer(({ imagePath }) => {
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+const ImageItem: React.FC<IImageToRenderProps> = observer(({ ...props }) => {
+
+  const { deleteImage } = portfolioStore;
+  const { imagePath, id } = props;
+  const [imgIsLoading, setImgIsLoading] = useState<boolean>(true);
   const url = useSrc(imagePath);
+  const { confirm } = useConfirm();
 
   const onLoad = useCallback(() => {
     console.log('картинка загружена')
-    setIsLoading(false);
+    setImgIsLoading(false);
   }, [])
 
+  const showConfirm = async () => {
+    const isConfirmed = await confirm('Удалить эту запись?');
+    if(isConfirmed) deleteImage(id); 
+  }
+
+  const handlerDeleteButtonClick = useCallback(() => {
+    showConfirm();
+  }, [id])
 
   return (
     <ImageListItem>
-
-      { isLoading && <LoadingIcon /> }
-
+      {imgIsLoading && <LoadingIcon />}
       <Img
         src={url.src}
         srcSet={url.srcSet}
         alt='Маникюр'
         loading='lazy'
         onLoad={onLoad}
-        transparency={isLoading}
+        transparency={imgIsLoading}
       />
-
+      {!imgIsLoading && <DeleteButton handlerDeleteButtonClick={handlerDeleteButtonClick} />}
+     
     </ImageListItem>
   )
 })
 
 export default ImageItem;
+
+
+

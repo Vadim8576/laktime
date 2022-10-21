@@ -21,6 +21,7 @@ import { MenuActionType } from './prices';
 import { IPriceList } from '../../../store/storeTypes';
 
 
+
 export interface IContextMenuList {
   actionName: string;
   actionType: MenuActionType;
@@ -48,8 +49,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 
 interface IPriceCardItemProps {
-  price: IPriceList;
-  menuActionType: MenuActionType;
+  priceList: IPriceList;
   setMenuActionType: (actionType: MenuActionType) => void;
   setFormOpen: (formOpen: boolean) => void;
 }
@@ -70,10 +70,11 @@ const menuItemList: IContextMenuList[] = [
 
 
 const PriceCard: React.FC<IPriceCardItemProps> = observer(
-  ({ price, menuActionType, setMenuActionType, setFormOpen }) => {
+  ({ priceList, setMenuActionType, setFormOpen }) => {
 
+    const { id, price, servicename, description, active } = priceList;
+    const buttonText = active ? 'Записаться' : 'Недоступно';
     const { isAuth } = authStore;
-    const buttonText = price.active ? 'Записаться' : 'Недоступно';
     const [imgIsLoading, setImgIsLoading] = React.useState<boolean>(true);
 
     useEffect(() => {
@@ -84,13 +85,9 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
       }
     }, []);
 
-
     // context Menu
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const cardMenuOpen = Boolean(anchorEl);
-    const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-      setAnchorEl(event.currentTarget);
-    }, []);
 
     // price Description
     const [expanded, setExpanded] = React.useState(false);
@@ -102,19 +99,10 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
     return (
       <Grow in={true}>
         <Card sx={{ minWidth: 250 }}>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                L
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label="settings" onClick={handleClick} disabled={!isAuth}>
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={price.servicename}
-            subheader={price.id}
+          <MyCardHeader
+            setAnchorEl={setAnchorEl}
+            servicename={servicename}
+            id={id}
           />
 
           <ContextMenu
@@ -122,29 +110,14 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
             setAnchorEl={setAnchorEl}
             cardMenuOpen={cardMenuOpen}
             menuItemList={menuItemList}
-            id={price.id}
+            id={id}
             setMenuActionType={setMenuActionType}
             setFormOpen={setFormOpen}
           />
 
-          {!imgIsLoading
-            ?
-            <Grow in={true}>
-              <CardMedia
-                component="img"
-                height="194"
-                image={cardPhoto}
-                alt="manicure"
-                sx={{
-                  background: '#e9e9e9'
-                }}
-              />
-            </Grow>
-            :
-            <Grow in={true}>
-              <Skeleton variant="rectangular" animation="wave" width='100%' height={194} />
-            </Grow>
-          }
+          <MyCardMedia
+            imgIsLoading={imgIsLoading}
+          />
 
           <CardActions disableSpacing>
             <Typography
@@ -170,7 +143,7 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph>
-                {price.description}
+                {description}
               </Typography>
             </CardContent>
           </Collapse>
@@ -192,10 +165,10 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
                   textAlign: 'left'
                 }}
               >
-                {price.price} &#8381;
+                {price} &#8381;
               </Typography>
               <Button
-                disabled={!price.active}
+                disabled={!active}
                 size="medium"
                 color="primary"
                 variant="outlined"
@@ -212,5 +185,63 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
     );
   })
 
-
 export default PriceCard;
+
+
+
+interface IMyCardHeaderProps {
+  setAnchorEl: (anchor: null | HTMLElement) => void;
+  servicename: string;
+  id: string;
+}
+
+const MyCardHeader: React.FC<IMyCardHeaderProps> = observer(({ ...props }) => {
+
+  const { isAuth } = authStore;
+
+  const { setAnchorEl, servicename, id } = props;
+  const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  }, []);
+
+  return (
+    <CardHeader
+      avatar={
+        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          L
+        </Avatar>
+      }
+      action={
+        <IconButton aria-label="settings" onClick={handleClick} disabled={!isAuth}>
+          <MoreVertIcon />
+        </IconButton>
+      }
+      title={servicename}
+      subheader={id}
+    />
+  )
+})
+
+
+
+
+interface IMyCardMediaProps {
+  imgIsLoading: Boolean;
+}
+
+const MyCardMedia: React.FC<IMyCardMediaProps> = ({ imgIsLoading }) => {
+
+  if (imgIsLoading) return <Skeleton variant="rectangular" animation="wave" width='100%' height={194} />
+
+  return (
+    <CardMedia
+      component="img"
+      height="194"
+      image={cardPhoto}
+      alt="manicure"
+      sx={{
+        background: '#e9e9e9'
+      }}
+    />
+  )
+}

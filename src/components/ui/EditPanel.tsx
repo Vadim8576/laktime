@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Event } from '../pages/portfolio/portfolio';
 import { observer } from 'mobx-react-lite';
+import authStore from "../../store/authStore";
 
 
 
@@ -27,7 +28,11 @@ interface IPortfolioPanelProps {
 
 const EditPanel: React.FC<IPortfolioPanelProps> = observer(({ ...props }) => {
 
+  const { isAuth } = authStore;
+
   const { changeHandler, addHandler, removeAllHandler } = props;
+
+  if(!isAuth) return null;
 
   return (
     <Panel>

@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
-import authStore from '../../../store/authStore';
 import ShowMessage from '../../popupMessages/showMessage';
 import PriceGrid from './priceGrid';
 import PriceForm from './priceForm';
@@ -20,7 +19,7 @@ interface IPricesProps {
 export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL';
 
 const Prices: React.FC<IPricesProps> = observer(() => {
-  const { isAuth } = authStore;
+
   const { priceError, priceSuccess } = priceStore;
   const [ formOpen, setFormOpen ] = React.useState<boolean>(false);
   const [ menuActionType, setMenuActionType ] = React.useState<MenuActionType>('');
@@ -53,7 +52,6 @@ const Prices: React.FC<IPricesProps> = observer(() => {
 
       <PriceGrid
         setFormOpen={setFormOpen}
-        menuActionType={menuActionType}
         setMenuActionType={setMenuActionType}
       />
 
@@ -63,13 +61,11 @@ const Prices: React.FC<IPricesProps> = observer(() => {
         menuActionType={menuActionType}
       />
      
-      {isAuth &&
-        <EditPanel
-          changeHandler={null}
-          addHandler={addHandler}
-          removeAllHandler={removeAllHandler}
-        />
-      }  
+      <EditPanel
+        changeHandler={null}
+        addHandler={addHandler}
+        removeAllHandler={removeAllHandler}
+      />
     </>
   )
 })
