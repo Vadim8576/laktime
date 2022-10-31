@@ -1,13 +1,11 @@
-import React, { FC, useEffect, useCallback, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { ImageList } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import portfolioStore from "../../../store/portfolioStore";
 import Box from '@mui/material/Box';
 import NoData from '../../noData';
 import useMediaQueryMatches from '../../../hooks/useMediaQueryMatches';
 import ImageItem from './imageItem';
-import PhotosGalery from "./photosGalary";
-import { toJS } from "mobx";
+
 import { IPortfolioList } from '../../../store/storeTypes';
 
 
