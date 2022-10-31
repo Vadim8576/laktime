@@ -1,5 +1,5 @@
 import React, { useState, useCallback, FC } from 'react';
-import { ImageListItem } from '@mui/material';
+import { ImageListItem, Grow } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { useSrc } from '../../../hooks/useSrc';
@@ -28,16 +28,18 @@ const Img = styled.img<ImgProps>`
 `
 
 
-interface IImageToRenderProps {
+interface IImageItemProps {
   imagePath: string;
   id: string;
+  zoomHandler: (index: number) => void;
+  imageIndex: number;
 }
 
 
-const ImageItem: FC<IImageToRenderProps> = observer(({ ...props }) => {
+const ImageItem: FC<IImageItemProps> = observer(({ ...props }) => {
 
   const { deleteImage } = portfolioStore;
-  const { imagePath, id } = props;
+  const { imagePath, id, zoomHandler, imageIndex } = props;
   const url = useSrc(imagePath);
   const [imgIsLoading, setImgIsLoading] = useState<boolean>(true);
   const [hover, setHover] = useState<boolean>(false);
@@ -65,11 +67,13 @@ const ImageItem: FC<IImageToRenderProps> = observer(({ ...props }) => {
   }, [])
 
   const onClickHandler = useCallback(() => {
-    console.log('zoom')
-  }, [])
- 
+    zoomHandler(imageIndex);
+  }, [imageIndex])
+
+
+
   return (
-    <ImageListItem>  
+    <ImageListItem>
       <ImageSpiner imgIsLoading={imgIsLoading} />
       <Img
         src={url.src}

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import authStore from '../../../store/authStore';
 import portfolioStore from '../../../store/portfolioStore';
@@ -7,6 +7,8 @@ import ShowMessage from '../../popupMessages/showMessage';
 import PortfolioGrid from './portfolioGrid';
 import EditPanel from '../../ui/EditPanel';
 import { Container } from '@mui/material';
+import ZoomImage from './zoomImage';
+import PhotosGalery from './photosGalary';
 
 
 export interface Event<T = EventTarget> {
@@ -22,13 +24,14 @@ interface IPortfolioProps {
 
 const Portfolio: React.FC<IPortfolioProps> = observer(() => {
 
-  console.log('Portfolio')
+  
 
-  const { isAuth } = authStore;
+  const { sortImages, imageListLength } = portfolioStore;
   const { uploadImages, deleteAllImages, portfolioError, portfolioSuccess } = portfolioStore;
   const [images, setImages] = useState<any>(null);
-  const { confirm } = useConfirm();
+  const [zoomImageIndex, setZoomImageIndex] = useState<number>(0);
 
+  const { confirm } = useConfirm();
   const showConfirm = useCallback(async () => {
     const isConfirmed = await confirm('Удалить все записи?');
     if (isConfirmed) {
@@ -37,12 +40,13 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
     }
   }, [])
 
+
   const changeHandler = useCallback((e: Event<HTMLInputElement>) => {
     const data = new FormData();
     const files = { ...e.target.files };
     e.target.files = null;
     e.target.value = '';
-    for (let key in files) {
+    for (const key in files) {
       // 'image_path' - эта метка установлена на сервере
       data.append(`image_path`, files[key]);
     }
@@ -54,9 +58,12 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
     setImages(null);
   }, [images])
 
-
   const removeAllHandler = useCallback(() => {
     showConfirm();
+  }, [])
+
+  const zoomHandler = useCallback((index: number) => {
+    setZoomImageIndex(index + 1);
   }, [])
 
   return (
@@ -65,7 +72,18 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
         error={portfolioError}
         success={portfolioSuccess}
       />
-      <PortfolioGrid />
+      <PortfolioGrid
+        sortImages={sortImages}
+        imageListLength={imageListLength}
+        zoomHandler={zoomHandler}
+      />
+      
+      <PhotosGalery
+        sortImages={sortImages}
+        zoomImageIndex={zoomImageIndex}
+        setZoomImageIndex={setZoomImageIndex}
+      />
+
       <EditPanel
         changeHandler={changeHandler}
         addHandler={addHandler}

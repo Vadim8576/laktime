@@ -35,7 +35,7 @@ const ImageHoverArea: FC<IImageHoverAreaProps> = observer(({ ...props }) => {
     <ImageHoverContainer
       hover={hover}
     >
-      <ZoomInIcon color='info' fontSize='large' />
+      <ZoomInIcon color='info' sx={{fontSize: '50px'}} />
     </ImageHoverContainer>
   )
 })

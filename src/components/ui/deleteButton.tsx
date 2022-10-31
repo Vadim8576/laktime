@@ -59,7 +59,6 @@ const DeleteButton: FC<IDeleteButtonProps> = observer(({ ...props }) => {
     setHover(false);
   }, [])
 
-
   if(!isAuth) return null;
 
   return (

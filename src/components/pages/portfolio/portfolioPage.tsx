@@ -18,9 +18,9 @@ const PortfolioPage = observer(() => {
 
   return (
     <>
+      <Spiner open={portfolioIsLoading} />
       <PagesTitle title={'Портфолио'} />
       <Portfolio />
-      <Spiner open={portfolioIsLoading} />
     </>
   )
 })

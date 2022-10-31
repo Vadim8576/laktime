@@ -18,6 +18,7 @@
     "@types/react-dom": "^18.0.5",
     "axios": "^0.27.2",
     "form-data": "^4.0.0",
+    "fslightbox-react": "^1.6.2-2",
     "mobx": "^6.6.0",
     "mobx-react-lite": "^3.4.0",
     "react": "^18.1.0",
@@ -56,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@types/fslightbox-react": "^1.4.2",
     "@types/styled-components": "^5.1.25"
   }
 }

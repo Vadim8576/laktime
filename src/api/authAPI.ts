@@ -1,5 +1,5 @@
-import axios, { AxiosResponse, AxiosError } from "axios";
-import { getErrorMessage } from "../helpers/getErrorMessage";
+import axios, { AxiosResponse } from "axios";
+
 
 interface IAuthResponse {
     data: {

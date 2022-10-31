@@ -1,9 +1,8 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { getErrorMessage } from '../helpers/getErrorMessage';
+import axios, { AxiosResponse } from "axios";
 import { getTokenFromLocalStorage } from '../helpers/localStorage';
 import { toJS } from 'mobx';
 import { IPortfolioList } from '../store/storeTypes';
-import { Console } from "console";
+
 
 
 export interface IPortfolioData {
