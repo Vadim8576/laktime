@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Container } from '@mui/material';
 import { PagesTitle } from '../../pagesTitle/pagesTitle';
 import portfolioStore from "../../../store/portfolioStore";
 import { Spiner } from '../../ui/spiner';
@@ -12,27 +11,17 @@ const PortfolioPage = observer(() => {
 
   const { portfolioIsLoading, getImages } = portfolioStore;
 
-  
   useEffect(() => {
-    console.log('useEffect images')
+    console.log('useEffect getImages')
     getImages();
   }, [])
 
   return (
-    <Container maxWidth='lg' sx={{
-      // background: '#fff',
-      marginBottom: 10,
-      position: 'relative',
-      marginTop: '102px'
-    }}>
+    <>
       <PagesTitle title={'Портфолио'} />
-
       <Portfolio />
-      {portfolioIsLoading &&
-        <Spiner open={portfolioIsLoading} />
-      }
-
-    </Container>
+      <Spiner open={portfolioIsLoading} />
+    </>
   )
 })
 

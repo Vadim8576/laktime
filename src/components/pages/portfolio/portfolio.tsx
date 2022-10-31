@@ -6,6 +6,7 @@ import useConfirm from '../../../hooks/useConfirm';
 import ShowMessage from '../../popupMessages/showMessage';
 import PortfolioGrid from './portfolioGrid';
 import EditPanel from '../../ui/EditPanel';
+import { Container } from '@mui/material';
 
 
 export interface Event<T = EventTarget> {
@@ -25,8 +26,16 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
 
   const { isAuth } = authStore;
   const { uploadImages, deleteAllImages, portfolioError, portfolioSuccess } = portfolioStore;
-  const [ images, setImages ] = useState<any>(null);
+  const [images, setImages] = useState<any>(null);
   const { confirm } = useConfirm();
+
+  const showConfirm = useCallback(async () => {
+    const isConfirmed = await confirm('Удалить все записи?');
+    if (isConfirmed) {
+      deleteAllImages();
+      setImages(null);
+    }
+  }, [])
 
   const changeHandler = useCallback((e: Event<HTMLInputElement>) => {
     const data = new FormData();
@@ -45,16 +54,9 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
     setImages(null);
   }, [images])
 
-  const showConfirm = useCallback(async () => {
-    const isConfirmed = await confirm('Удалить все записи?');
-    if(isConfirmed) {
-      deleteAllImages();
-      setImages(null);
-    }
-  }, [])
 
   const removeAllHandler = useCallback(() => {
-    showConfirm();  
+    showConfirm();
   }, [])
 
   return (
@@ -63,9 +65,7 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
         error={portfolioError}
         success={portfolioSuccess}
       />
-
       <PortfolioGrid />
-
       <EditPanel
         changeHandler={changeHandler}
         addHandler={addHandler}

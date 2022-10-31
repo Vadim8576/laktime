@@ -38,13 +38,12 @@ const ImageItem: FC<IImageToRenderProps> = observer(({ ...props }) => {
 
   const { deleteImage } = portfolioStore;
   const { imagePath, id } = props;
+  const url = useSrc(imagePath);
   const [imgIsLoading, setImgIsLoading] = useState<boolean>(true);
   const [hover, setHover] = useState<boolean>(false);
-  const url = useSrc(imagePath);
   const { confirm } = useConfirm();
 
   const onLoad = useCallback(() => {
-    console.log('картинка загружена')
     setImgIsLoading(false);
   }, [])
 
@@ -65,9 +64,13 @@ const ImageItem: FC<IImageToRenderProps> = observer(({ ...props }) => {
     setHover(false);
   }, [])
 
+  const onClickHandler = useCallback(() => {
+    console.log('zoom')
+  }, [])
  
   return (
     <ImageListItem>  
+      <ImageSpiner imgIsLoading={imgIsLoading} />
       <Img
         src={url.src}
         srcSet={url.srcSet}
@@ -77,9 +80,12 @@ const ImageItem: FC<IImageToRenderProps> = observer(({ ...props }) => {
         transparency={imgIsLoading}
         onMouseMove={mouseEnterHandler}
         onMouseOut={mouseLeaveHandler}
+        onClick={onClickHandler}
       />
-      <ImageSpiner imgIsLoading={imgIsLoading} />
-      <ImageHoverArea imgIsLoading={imgIsLoading} hover={hover} />
+      <ImageHoverArea
+        imgIsLoading={imgIsLoading}
+        hover={hover}
+      />
       <DeleteButton
         deleteButtonClickHandler={deleteButtonClickHandler}
       />

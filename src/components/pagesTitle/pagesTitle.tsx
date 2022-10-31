@@ -1,7 +1,7 @@
+import React, { FC } from "react";
 import { Divider, Typography } from "@mui/material";
-import React from "react";
 
-export interface IPageTitle {
+export interface IPageTitleProps {
   // variant: "inherit" |
   // "button" |
   // "caption" |
@@ -20,7 +20,7 @@ export interface IPageTitle {
   title: string;
 }
 
-export const PagesTitle: React.FC<IPageTitle> = ({ title }) => {
+export const PagesTitle: FC<IPageTitleProps> = ({ title }) => {
   return (
     <>
       <Typography

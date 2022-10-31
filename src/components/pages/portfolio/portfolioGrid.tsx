@@ -11,7 +11,7 @@ import ImageItem from './imageItem';
 
 
 const PortfolioGrid = observer(() => {
-  
+
   const { sortImages, imageListLength } = portfolioStore;
   const { cols, gap } = useMediaQueryMatches('(max-width:1000px)');
 
@@ -20,21 +20,19 @@ const PortfolioGrid = observer(() => {
   }, [])
 
   if (!imageListLength) return <NoData text={'Нет изображений'} />
-  
+
   return (
-    <Container sx={{ height: '100%' }}>
-      <Box sx={{ width: '100%', height: '100%', overflowY: 'hidden' }}>
-        <ImageList cols={cols} gap={gap}>
-          {sortImages.map((image) => (
-            <ImageItem
-              key={image.id}
-              imagePath={image.image_path}
-              id={image.id}
-            />
-          ))}
-        </ImageList>
-      </Box>
-    </Container>
+    <Box sx={{ width: '100%', height: '100%', overflowY: 'hidden' }}>
+      <ImageList cols={cols} gap={gap}>
+        {sortImages.map((image) => (
+          <ImageItem
+            key={image.id}
+            imagePath={image.image_path}
+            id={image.id}
+          />
+        ))}
+      </ImageList>
+    </Box>
   )
 })
 

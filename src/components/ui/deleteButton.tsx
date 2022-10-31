@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import authStore from '../../store/authStore';
@@ -37,16 +37,15 @@ const DeleteButtonBack = styled.div<IDeleteButtonBackProps>`
   border-radius: 50%;
 `
 
-
 interface IDeleteButtonProps {
   deleteButtonClickHandler: () => void;
 }
 
-const DeleteButton: React.FC<IDeleteButtonProps> = observer(({ ...props }) => {
+const DeleteButton: FC<IDeleteButtonProps> = observer(({ ...props }) => {
 
+  const { isAuth } = authStore;
   const [hover, setHover] = useState<boolean>(false);
   const { deleteButtonClickHandler } = props;
-  const { isAuth } = authStore;
 
   const handlerClick = useCallback(() => {
     deleteButtonClickHandler();
