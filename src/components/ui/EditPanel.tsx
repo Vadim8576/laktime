@@ -22,7 +22,7 @@ const Panel = styled.div`
 
 interface IPortfolioPanelProps {
   changeHandler: { (e: Event<HTMLInputElement>): void } | null;
-  addHandler: () => void;
+  addHandler: {(): void} | null;
   removeAllHandler: () => void;
 }
 
@@ -39,7 +39,7 @@ const EditPanel: React.FC<IPortfolioPanelProps> = observer(({ ...props }) => {
       <Container sx={{ height: '100%' }}>
         <Stack direction="row" height="100%" justifyContent="flex-end" alignItems="center" spacing={4}>
           <ChangeImageButton changeHandler={changeHandler} />
-          <Button onClick={addHandler}>Добавить</Button>
+          {addHandler && <Button onClick={addHandler}>Добавить</Button>}
           <Button color="warning" variant="outlined" startIcon={<DeleteIcon />} onClick={removeAllHandler}>
             Удалить все
           </Button>

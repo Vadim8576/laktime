@@ -29,7 +29,14 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
   const { sortImages, imageListLength } = portfolioStore;
   const { uploadImages, deleteAllImages, portfolioError, portfolioSuccess } = portfolioStore;
   const [images, setImages] = useState<any>(null);
+  const [imagesLength, setImagesLength] = useState<number>(0);
   const [zoomImageIndex, setZoomImageIndex] = useState<number>(0);
+
+
+
+  useEffect(() => {
+    images && showUploadConfirm();
+  }, [images])
 
   const { confirm } = useConfirm();
   const showConfirm = useCallback(async () => {
@@ -41,9 +48,20 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
   }, [])
 
 
+  
+  const showUploadConfirm = useCallback(async () => {
+    const isConfirmed = await confirm(`Добавить выбранные изображения: ${imagesLength}?`);
+    if (isConfirmed) {
+      uploadImages(images);
+      setImages(null);
+    }
+  }, [images])
+
+
   const changeHandler = useCallback((e: Event<HTMLInputElement>) => {
     const data = new FormData();
     const files = { ...e.target.files };
+    files && setImagesLength(Object.keys(files).length);
     e.target.files = null;
     e.target.value = '';
     for (const key in files) {
@@ -54,9 +72,9 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
   }, [])
 
   const addHandler = useCallback(() => {
-    uploadImages(images);
-    setImages(null);
-  }, [images])
+    // uploadImages(images);
+    // setImages(null);
+  }, [])
 
   const removeAllHandler = useCallback(() => {
     showConfirm();
@@ -86,7 +104,7 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
 
       <EditPanel
         changeHandler={changeHandler}
-        addHandler={addHandler}
+        addHandler={null}
         removeAllHandler={removeAllHandler}
       />
     </>
