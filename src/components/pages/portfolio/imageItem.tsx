@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, FC } from 'react';
 import { ImageListItem } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
-import LoadingIcon from '../../ui/loadingIcon';
 import { useSrc } from '../../../hooks/useSrc';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import DeleteButton from '../../ui/deleteButton';
 import portfolioStore from '../../../store/portfolioStore';
 import useConfirm from '../../../hooks/useConfirm';
+import ImageHoverArea from './imageHoverArea';
+import DeleteButton from '../../ui/deleteButton';
+import ImageSpiner from '../../ui/imageSpiner';
+
 
 
 interface ImgProps {
@@ -33,11 +34,12 @@ interface IImageToRenderProps {
 }
 
 
-const ImageItem: React.FC<IImageToRenderProps> = observer(({ ...props }) => {
+const ImageItem: FC<IImageToRenderProps> = observer(({ ...props }) => {
 
   const { deleteImage } = portfolioStore;
   const { imagePath, id } = props;
   const [imgIsLoading, setImgIsLoading] = useState<boolean>(true);
+  const [hover, setHover] = useState<boolean>(false);
   const url = useSrc(imagePath);
   const { confirm } = useConfirm();
 
@@ -48,16 +50,24 @@ const ImageItem: React.FC<IImageToRenderProps> = observer(({ ...props }) => {
 
   const showConfirm = async () => {
     const isConfirmed = await confirm('Удалить эту запись?');
-    if(isConfirmed) deleteImage(id); 
+    if (isConfirmed) deleteImage(id);
   }
 
-  const handlerDeleteButtonClick = useCallback(() => {
+  const deleteButtonClickHandler = useCallback(() => {
     showConfirm();
   }, [id])
 
+  const mouseEnterHandler = useCallback(() => {
+    setHover(true);
+  }, [])
+
+  const mouseLeaveHandler = useCallback(() => {
+    setHover(false);
+  }, [])
+
+ 
   return (
-    <ImageListItem>
-      {imgIsLoading && <LoadingIcon />}
+    <ImageListItem>  
       <Img
         src={url.src}
         srcSet={url.srcSet}
@@ -65,14 +75,20 @@ const ImageItem: React.FC<IImageToRenderProps> = observer(({ ...props }) => {
         loading='lazy'
         onLoad={onLoad}
         transparency={imgIsLoading}
+        onMouseMove={mouseEnterHandler}
+        onMouseOut={mouseLeaveHandler}
       />
-      {!imgIsLoading && <DeleteButton handlerDeleteButtonClick={handlerDeleteButtonClick} />}
-     
+      <ImageSpiner imgIsLoading={imgIsLoading} />
+      <ImageHoverArea imgIsLoading={imgIsLoading} hover={hover} />
+      <DeleteButton
+        deleteButtonClickHandler={deleteButtonClickHandler}
+      />
     </ImageListItem>
   )
 })
 
 export default ImageItem;
+
 
 
 

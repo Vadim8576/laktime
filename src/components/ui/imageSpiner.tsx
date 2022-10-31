@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled, { keyframes } from 'styled-components';
 import CameraOutlinedIcon from '@mui/icons-material/CameraOutlined';
 
 
-const LoadingIconContainer = styled.div`
+const ImageSpinerContainer = styled.div`
   object-fit: cover;
   display: flex;
   justify-content: center;
@@ -14,7 +14,7 @@ const LoadingIconContainer = styled.div`
   overflow: hidden;
 `
 
-const loading = keyframes`
+const loadingAnimation = keyframes`
 from {
   transform: rotate(0deg);
 }
@@ -24,24 +24,28 @@ to {
 `
 
 const Rotate = styled.span`
-  animation: ${loading} 2s linear infinite;
+  animation: ${loadingAnimation} 2s linear infinite;
 `
 
+interface IImageSpinerProps {
+  imgIsLoading: boolean;
+}
 
-const LoadingIcon = () => {
+const ImageSpiner: FC<IImageSpinerProps> = ({ imgIsLoading }) => {
+  if(!imgIsLoading) return null;
   return (
-    <LoadingIconContainer>
+    <ImageSpinerContainer>
       <Rotate>
         <CameraOutlinedIcon
           fontSize='large'
           sx={{ 'color': 'tomato' }}
         />
       </Rotate>
-    </LoadingIconContainer>
+    </ImageSpinerContainer>
   )
 }
 
-export default LoadingIcon;
+export default ImageSpiner;
 
 
 

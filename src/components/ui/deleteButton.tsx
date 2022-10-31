@@ -1,52 +1,56 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import authStore from '../../store/authStore';
 import { observer } from 'mobx-react-lite';
 
 
-interface IDeleteButtonContainer {
+interface IDeleteButtonContainerProps {
   hover: boolean;
 }
-const DeleteButtonContainer = styled.div<IDeleteButtonContainer>`
-  background-color: ${(props) => (props.hover ? 'rgba(0, 0, 0, .5)' : 'none')};
-  transition: .5s all;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-`
 
-interface IDeleteButtonBack {
-  hover: boolean;
-}
-const DeleteButtonBack = styled.div<IDeleteButtonBack>`
-  opacity: ${(props) => (props.hover ? .8 : .3)};
-  background-color: #fff;
+const DeleteButtonContainer = styled.div<IDeleteButtonContainerProps>`
+  background-color: none;
   transition: .5s all;
   position: absolute;
+  top: 5px;
+  right: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 5px;
-  right: 5px;
+  cursor: pointer;
+  event-pointer: none;
+`
+
+interface IDeleteButtonBackProps {
+  hover: boolean;
+}
+
+const DeleteButtonBack = styled.div<IDeleteButtonBackProps>`
+  opacity: ${(props) => (props.hover ? .8 : .2)};
+  background-color: none;
+  transition: .5s all;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 5px;
   border-radius: 50%;
 `
 
 
 interface IDeleteButtonProps {
-  handlerDeleteButtonClick: () => void;
+  deleteButtonClickHandler: () => void;
 }
-
 
 const DeleteButton: React.FC<IDeleteButtonProps> = observer(({ ...props }) => {
 
-  const { handlerDeleteButtonClick } = props;
-  const { isAuth } = authStore;
   const [hover, setHover] = useState<boolean>(false);
+  const { deleteButtonClickHandler } = props;
+  const { isAuth } = authStore;
+
+  const handlerClick = useCallback(() => {
+    deleteButtonClickHandler();
+  }, [])
 
   const mouseEnterHandler = useCallback(() => {
     setHover(true);
@@ -54,10 +58,6 @@ const DeleteButton: React.FC<IDeleteButtonProps> = observer(({ ...props }) => {
 
   const mouseLeaveHandler = useCallback(() => {
     setHover(false);
-  }, [])
-
-  const handlerClick = useCallback(() => {
-    handlerDeleteButtonClick();
   }, [])
 
 
@@ -73,7 +73,7 @@ const DeleteButton: React.FC<IDeleteButtonProps> = observer(({ ...props }) => {
         hover={hover}
         onClick={handlerClick}
       >
-        <DeleteOutlinedIcon fontSize='medium' />
+        <DeleteForeverOutlinedIcon fontSize='large' sx={{color: '#fff'}}/>
       </DeleteButtonBack>
     </DeleteButtonContainer>
   )
