@@ -9,7 +9,7 @@ import { getErrorMessage } from '../helpers/getErrorMessage';
 class Authorization {
 
   user: IUser = null;
-  isAuth: Boolean = false;
+  isAuth: boolean = false;
   authError: string = '';
   // token: string | null = null;
   // refreshToken: string | null = '';
@@ -22,7 +22,7 @@ class Authorization {
     this.user = name;
   }
 
-  setAuth = (isAuth: Boolean) => {
+  setAuth = (isAuth: boolean) => {
     this.isAuth = isAuth;
   }
 
@@ -42,9 +42,9 @@ class Authorization {
 
 
 
-  login = async() => {
+  login = async(payload: any) => {
     try {
-      const response = await authAPI.login();
+      const response = await authAPI.login(payload);
 
       if (response.status === 'ok') {
         console.log(response)

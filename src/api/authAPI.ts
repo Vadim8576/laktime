@@ -26,9 +26,9 @@ const body = {
 }
 
 const authAPI = {
-    login() {
+    login(payload: any) {
         return instance
-            .post('login', body)
+            .post('login', payload)
             .then((response: AxiosResponse<IAuthResponse>) =>{
                 return {
                     data: response.data.data,

@@ -16,8 +16,8 @@ const App = observer(() => {
   const {login, authError} = authStore;
 
   useEffect(() => {
-    login();
-    console.log('useEffect login')
+    // login();
+    // console.log('useEffect login')
   }, [])
 
 

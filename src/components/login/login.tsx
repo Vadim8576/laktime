@@ -1,38 +1,16 @@
-import React from "react";
-import { Button, Paper, Typography } from '@mui/material';
-import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { PagesTitle } from "../pagesTitle/pagesTitle";
+import React, { useEffect, useState } from "react";
+import { Typography } from '@mui/material';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import authStore from '../../store/authStore';
-// import { Location } from "history";
-
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import styled from 'styled-components';
+import { AuthContainer, headerStyle, FormWrapper, formStyle } from './loginStyles';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
 
-
-
-const AuthFormContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const AuthForm = styled.div`
-  width: 50%;
-  max-width: 500px;
-  min-width: 300px;
-  height: 310px;
-  min-height: 310px;
-  padding: 30px;
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, .8);
-`;
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
 interface LocationState {
@@ -41,92 +19,87 @@ interface LocationState {
   };
 }
 
-
-
 const Login = observer(() => {
-  const [loading, setLoading] = React.useState(true);
+
+  const [isLogining, setIsLogining] = useState<boolean>(false);
+  const { isAuth } = authStore;
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as LocationState)?.from;
 
-  const handleAuth = async () => {
-    await authStore.login()
-    navigate(from?.pathname || '/');
+  useEffect(() => {
+    isAuth && navigate(from?.pathname || '/');
+  }, [isAuth])
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().required().email(),
+    password: Yup.string()
+    .label('confirm password').required()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
+
+  const onSubmit = (data: any) => {
+    setIsLogining(true);
+    authStore.login(data);
   }
 
-
-  const handleClick = () => {
-    setLoading(true);
-  }
+  if(isAuth) return null;
 
   return (
-    <>
-      {/* <PagesTitle title="Авторизация" /> */}
-
-      {/* <Button
-        variant="contained"
-        color="success"
-        onClick={handleAuth}
+    <AuthContainer>
+      <Box
+        sx={headerStyle}
       >
-        Success
-      </Button> */}
-
-
-      <AuthFormContainer>
-        <AuthForm>
-        <Typography variant="h5" gutterBottom align="center">
+        <Typography
+          variant="h4"
+          align="center"
+          sx={{ color: '#fff' }}
+        >
           Авторизация
         </Typography>
-          <Box
-            component="form"
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
-              '& > :not(style)': {
-                m: 1,
-                width: '80%',
-                maxWidth: 500,
-                minWidth: 200,
-                height: 50,
-              },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-
-            <TextField
-              id="standard-helperText"
-              label="e-mail"
-              variant="standard"
-            />
-            <TextField
-              id="standard-password-input"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              variant="standard"
-            />
-
-            <Button
-              variant="contained"
-              onClick={handleClick}
-
-            >
-              Войти
-            </Button>
-
-          </Box>
-        </AuthForm>
-
-      </AuthFormContainer>
-
-
-
-    </>
-
+      </Box>
+      <FormWrapper>
+        <Box
+          component="form"
+          sx={formStyle}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            id="standard-helperText"
+            label="e-mail"
+            {...register('email')}
+            error={errors.email ? true : false}
+          />
+          <TextField
+            id="outlined-password-input"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            {...register('password')}
+            error={errors.password ? true : false}
+          />
+        </Box>
+        <LoadingButton
+          onClick={handleSubmit(onSubmit)}
+          loading={isLogining}
+          loadingPosition="center"
+          variant="contained"
+        >
+          Войти
+        </LoadingButton>
+      </FormWrapper>
+    </AuthContainer>
   )
 })
 

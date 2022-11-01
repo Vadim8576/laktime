@@ -59,6 +59,8 @@ const HeaderAppBar: React.FC<AppBarProps> = observer(({ setMenuState }) => {
 						Laktime
 
 					</Typography>
+					
+					<Link style={{ color: 'yellow' }} to='../login'>login</Link>
 					<Link style={{ color: 'yellow' }} to='../price'>Прайс</Link>
 					<Link style={{ color: 'yellow' }} to='../portfolio'>Портфолио</Link>
 
@@ -76,7 +78,10 @@ const HeaderAppBar: React.FC<AppBarProps> = observer(({ setMenuState }) => {
 						<Button
 							style={{ color: 'yellow' }}
 							onClick={() => {
-								authStore.login()
+								authStore.login({
+									email: 'admin101@mail.ru',
+									password: '123'
+								})
 							}}
 						>
 							LogIn

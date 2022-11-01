@@ -2,7 +2,7 @@ import React, { useState, useCallback, FC } from 'react';
 import { ImageListItem, Grow } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
-import { useSrc } from '../../../hooks/useSrc';
+import { useUrlsFormat } from '../../../hooks/useUrlsFormat';
 import portfolioStore from '../../../store/portfolioStore';
 import useConfirm from '../../../hooks/useConfirm';
 import ImageHoverArea from './imageHoverArea';
@@ -40,7 +40,11 @@ const ImageItem: FC<IImageItemProps> = observer(({ ...props }) => {
 
   const { deleteImage } = portfolioStore;
   const { imagePath, id, zoomHandler, imageIndex } = props;
-  const url = useSrc(imagePath);
+  const url = useUrlsFormat(imagePath) as string;
+
+  // console.log(url);
+
+
   const [imgIsLoading, setImgIsLoading] = useState<boolean>(true);
   const [hover, setHover] = useState<boolean>(false);
   const { confirm } = useConfirm();
@@ -76,8 +80,7 @@ const ImageItem: FC<IImageItemProps> = observer(({ ...props }) => {
     <ImageListItem>
       <ImageSpiner imgIsLoading={imgIsLoading} />
       <Img
-        src={url.src}
-        srcSet={url.srcSet}
+        src={url}
         alt='Маникюр'
         loading='lazy'
         onLoad={onLoad}

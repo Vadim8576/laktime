@@ -40,7 +40,7 @@ const EditPanel: React.FC<IPortfolioPanelProps> = observer(({ ...props }) => {
         <Stack direction="row" height="100%" justifyContent="flex-end" alignItems="center" spacing={4}>
           <ChangeImageButton changeHandler={changeHandler} />
           {addHandler && <Button onClick={addHandler}>Добавить</Button>}
-          <Button color="warning" variant="outlined" startIcon={<DeleteIcon />} onClick={removeAllHandler}>
+          <Button color="error" variant="outlined" startIcon={<DeleteIcon />} onClick={removeAllHandler}>
             Удалить все
           </Button>
         </Stack>

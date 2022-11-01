@@ -6,8 +6,6 @@ import useConfirm from '../../../hooks/useConfirm';
 import ShowMessage from '../../popupMessages/showMessage';
 import PortfolioGrid from './portfolioGrid';
 import EditPanel from '../../ui/EditPanel';
-import { Container } from '@mui/material';
-import ZoomImage from './zoomImage';
 import PhotosGalery from './photosGalary';
 
 

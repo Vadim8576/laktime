@@ -11,6 +11,20 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Avatar from '@mui/material/Avatar';
+import { Link } from 'react-router-dom';
+
+// ['О Лактайм', 'Услуги и цены', 'Портфолио', 'Запись online', 'Контакты']
+{/* <Link style={{ color: 'yellow' }} to='../login'>login</Link> */}
+const mainMenuItems = [
+	{text: 'О Лактайм', link: '../'},
+	{text: 'Услуги и цены', link: '../price'},
+	{text: 'Портфолио', link: '../portfolio'},
+	{text: 'Запись online', link: '../price'},
+	{text: 'Контакты', link: '../'},
+]
+
+
+
 
 
 interface MainMenuProps {
@@ -53,14 +67,15 @@ const MainMenu: React.FC<MainMenuProps> = ({ setMenuState, menuState }) => {
 			</Box>
 			{/* <Divider /> */}
 			<List>
-				{['О Лактайм', 'Услуги и цены', 'Портфолио', 'Запись online', 'Контакты'].map((text, index) => (
-					<ListItem key={text} disablePadding >
+				{mainMenuItems.map((item, index) => (
+					<ListItem key={item.text} disablePadding >
 						<ListItemButton>
 							<ListItemIcon>
 								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
 								{/* {index % 2 === 0 ? <InboxIcon sx={{color: "#999"}} /> : <MailIcon />} */}
 							</ListItemIcon>
-							<ListItemText primary={text} />
+							<Link style={{ color: '#999' }} to={item.link}><ListItemText primary={item.text} /></Link>
+							
 							{/* <ListItemText primary={text} sx={{color: '#fff'}} /> */}
 						</ListItemButton>
 					</ListItem>
