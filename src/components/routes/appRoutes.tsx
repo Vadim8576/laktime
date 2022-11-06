@@ -5,6 +5,7 @@ import PrivateRoute from "./privateRoute";
 import { Container } from '@mui/material';
 import Loading2 from "../ui/loading2";
 
+const About = React.lazy(() => import('../pages/about/aboutPage'));
 const Price = React.lazy(() => import('../pages/price/pricePage'));
 const Portfolio = React.lazy(() => import('../pages/portfolio/portfolioPage'));
 
@@ -20,7 +21,11 @@ const AppRoutes = () => {
     >
       <Routes>
         <Route path='/'>
-          <Route index element={<h1 style={{ marginTop: '70px' }}>Главная страница</h1>} />
+          <Route index element={
+            <React.Suspense fallback={<Loading2 />}>
+              <About />
+            </React.Suspense>
+          } />
           <Route
             path='login'
             element={

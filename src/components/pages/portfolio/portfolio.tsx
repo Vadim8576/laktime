@@ -22,10 +22,16 @@ interface IPortfolioProps {
 
 const Portfolio: React.FC<IPortfolioProps> = observer(() => {
 
-  
 
-  const { sortImages, imageListLength } = portfolioStore;
-  const { uploadImages, deleteAllImages, portfolioError, portfolioSuccess } = portfolioStore;
+  const {
+    sortImages,
+    imageListLength,
+    uploadImages,
+    deleteAllImages,
+    portfolioError,
+    portfolioSuccess
+  } = portfolioStore;
+  
   const [images, setImages] = useState<any>(null);
   const [imagesLength, setImagesLength] = useState<number>(0);
   const [zoomImageIndex, setZoomImageIndex] = useState<number>(0);

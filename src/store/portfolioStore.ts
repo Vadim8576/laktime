@@ -2,6 +2,7 @@ import { makeAutoObservable, toJS } from "mobx";
 import portfolioAPI from "../api/portfolioAPI";
 import { IPortfolioList } from './storeTypes';
 import { getErrorMessage } from '../helpers/getErrorMessage';
+import authStore from "./authStore";
 
 
 
@@ -10,6 +11,7 @@ class PortfolioStore {
   portfolioIsLoading: boolean = true;
   portfolioError: string = '';
   portfolioSuccess: boolean = false;
+  logout = authStore.logout;
 
   constructor() {
     makeAutoObservable(this);
@@ -18,12 +20,11 @@ class PortfolioStore {
   resetFlags = () => {
     this.setLoading(true);
     this.setError('');
-    this.setSuccess(false);    
+    this.setSuccess(false);
   }
 
   setImages = (images: IPortfolioList[]) => {
     this.portfolioList = images;
-    console.log(toJS(this.portfolioList))
   }
 
   setLoading = (isLoading: boolean) => {
@@ -48,6 +49,7 @@ class PortfolioStore {
       }
     }
     catch (error: any) {
+      (error.response.status === 403) && this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -59,13 +61,14 @@ class PortfolioStore {
   deleteImage = async (id: string) => { 
     this.resetFlags();  
     try {
-      const response = await portfolioAPI.deleteImage(id);
+      const response = await portfolioAPI.deleteImage(id);  
       if(response.status === 'ok') {
         this.setSuccess(true);
         this.setImages(response.data);
       }
     }
     catch (error: any) {
+      (error.response.status === 403) && this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -83,6 +86,7 @@ class PortfolioStore {
       }
     }
     catch (error: any) {
+      (error.response.status === 403) && this.logout();
       this.setError(getErrorMessage(error).error);
     } finally {
       this.setLoading(false);

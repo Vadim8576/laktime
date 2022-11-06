@@ -24,6 +24,7 @@ const Img = styled.img<ImgProps>`
   flex-grow: 1;
   &:hover {
     cursor: pointer;
+    
   }
 `
 

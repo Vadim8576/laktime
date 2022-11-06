@@ -16,7 +16,7 @@ const Panel = styled.div`
   position: fixed;
   left: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, .8);
+  background-color: rgba(255, 255, 255, .9);
 `;
 
 

@@ -28,8 +28,8 @@ const PortfolioGrid: FC<IPortfolioGridProps> = observer(( {...props} ) => {
   if (!imageListLength) return <NoData text={'Нет изображений'} />
 
   return (
-    <Box sx={{ width: '100%', height: '100%', overflowY: 'hidden' }}>
-      <ImageList cols={cols} gap={gap}>
+    <Box sx={{ width: '100%', height: '100%', overflowY: 'hidden',  }}>
+      <ImageList cols={cols} gap={gap} sx={{margin: 2}}>
         {sortImages.map((image, imageIndex) => (
           <ImageItem
             key={image.id}

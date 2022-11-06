@@ -18,6 +18,7 @@ export interface IPageTitleProps {
   // "body2" |
   // undefined;
   title: string;
+
 }
 
 export const PagesTitle: FC<IPageTitleProps> = ({ title }) => {

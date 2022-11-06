@@ -12,6 +12,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Avatar from '@mui/material/Avatar';
 import { Link } from 'react-router-dom';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 // ['О Лактайм', 'Услуги и цены', 'Портфолио', 'Запись online', 'Контакты']
 {/* <Link style={{ color: 'yellow' }} to='../login'>login</Link> */}
@@ -59,11 +60,12 @@ const MainMenu: React.FC<MainMenuProps> = ({ setMenuState, menuState }) => {
 			onKeyDown={toggleDrawer(false)}
 		>
 			<Box sx={{ width: 250, display: 'flex', justifyContent: 'center', padding: '40px 0' }}>
-				<Avatar
+				{/* <Avatar
         alt="Remy Sharp"
         src="/static/images/avatar/1.jpg"
         sx={{ width: 100, height: 100 }}
-      />
+      /> */}
+			<PersonOutlineOutlinedIcon />
 			</Box>
 			{/* <Divider /> */}
 			<List>

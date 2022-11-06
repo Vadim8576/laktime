@@ -2,6 +2,7 @@ import { makeAutoObservable, toJS } from "mobx";
 import pricesAPI from "../api/priceAPI";
 import { IPriceList, IPrice } from './storeTypes';
 import { getErrorMessage } from '../helpers/getErrorMessage';
+import authStore from "./authStore";
 
 
 class PriceStore {
@@ -9,6 +10,7 @@ class PriceStore {
   priceIsLoading: boolean = true;
   priceError: string = '';
   priceSuccess: boolean = false;
+  logout = authStore.logout;
 
   constructor() {
     makeAutoObservable(this);
@@ -47,6 +49,7 @@ class PriceStore {
       }
     }
     catch (error: any) {
+      (error.response.status === 403) && this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -56,7 +59,6 @@ class PriceStore {
 
   patchPrice = async (id: string, price: IPrice) => {
     this.resetFlags();
-
     try {
       const response = await pricesAPI.patchPrice(id, price);
       if(response.status === 'ok') { 
@@ -65,6 +67,7 @@ class PriceStore {
       }
     }
     catch (error: any) {
+      (error.response.status === 403) && this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -83,6 +86,7 @@ class PriceStore {
       }
     }
     catch (error: any) {
+      (error.response.status === 403) && this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -102,6 +106,7 @@ class PriceStore {
       }
     }
     catch (error: any) {
+      (error.response.status === 403) && this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
