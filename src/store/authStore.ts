@@ -52,8 +52,8 @@ class Authorization {
     try {
       const response = await authAPI.login(payload);
       if (response.status === 'ok') {
-        const userName = response.nickname;
-        this.setUser(userName);
+        console.log(response)
+        this.setUser(response.nickname);
         this.setAuth(true);
         this.setToken(response.data.token);
         this.setRefreshToken(response.data.refreshToken);

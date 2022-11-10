@@ -29,7 +29,6 @@ export interface IContextMenuList {
 }
 
 
-
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -179,6 +178,7 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
                 {buttonText}
               </Button>
             </Paper>
+            Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь c Политикой Конфиденциальности
           </CardContent>
         </Card>
       </Grow>
