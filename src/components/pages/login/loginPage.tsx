@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Typography } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import authStore from '../../store/authStore';
+import authStore from '../../../store/authStore';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { AuthContainer, headerStyle, FormWrapper, formStyle } from './loginStyles';
+import { AuthContainer, headerStyle, FormWrapper, formStyle } from './loginPageStyles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -22,7 +22,7 @@ interface LocationState {
 const Login = observer(() => {
 
   const [isLogining, setIsLogining] = useState<boolean>(false);
-  const { isAuth } = authStore;
+  const { isAuth, isFetching } = authStore;
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as LocationState)?.from;
@@ -92,7 +92,7 @@ const Login = observer(() => {
         </Box>
         <LoadingButton
           onClick={handleSubmit(onSubmit)}
-          loading={isLogining}
+          loading={isFetching}
           loadingPosition="center"
           variant="contained"
         >

@@ -11,6 +11,7 @@ class Authorization {
   user: IUser = null;
   isAuth: boolean = false;
   authError: string = '';
+  isFetching: boolean = false;
   // token: string | null = null;
   // refreshToken: string | null = '';
 
@@ -24,6 +25,10 @@ class Authorization {
 
   setAuth = (isAuth: boolean) => {
     this.isAuth = isAuth;
+  }
+
+  setFethcing = (isFetching: boolean) => {
+    this.isFetching = isFetching;
   }
 
   setError = (error: string) => {
@@ -43,12 +48,10 @@ class Authorization {
 
 
   login = async(payload: any) => {
+    this.setFethcing(true);
     try {
       const response = await authAPI.login(payload);
-
       if (response.status === 'ok') {
-        console.log(response)
-
         const userName = response.nickname;
         this.setUser(userName);
         this.setAuth(true);
@@ -57,12 +60,12 @@ class Authorization {
       }
     } catch (error: any) {
       this.setError('Ошибка авторизации!');
+    } finally {
+      this.setFethcing(false);
     }
   }
 
   logout = () => {
-
-    console.log('logout')
     this.setAuth(false);
     this.setUser(null);
     this.setToken('');
