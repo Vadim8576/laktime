@@ -10,20 +10,21 @@ interface IAuthResponse {
     }
 }
 
+const API_KEY = process.env.REACT_APP_API_KEY as string;
 
 const instance: any = axios.create({
     baseURL: 'http://localhost:4000/user/',
     headers: {
         withCredentials: true,
         'Content-Type': 'application/json',
-        'api-key': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+        'api-key': API_KEY,
     }
 });
 
-const body = {
-    email: 'admin101@mail.ru',
-    password: '123'
-}
+// const body = {
+//     email: 'admin101@mail.ru',
+//     password: '123'
+// }
 
 const authAPI = {
     login(payload: any) {

@@ -3,5 +3,5 @@ export const setTokenToLocalStorage = (nameStorage: string, data: string) => {
 }
 
 export const getTokenFromLocalStorage = (nameStorage: string): string => {
-  return localStorage.getItem(nameStorage) || '';
+  return `Bearer ${localStorage.getItem(nameStorage)}` || '';
 }
