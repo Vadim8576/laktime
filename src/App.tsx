@@ -29,7 +29,7 @@ const App = observer(() => {
       <Header />
       <AppRoutes />
       <ConfirmDialog />
-      {/* <Footer /> */}
+      <Footer />
 
     </div>
   )

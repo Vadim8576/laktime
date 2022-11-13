@@ -27,7 +27,7 @@ interface IDeleteButtonBackProps {
 }
 
 const DeleteButtonBack = styled.div<IDeleteButtonBackProps>`
-  opacity: ${(props) => (props.hover ? .8 : .2)};
+  opacity: ${(props) => (props.hover ? 1 : .6)};
   background-color: none;
   transition: .5s all;
   display: flex;

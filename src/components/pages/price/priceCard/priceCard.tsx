@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -12,22 +12,16 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import cardPhoto from '../../../images/manicure.jpg';
+import image from '../../../../images/manicure.jpg';
 import { Button, Grow, Paper, Skeleton } from '@mui/material';
-import ContextMenu from '../../ui/contextMenu';
+import ContextMenu from '../../../ui/contextMenu';
 import { observer } from 'mobx-react-lite';
-import authStore from '../../../store/authStore';
-import { MenuActionType } from './prices';
-import { IPriceList } from '../../../store/storeTypes';
-
-
-
-export interface IContextMenuList {
-  actionName: string;
-  actionType: MenuActionType;
-  confirmed: boolean;
-}
-
+import authStore from '../../../../store/authStore';
+import { MenuActionType } from '../prices';
+import { IPriceList } from '../../../../store/storeTypes';
+import MyCardHeader from './MyCardHeader';
+import MyCardMedia from './myCardMedia';
+import { useLoadImage } from '../../../../hooks/useLoadImage';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -44,15 +38,11 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-
-
-
-interface IPriceCardItemProps {
-  priceList: IPriceList;
-  setMenuActionType: (actionType: MenuActionType) => void;
-  setFormOpen: (formOpen: boolean) => void;
+export interface IContextMenuList {
+  actionName: string;
+  actionType: MenuActionType;
+  confirmed: boolean;
 }
-
 
 const menuItemList: IContextMenuList[] = [
   {
@@ -67,29 +57,25 @@ const menuItemList: IContextMenuList[] = [
   }
 ];
 
+interface IPriceCardItemProps {
+  priceList: IPriceList;
+  setMenuActionType: (actionType: MenuActionType) => void;
+  setFormOpen: (formOpen: boolean) => void;
+}
 
 const PriceCard: React.FC<IPriceCardItemProps> = observer(
   ({ priceList, setMenuActionType, setFormOpen }) => {
 
     const { id, price, servicename, description, active } = priceList;
     const buttonText = active ? 'Записаться' : 'Недоступно';
-    const { isAuth } = authStore;
-    const [imgIsLoading, setImgIsLoading] = React.useState<boolean>(true);
-
-    useEffect(() => {
-      const img = new Image();
-      img.src = cardPhoto;
-      img.onload = () => {
-        setImgIsLoading(false);
-      }
-    }, []);
+    const imgIsLoading = useLoadImage(image);
 
     // context Menu
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const cardMenuOpen = Boolean(anchorEl);
 
     // price Description
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
     const handleExpandClick = useCallback(() => {
       setExpanded(!expanded);
     }, [expanded]);
@@ -116,6 +102,8 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
 
           <MyCardMedia
             imgIsLoading={imgIsLoading}
+            image={image}
+            id={id}
           />
 
           <CardActions disableSpacing>
@@ -186,62 +174,3 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
   })
 
 export default PriceCard;
-
-
-
-interface IMyCardHeaderProps {
-  setAnchorEl: (anchor: null | HTMLElement) => void;
-  servicename: string;
-  id: string;
-}
-
-const MyCardHeader: React.FC<IMyCardHeaderProps> = observer(({ ...props }) => {
-
-  const { isAuth } = authStore;
-
-  const { setAnchorEl, servicename, id } = props;
-  const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
-
-  return (
-    <CardHeader
-      avatar={
-        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-          L
-        </Avatar>
-      }
-      action={
-        <IconButton aria-label="settings" onClick={handleClick} disabled={!isAuth}>
-          <MoreVertIcon />
-        </IconButton>
-      }
-      title={servicename}
-      subheader={id}
-    />
-  )
-})
-
-
-
-
-interface IMyCardMediaProps {
-  imgIsLoading: Boolean;
-}
-
-const MyCardMedia: React.FC<IMyCardMediaProps> = ({ imgIsLoading }) => {
-
-  if (imgIsLoading) return <Skeleton variant="rectangular" animation="wave" width='100%' height={194} />
-
-  return (
-    <CardMedia
-      component="img"
-      height="194"
-      image={cardPhoto}
-      alt="manicure"
-      sx={{
-        background: '#e9e9e9'
-      }}
-    />
-  )
-}

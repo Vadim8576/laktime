@@ -7,14 +7,15 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: #e7ebf0;
+  box-sizing: border-box;
 }
 
 .App {
   width: 100vw;
   height: 100vh;
   overflow-X: hidden;
-  background: url(./images/female-hand-with-white-dandelion-nail-design.jpg);
+  /* background: url(./images/female-hand-with-white-dandelion-nail-design.jpg);
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 

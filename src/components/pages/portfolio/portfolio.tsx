@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import authStore from '../../../store/authStore';
 import portfolioStore from '../../../store/portfolioStore';
 import useConfirm from '../../../hooks/useConfirm';
 import ShowMessage from '../../popupMessages/showMessage';

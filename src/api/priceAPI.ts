@@ -43,6 +43,17 @@ const pricesAPI = {
             })
     },
 
+    getPrice(id: string) {
+        return instance
+            .get(`price/${id}`)
+            .then((response: AxiosResponse<IPriceResponse>) => {
+                return {
+                    data: response.data.data,
+                    status: 'ok'
+                }
+            })
+    },
+
     addPrice(price: IPrice) {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance

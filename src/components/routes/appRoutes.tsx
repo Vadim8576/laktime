@@ -1,14 +1,16 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from "./privateRoute";
 import { Container } from '@mui/material';
 import Loading2 from "../ui/loading2";
+import { PagesTitle } from '../pagesTitle/pagesTitle';
 
-const About = React.lazy(() => import('../pages/about/aboutPage'));
-const Privacy = React.lazy(() => import('../pages/privacy/privacy'));
-const Login = React.lazy(() => import('../pages/login/loginPage'));
-const Price = React.lazy(() => import('../pages/price/pricePage'));
-const Portfolio = React.lazy(() => import('../pages/portfolio/portfolioPage'));
+const About = lazy(() => import('../pages/about/aboutPage'));
+const Privacy = lazy(() => import('../pages/privacy/privacy'));
+const Login = lazy(() => import('../pages/login/loginPage'));
+const Price = lazy(() => import('../pages/price/pricePage'));
+const CardDetail = lazy(() => import('../pages/price/cardDetail'));
+const Portfolio = lazy(() => import('../pages/portfolio/portfolioPage'));
 
 const AppRoutes = () => {
   return (
@@ -17,49 +19,58 @@ const AppRoutes = () => {
       sx={{
         marginBottom: 10,
         position: 'relative',
-        marginTop: '102px'
+        marginTop: '102px',
+        minHeight: 'calc(100vh - 182px)'
       }}
     >
       <Routes>
         <Route
           path='/'
           element={
-            <React.Suspense fallback={<Loading2 />}>
+            <Suspense fallback={<Loading2 />}>
               <About />
-            </React.Suspense>
+            </Suspense>
           }
         />
         <Route
           path='privacy'
           element={
-            <React.Suspense fallback={<Loading2 />}>
+            <Suspense fallback={<Loading2 />}>
               <Privacy />
-            </React.Suspense>
+            </Suspense>
           }
         />
         <Route
           path='login'
           element={
-            <React.Suspense fallback={<Loading2 />}>
+            <Suspense fallback={<Loading2 />}>
               <Login />
-            </React.Suspense>
+            </Suspense>
           }
         />
         <Route
           path='price'
           element={
-            <React.Suspense fallback={<Loading2 />}>
+            <Suspense fallback={<Loading2 />}>
               <Price />
-            </React.Suspense>
+            </Suspense>
+          }
+        />
+        <Route
+          path='card-detail/:id'
+          element={
+            <Suspense fallback={<Loading2 />}>
+              <CardDetail />
+            </Suspense>
           }
         />
         {/* <Route
           path='price'
           element={
             <PrivateRoute>
-              <React.Suspense fallback={<Loading />}>
+              <Suspense fallback={<Loading />}>
                 <Price />
-              </React.Suspense>
+              </Suspense>
             </PrivateRoute>
 
           }
@@ -67,9 +78,15 @@ const AppRoutes = () => {
         <Route
           path='portfolio'
           element={
-            <React.Suspense fallback={<Loading2 />}>
+            <Suspense fallback={<Loading2 />}>
               <Portfolio />
-            </React.Suspense>
+            </Suspense>
+          }
+        />
+        <Route
+          path='*'
+          element={
+            <PagesTitle title='Страница не найдена' />
           }
         />
     </Routes>

@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback, useEffect, useMemo } from 'react';
+import React, { FC, useState, useCallback, useEffect } from 'react';
 import FsLightbox from 'fslightbox-react';
 import { observer } from 'mobx-react-lite';
 import { IPortfolioList } from '../../../store/storeTypes';

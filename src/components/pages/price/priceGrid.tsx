@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import PriceCard from "./priceCard";
+import PriceCard from "./priceCard/priceCard";
 import Grid from '@mui/material/Grid';
 import { observer } from 'mobx-react-lite';
 import priceStore from "../../../store/priceStore";

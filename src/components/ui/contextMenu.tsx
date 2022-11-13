@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
-import { IContextMenuList } from '../pages/price/priceCard';
+import { IContextMenuList } from '../pages/price/priceCard/priceCard';
 import useConfirm from "../../hooks/useConfirm";
 import usePayload from "../../hooks/usePayload";
 import formStore from "../../store/formStore";

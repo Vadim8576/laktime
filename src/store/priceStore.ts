@@ -131,6 +131,23 @@ class PriceStore {
     }
   }
 
+  getPrice = async (id: string) => {
+    this.resetFlags();
+
+    try {
+      const response = await pricesAPI.getPrice(id);
+      if(response.status === 'ok') { 
+        this.setPrices(response.data);
+      }
+    }
+    catch (error: any) {
+      this.setError(getErrorMessage(error).error);
+    }
+    finally {
+      this.setLoading(false);
+    }
+  }
+
 
   getPriceValues(priceId: string): IPrice {
     const value: IPriceList = this.priceList.filter((price) => price.id === priceId)[0];
