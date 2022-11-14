@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { PagesTitle } from '../../pagesTitle/pagesTitle';
+import { PagesTitle } from '../../widgets/pagesTitle';
 import portfolioStore from "../../../store/portfolioStore";
 import { Spiner } from '../../ui/spiner';
 import Portfolio from './portfolio';

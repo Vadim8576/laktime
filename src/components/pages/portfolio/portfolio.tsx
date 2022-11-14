@@ -4,7 +4,7 @@ import portfolioStore from '../../../store/portfolioStore';
 import useConfirm from '../../../hooks/useConfirm';
 import ShowMessage from '../../popupMessages/showMessage';
 import PortfolioGrid from './portfolioGrid';
-import EditPanel from '../../ui/EditPanel';
+import EditPanel from '../../widgets/EditPanel';
 import PhotosGalery from './photosGalary';
 
 

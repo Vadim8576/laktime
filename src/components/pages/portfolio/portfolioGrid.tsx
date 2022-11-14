@@ -2,7 +2,7 @@ import React, { FC, useEffect } from "react";
 import { ImageList } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import Box from '@mui/material/Box';
-import NoData from '../../noData';
+import NoData from '../../widgets/noData';
 import useMediaQueryMatches from '../../../hooks/useMediaQueryMatches';
 import ImageItem from './imageItem';
 

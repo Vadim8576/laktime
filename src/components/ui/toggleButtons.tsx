@@ -23,7 +23,7 @@ export const ToggleButtons: React.FC<IToggleButtonProps> = ({ view, toggleButton
         exclusive
         onChange={toggleButtonChange}
       >
-        < ToggleButton value='module' aria-label='module'>
+        <ToggleButton value='module' aria-label='module'>
           <ViewModuleIcon />
         </ToggleButton>
         <ToggleButton value='list' aria-label='list'>

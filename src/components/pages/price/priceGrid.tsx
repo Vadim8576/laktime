@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import priceStore from "../../../store/priceStore";
 import { MenuActionType } from './prices';
 import { IPriceList } from '../../../store/storeTypes';
-import NoData from "../../noData";
+import NoData from "../../widgets/noData";
 
 
 

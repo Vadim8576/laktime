@@ -11,6 +11,7 @@ const PortfolioArea = styled.div`
   flex-direction: row;
   width: 100%;
   min-width: 300px;
+  margin-top: 150px;
 `
 const PortfolioItem = styled.div`
   width: 200px;

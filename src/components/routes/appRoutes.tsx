@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from "./privateRoute";
 import { Container } from '@mui/material';
 import Loading2 from "../ui/loading2";
-import { PagesTitle } from '../pagesTitle/pagesTitle';
+import { PagesTitle } from '../widgets/pagesTitle';
 
 const About = lazy(() => import('../pages/about/aboutPage'));
 const Privacy = lazy(() => import('../pages/privacy/privacy'));

@@ -7,7 +7,7 @@ import priceStore from '../../../store/priceStore';
 import formStore from '../../../store/formStore';
 import useConfirm from '../../../hooks/useConfirm';
 import usePayload from '../../../hooks/usePayload';
-import EditPanel from '../../ui/EditPanel';
+import EditPanel from '../../widgets/EditPanel';
 
 
 export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL';

@@ -1,5 +1,5 @@
 import React from "react";
-import { PagesTitle } from '../../pagesTitle/pagesTitle';
+import { PagesTitle } from '../../widgets/pagesTitle';
 import { Spiner } from '../../ui/spiner';
 import { observer } from "mobx-react-lite";
 import { privacyText } from './privacyText';

@@ -59,7 +59,7 @@ const DeleteButton: FC<IDeleteButtonProps> = observer(({ ...props }) => {
     setHover(false);
   }, [])
 
-  if(!isAuth) return null;
+  if (!isAuth) return null;
 
   return (
     <DeleteButtonContainer
@@ -71,7 +71,7 @@ const DeleteButton: FC<IDeleteButtonProps> = observer(({ ...props }) => {
         hover={hover}
         onClick={handlerClick}
       >
-        <DeleteForeverOutlinedIcon fontSize='large' sx={{color: '#fff'}}/>
+        <DeleteForeverOutlinedIcon fontSize='large' sx={{ color: '#fff' }} />
       </DeleteButtonBack>
     </DeleteButtonContainer>
   )

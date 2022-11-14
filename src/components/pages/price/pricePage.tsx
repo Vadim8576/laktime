@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { PagesTitle } from '../../pagesTitle/pagesTitle'
+import { PagesTitle } from '../../widgets/pagesTitle'
 import { observer } from 'mobx-react-lite';
 import priceStore from "../../../store/priceStore";
 import { Spiner } from '../../ui/spiner';
