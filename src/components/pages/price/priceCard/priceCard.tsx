@@ -1,22 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import image from '../../../../images/manicure.jpg';
-import { Button, Grow, Paper, Skeleton } from '@mui/material';
+import { Button, Grow, Paper } from '@mui/material';
 import ContextMenu from '../../../ui/contextMenu';
 import { observer } from 'mobx-react-lite';
-import authStore from '../../../../store/authStore';
 import { MenuActionType } from '../prices';
 import { IPriceList } from '../../../../store/storeTypes';
 import MyCardHeader from './MyCardHeader';
@@ -81,9 +75,15 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
     }, [expanded]);
 
 
+    
+
     return (
       <Grow in={true}>
-        <Card sx={{ minWidth: 250 }}>
+        <Card
+          sx={{
+            minWidth: 250,
+          }}
+        >
           <MyCardHeader
             setAnchorEl={setAnchorEl}
             servicename={servicename}
@@ -159,14 +159,11 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
                 size="medium"
                 color="primary"
                 variant="outlined"
-                sx={{
-                  letterSpacing: '1px'
-                }}
               >
                 {buttonText}
               </Button>
             </Paper>
-            Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь c Политикой Конфиденциальности
+            <p>Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь c Политикой Конфиденциальности</p>
           </CardContent>
         </Card>
       </Grow>

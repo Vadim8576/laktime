@@ -7,22 +7,25 @@ import { observer } from "mobx-react-lite";
 import PortfolioExamples from '../../widgets/portfolioExamples';
 import FlexContainer from '../../widgets/flexContainer';
 
+const style = {
+  color: 'black', fontSize: '22px', marginTop: '0'
+}
 
 const content = <>
-  <p style={{ color: 'black', fontSize: '22px' }}>
+  <p style={style}>
     Нет ничего лучше нового маникюра!
     Вы не полностью одеты, пока не сделаете маникюр.
     Счастье нельзя купить, но можно купить маникюр.
     Хороший маникюр дополнит ваш образ.
   </p>
-  <p style={{ color: 'black', fontSize: '22px' }}>
+  <p style={style}>
     У самых счастливых девушек самый красивый маникюр.
     Красивые ногти!
     Красивые ногти для красивой леди.
     Идеальный маникюр.
     Искусный нейл-арт.
   </p>
-  <p style={{ color: 'black', fontSize: '22px' }}>
+  <p style={style}>
     Полюбите свои ногти немного больше.
     Влюбись в искусство.
     Дизайн, который заставит вас вернуться к нам.
@@ -31,7 +34,7 @@ const content = <>
     Ногтевой сервис по доступным ценам.
     Просто гламур.
   </p>
-  <p style={{ color: 'black', fontSize: '22px' }}>
+  <p style={style}>
     Время украсить себя.
     Балуй себя.
     Выбери красоту.

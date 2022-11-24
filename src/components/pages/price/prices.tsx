@@ -8,6 +8,8 @@ import formStore from '../../../store/formStore';
 import useConfirm from '../../../hooks/useConfirm';
 import usePayload from '../../../hooks/usePayload';
 import EditPanel from '../../widgets/EditPanel';
+import PriceGrid2 from './priceGrid2';
+import PortfolioExamples from '../../widgets/portfolioExamples';
 
 
 export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL';
@@ -42,10 +44,12 @@ const Prices = observer(() => {
         success={priceSuccess}
       />
 
-      <PriceGrid
+      <PriceGrid2
         setFormOpen={setFormOpen}
         setMenuActionType={setMenuActionType}
       />
+
+      <PortfolioExamples />
 
       <PriceForm
         formOpen={formOpen}

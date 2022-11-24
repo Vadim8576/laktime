@@ -11,11 +11,11 @@ import ImageSpiner from '../../ui/imageSpiner';
 
 
 
-interface ImgProps {
+interface IImgProps {
   transparency: boolean;
 }
 
-const Img = styled.img<ImgProps>`
+const Img = styled.img<IImgProps>`
   opacity: ${(props) => (props.transparency ? 0 : 1)};
   transition: 1s all;
   object-fit: cover;
@@ -24,7 +24,6 @@ const Img = styled.img<ImgProps>`
   flex-grow: 1;
   &:hover {
     cursor: pointer;
-    
   }
 `
 
