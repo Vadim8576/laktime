@@ -1,22 +1,22 @@
-import { observer } from 'mobx-react-lite';
 import React from 'react';
-import ShowMessage from '../../popupMessages/showMessage';
-import PriceGrid from './priceGrid';
-import PriceForm from './priceForm';
-import priceStore from '../../../store/priceStore';
-import formStore from '../../../store/formStore';
-import useConfirm from '../../../hooks/useConfirm';
-import usePayload from '../../../hooks/usePayload';
-import EditPanel from '../../widgets/EditPanel';
-import PriceGrid2 from './priceGrid2';
-import PortfolioExamples from '../../widgets/portfolioExamples';
+import { observer } from 'mobx-react-lite';
+import ShowMessage from '../../../popupMessages/showMessage';
+// import ShowMessage from '../../../popupMessages';
+import ServicesForm from '../forms/servicesForm';
+import servicesStore from '../../../../store/servicesStore';
+import formStore from '../../../../store/formStore';
+import useConfirm from '../../../../hooks/useConfirm';
+import usePayload from '../../../../hooks/usePayload';
+import EditPanel from '../../../widgets/EditPanel';
+import ServicesGrid from './servicesGrids/grid2/servicesGrid';
+import PortfolioExamples from '../../../widgets/portfolioExamples';
 
 
 export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL';
 
-const Prices = observer(() => {
+const ServicesPage = observer(() => {
 
-  const { priceError, priceSuccess } = priceStore;
+  const { servicesError, servicesSuccess } = servicesStore;
   const [ formOpen, setFormOpen ] = React.useState<boolean>(false);
   const [ menuActionType, setMenuActionType ] = React.useState<MenuActionType>('');
   const { confirm } = useConfirm();
@@ -40,18 +40,18 @@ const Prices = observer(() => {
   return (
     <>
       <ShowMessage
-        error={priceError}
-        success={priceSuccess}
+        error={servicesError}
+        success={servicesSuccess}
       />
 
-      <PriceGrid2
+      <ServicesGrid
         setFormOpen={setFormOpen}
         setMenuActionType={setMenuActionType}
       />
 
       <PortfolioExamples />
 
-      <PriceForm
+      <ServicesForm
         formOpen={formOpen}
         setFormOpen={setFormOpen}
         menuActionType={menuActionType}
@@ -67,4 +67,4 @@ const Prices = observer(() => {
 })
 
 
-export default Prices;
+export default ServicesPage;

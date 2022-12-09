@@ -18,9 +18,9 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 {/* <Link style={{ color: 'yellow' }} to='../login'>login</Link> */}
 const mainMenuItems = [
 	{text: 'О Лактайм', link: '../'},
-	{text: 'Услуги и цены', link: '../price'},
+	{text: 'Услуги и цены', link: '../services'},
 	{text: 'Портфолио', link: '../portfolio'},
-	{text: 'Запись online', link: '../price'},
+	{text: 'Запись online', link: '../services'},
 	{text: 'Контакты', link: '../'},
 ]
 

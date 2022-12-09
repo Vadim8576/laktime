@@ -8,8 +8,8 @@ import { PagesTitle } from '../widgets/pagesTitle';
 const About = lazy(() => import('../pages/about/aboutPage'));
 const Privacy = lazy(() => import('../pages/privacy/privacy'));
 const Login = lazy(() => import('../pages/login/loginPage'));
-const Price = lazy(() => import('../pages/price/pricePage'));
-const CardDetail = lazy(() => import('../pages/price/cardDetail'));
+const Services = lazy(() => import('../pages/services/servicesListPage/servicesPageContainer'));
+const CardDetail = lazy(() => import('../pages/services/detailsPage/serviceDetails'));
 const Portfolio = lazy(() => import('../pages/portfolio/portfolioPage'));
 
 const AppRoutes = () => {
@@ -49,10 +49,10 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path='price'
+          path='services'
           element={
             <Suspense fallback={<Loading2 />}>
-              <Price />
+              <Services />
             </Suspense>
           }
         />
@@ -65,11 +65,11 @@ const AppRoutes = () => {
           }
         />
         {/* <Route
-          path='price'
+          path='services'
           element={
             <PrivateRoute>
               <Suspense fallback={<Loading />}>
-                <Price />
+                <Services />
               </Suspense>
             </PrivateRoute>
 

@@ -9,13 +9,13 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import image from '../../../../images/manicure.jpg';
 import { Button, Grow, Paper } from '@mui/material';
-import ContextMenu from '../../../ui/contextMenu';
+import ContextMenu from '../../../../../../ui/contextMenu';
 import { observer } from 'mobx-react-lite';
-import { MenuActionType } from '../prices';
-import { IPriceList } from '../../../../store/storeTypes';
+import { MenuActionType } from '../../../servicesPage';
+import { IServicesList } from '../../../../../../../store/storeTypes';
 import MyCardHeader from './MyCardHeader';
 import MyCardMedia from './myCardMedia';
-import { useLoadImage } from '../../../../hooks/useLoadImage';
+import { useLoadImage } from '../../../../../../../hooks/useLoadImage';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -51,16 +51,16 @@ const menuItemList: IContextMenuList[] = [
   }
 ];
 
-interface IPriceCardItemProps {
-  priceList: IPriceList;
+interface IServicesCardItemProps {
+  service: IServicesList;
   setMenuActionType: (actionType: MenuActionType) => void;
   setFormOpen: (formOpen: boolean) => void;
 }
 
-const PriceCard: React.FC<IPriceCardItemProps> = observer(
-  ({ priceList, setMenuActionType, setFormOpen }) => {
+const SrviceCard: React.FC<IServicesCardItemProps> = observer(
+  ({ service, setMenuActionType, setFormOpen }) => {
 
-    const { id, price, servicename, description, active } = priceList;
+    const { id, price, servicename, description, active } = service;
     const buttonText = active ? 'Записаться' : 'Недоступно';
     const imgIsLoading = useLoadImage(image);
 
@@ -170,4 +170,4 @@ const PriceCard: React.FC<IPriceCardItemProps> = observer(
     );
   })
 
-export default PriceCard;
+export default SrviceCard;

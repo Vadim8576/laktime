@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import authStore from "../../../../store/authStore";
+import authStore from "../../../../../../../store/authStore";
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import { red } from "@mui/material/colors";

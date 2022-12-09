@@ -12,7 +12,6 @@ export interface Event<T = EventTarget> {
   target: T;
 }
 
-export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL';
 
 interface IPortfolioProps {
   // error: string;

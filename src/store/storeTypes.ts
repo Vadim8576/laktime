@@ -1,13 +1,13 @@
 export type IUser = string | null;
 
-export interface IPrice {
+export interface IService {
   servicename: string;
   price: string;
   description: string;
   active: boolean;
 }
 
-export interface IPriceList extends IPrice {
+export interface IServicesList extends IService {
   id: string;
 }
 

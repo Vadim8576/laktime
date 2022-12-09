@@ -1,3 +1,7 @@
+:root {
+  --main-bg-color: #e7ebf0;
+}
+
 html {
   font-size: 14px;
 }
@@ -6,7 +10,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #e7ebf0;
+  background-color: var(--main-bg-color);
   box-sizing: border-box;
 }
 

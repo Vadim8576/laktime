@@ -1,5 +1,5 @@
 import formStore from "../store/formStore";
-import { MenuActionType } from '../components/pages/price/prices';
+import { MenuActionType } from '../components/pages/services/servicesListPage/servicesPage';
 
 
 

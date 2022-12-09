@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { getTokenFromLocalStorage } from '../helpers/localStorage';
 import { toJS } from 'mobx';
-import { IPrice } from '../store/storeTypes';
+import { IService } from '../store/storeTypes';
 
 
-interface IPriceResponse {
+interface IServiceResponse {
     data: {
         id: number;
         service: string;
@@ -31,11 +31,11 @@ const instance: any = axios.create({
 });
 
 
-const pricesAPI = {
-    getPrices() {
+const servicesAPI = {
+    getServices() {
         return instance
-            .get('price')
-            .then((response: AxiosResponse<IPriceResponse>) => {
+            .get('services')
+            .then((response: AxiosResponse<IServiceResponse>) => {
                 return {
                     data: response.data.data,
                     status: 'ok'
@@ -43,10 +43,10 @@ const pricesAPI = {
             })
     },
 
-    getPrice(id: string) {
+    getService(id: string) {
         return instance
-            .get(`price/${id}`)
-            .then((response: AxiosResponse<IPriceResponse>) => {
+            .get(`services/${id}`)
+            .then((response: AxiosResponse<IServiceResponse>) => {
                 return {
                     data: response.data.data,
                     status: 'ok'
@@ -54,11 +54,11 @@ const pricesAPI = {
             })
     },
 
-    addPrice(price: IPrice) {
+    addService(service: IService) {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
-            .post(`price/`, {...price})
-            .then((response: AxiosResponse<IPriceResponse>) => {
+            .post(`services/`, {...service})
+            .then((response: AxiosResponse<IServiceResponse>) => {
                 console.log(response)
                 return {
                     data: response.data.data,
@@ -67,11 +67,11 @@ const pricesAPI = {
             })
     },
 
-    patchPrice(id: string, price: IPrice) {    
+    patchService(id: string, service: IService) {    
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
-            .put(`price/${id}`, {...price})
-            .then((response: AxiosResponse<IPriceResponse>) => {
+            .put(`services/${id}`, {...service})
+            .then((response: AxiosResponse<IServiceResponse>) => {
                 console.log(response)
                 return {
                     data: response.data.data,
@@ -80,11 +80,11 @@ const pricesAPI = {
             })
     },
 
-    deletePrice(id: string) {
+    deleteService(id: string) {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
-            .delete(`price/${id}`)
-            .then((response: AxiosResponse<IPriceResponse>) => {
+            .delete(`services/${id}`)
+            .then((response: AxiosResponse<IServiceResponse>) => {
                 console.log(response)
                 return {
                     data: response.data.data,
@@ -93,11 +93,11 @@ const pricesAPI = {
             })
     },
     
-    deleteAllPrice() {
+    deleteAllServices() {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
-            .delete(`price/`)
-            .then((response: AxiosResponse<IPriceResponse>) => {
+            .delete(`services/`)
+            .then((response: AxiosResponse<IServiceResponse>) => {
                 console.log(response)
                 return {
                     data: response.data.data,
@@ -108,5 +108,5 @@ const pricesAPI = {
 
 }
 
-export default pricesAPI;
+export default servicesAPI;
 

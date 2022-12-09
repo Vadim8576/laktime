@@ -1,15 +1,15 @@
 import { makeAutoObservable, toJS } from "mobx";
-import pricesAPI from "../api/priceAPI";
-import { IPriceList, IPrice } from './storeTypes';
+import servicesAPI from "../api/servicesAPI";
+import { IServicesList, IService } from './storeTypes';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import authStore from "./authStore";
 
 
-class PriceStore {
-  priceList: IPriceList[] = [];
-  priceIsLoading: boolean = true;
-  priceError: string = '';
-  priceSuccess: boolean = false;
+class ServicesStore {
+  servicesList: IServicesList[] = [];
+  servicesIsLoading: boolean = true;
+  servicesError: string = '';
+  servicesSuccess: boolean = false;
   logout = authStore.logout;
 
   constructor() {
@@ -22,30 +22,30 @@ class PriceStore {
     this.setSuccess(false);    
   }
 
-  setPrices = (prices: IPriceList[]) => {
-    this.priceList = prices;
+  setServices = (services: IServicesList[]) => {
+    this.servicesList = services;
   }
 
-  setLoading = (priceIsLoading: boolean) => {
-    this.priceIsLoading = priceIsLoading;
+  setLoading = (servicesIsLoading: boolean) => {
+    this.servicesIsLoading = servicesIsLoading;
   }
 
   setError = (error: string) => {
-    this.priceError = error;
+    this.servicesError = error;
   }
 
   setSuccess = (success: boolean) => {
-    this.priceSuccess = success;
+    this.servicesSuccess = success;
   }
 
-  addPrice = async (price: IPrice) => {
+  addService = async (service: IService) => {
     this.resetFlags();
 
     try {
-      const response = await pricesAPI.addPrice(price);
+      const response = await servicesAPI.addService(service);
       if(response.status === 'ok') { 
         this.setSuccess(true);
-        this.setPrices(response.data);
+        this.setServices(response.data);
       }
     }
     catch (error: any) {
@@ -57,13 +57,13 @@ class PriceStore {
     }
   }
 
-  patchPrice = async (id: string, price: IPrice) => {
+  patchService = async (id: string, service: IService) => {
     this.resetFlags();
     try {
-      const response = await pricesAPI.patchPrice(id, price);
+      const response = await servicesAPI.patchService(id, service);
       if(response.status === 'ok') { 
         this.setSuccess(true);
-        this.setPrices(response.data);
+        this.setServices(response.data);
       }
     }
     catch (error: any) {
@@ -75,14 +75,14 @@ class PriceStore {
     }
   }
 
-  deletePrice = async (id: string) => {
+  deleteService = async (id: string) => {
     this.resetFlags();
 
     try {
-      const response = await pricesAPI.deletePrice(id);
+      const response = await servicesAPI.deleteService(id);
       if(response.status === 'ok') { 
         this.setSuccess(true);
-        this.setPrices(response.data);
+        this.setServices(response.data);
       }
     }
     catch (error: any) {
@@ -95,14 +95,14 @@ class PriceStore {
     
   }
 
-  deleteAllPrice = async () => {
+  deleteAllServices = async () => {
     this.resetFlags();
 
     try {
-      const response = await pricesAPI.deleteAllPrice();
+      const response = await servicesAPI.deleteAllServices();
       if(response.status === 'ok') { 
         this.setSuccess(true);
-        this.setPrices([]);
+        this.setServices([]);
       }
     }
     catch (error: any) {
@@ -114,13 +114,13 @@ class PriceStore {
     }
   }
 
-  getPrices = async () => {
+  getServices = async () => {
     this.resetFlags();
 
     try {
-      const response = await pricesAPI.getPrices();
+      const response = await servicesAPI.getServices();
       if(response.status === 'ok') { 
-        this.setPrices(response.data);
+        this.setServices(response.data);
       }
     }
     catch (error: any) {
@@ -131,13 +131,13 @@ class PriceStore {
     }
   }
 
-  getPrice = async (id: string) => {
+  getService = async (id: string) => {
     this.resetFlags();
 
     try {
-      const response = await pricesAPI.getPrice(id);
+      const response = await servicesAPI.getService(id);
       if(response.status === 'ok') { 
-        this.setPrices(response.data);
+        this.setServices(response.data);
       }
     }
     catch (error: any) {
@@ -149,23 +149,23 @@ class PriceStore {
   }
 
 
-  getPriceValues(priceId: string): IPrice {
-    const value: IPriceList = this.priceList.filter((price) => price.id === priceId)[0];
+  getServiceValues(serviceId: string): IService {
+    const value: IServicesList = this.servicesList.filter((service) => service.id === serviceId)[0];
     const  { id, ...newValue } = value;
     return newValue;
   }
 
-  get sortPrice() {
+  get sortServices() {
     const sort = 'id'; //сотировка по ID
     // переписать функцию для сортировки по буквам
     // const sort = 'servicename'; //сотировка по ID
-    return [...this.priceList].sort((a: IPriceList, b: IPriceList) => parseInt(a[sort]) - parseInt(b[sort]));
+    return [...this.servicesList].sort((a: IServicesList, b: IServicesList) => parseInt(a[sort]) - parseInt(b[sort]));
   }
 
-  get priceListLength() {
-    return this.priceList.length;
+  get servicesListLength() {
+    return this.servicesList.length;
   }
 
 }
 
-export default new PriceStore();
+export default new ServicesStore();

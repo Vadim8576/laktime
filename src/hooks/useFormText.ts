@@ -1,6 +1,6 @@
-import { IPrice } from '../store/storeTypes';
+import { IService } from '../store/storeTypes';
 
-const useFormText = (defaultFormData: IPrice) => {
+const useFormText = (defaultFormData: IService) => {
   return (
     defaultFormData.servicename == '' &&
     defaultFormData.price == '' &&

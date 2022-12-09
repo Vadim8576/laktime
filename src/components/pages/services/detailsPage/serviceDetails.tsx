@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
-import priceStore from "../../../store/priceStore";
-import image from '../../../images/professional-manicure-tools.jpg';
+import servicesStore from "../../../../store/servicesStore";
+import image from '../../../../images/professional-manicure-tools.jpg';
 import { observer } from "mobx-react-lite";
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import PortfolioExamples from "../../widgets/portfolioExamples";
-import FlexContainer from "../../widgets/flexContainer";
+import PortfolioExamples from "../../../widgets/portfolioExamples";
+import FlexContainer from "../../../widgets/flexContainer";
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 
 interface CardDetail {
@@ -19,11 +19,11 @@ const CardDetail: FC<CardDetail> = observer(() => {
   if (!id) return null;
 
   const navigate = useNavigate();
-  const { getPrice, priceList } = priceStore;
-  const priceItem = priceList[0];
+  const { getService, servicesList } = servicesStore;
+  const serviceItem = servicesList[0];
 
   useEffect(() => {
-    if (id) getPrice(id);
+    if (id) getService(id);
   }, [])
 
 
@@ -43,8 +43,8 @@ const CardDetail: FC<CardDetail> = observer(() => {
         textSide='right'
         image={image}
       >
-        <h1>{priceItem?.servicename}</h1>
-        <h3>{priceItem?.description}</h3>
+        <h1>{serviceItem?.servicename}</h1>
+        <h3>{serviceItem?.description}</h3>
         <Typography
           gutterBottom
           variant="h6"
@@ -54,7 +54,7 @@ const CardDetail: FC<CardDetail> = observer(() => {
             textAlign: 'left'
           }}
         >
-          {priceItem?.price} &#8381;
+          {serviceItem?.price} &#8381;
         </Typography>
         <Button
           size="medium"

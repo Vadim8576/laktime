@@ -1,12 +1,12 @@
 import React, { useEffect, useCallback } from "react";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
-import { IContextMenuList } from '../pages/price/priceCard/priceCard';
+import { IContextMenuList } from '../pages/services/servicesListPage/servicesGrids/grid1/serviceCard/card';
 import useConfirm from "../../hooks/useConfirm";
 import usePayload from "../../hooks/usePayload";
 import formStore from "../../store/formStore";
-import priceStore from "../../store/priceStore";
-import { MenuActionType } from '../pages/price/prices';
+import servicesStore from "../../store/servicesStore";
+import { MenuActionType } from '../pages/services/servicesListPage/servicesPage';
 
 
 interface ICardMenuProps {
@@ -45,7 +45,7 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
           formOnSubmit(type);
           break;
         case 'EDIT':
-          const data = priceStore.getPriceValues(id);
+          const data = servicesStore.getServiceValues(id);
           formStore.setDefaultFormData(data);
           setMenuActionType(type);
           setFormOpen(true);
@@ -58,17 +58,17 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
   }, [isConfirmed])
 
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     setAnchorEl(null);
-  }, []);
+  };
 
-  const handleClick = useCallback((index: number) => {
-    const ind: string = index.toString();
+  const handleClick = (index: number) => {
+    const ind: string = index + '';
     const confirmed = menuItemList[index].confirmed;
     setItemNumber(index);
     confirmed ? showConfirm(ind) : setIsConfirmed(true);
     handleClose();
-  }, []);
+  }
 
   const showConfirm = async (ind: string) => {
     const confirmed = await confirm('Вы уверены?')

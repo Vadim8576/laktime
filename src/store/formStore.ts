@@ -1,13 +1,14 @@
 import { makeAutoObservable } from "mobx";
-import priceStore from "./priceStore";
-import { MenuActionType } from '../components/pages/price/prices';
-import { IPrice } from './storeTypes';
+import servicesStore from "./servicesStore";
+import { MenuActionType } from '../components/pages/services/servicesListPage/servicesPage';
+import { IService } from './storeTypes';
 
+const { addService, patchService, deleteService, deleteAllServices } = servicesStore;
 
 class FormStore {
   payload: any = null;
   id: string = '';
-  defaultFormData: IPrice = {
+  defaultFormData: IService = {
     servicename: '',
     price: '',
     description: '',
@@ -18,7 +19,7 @@ class FormStore {
     makeAutoObservable(this);
   }
 
-  setDefaultFormData = (data: IPrice) => {
+  setDefaultFormData = (data: IService) => {
     this.defaultFormData = data;
   }
 
@@ -40,20 +41,22 @@ class FormStore {
     this.id = id;
   }
 
+  
+
   onSubmit = (type: MenuActionType) => {
     console.log(type)
     switch(type) {
       case 'ADD':
-        priceStore.addPrice(this.payload);
+        addService(this.payload);
         break;
       case 'EDIT':
-        priceStore.patchPrice(this.id, this.payload);
+        patchService(this.id, this.payload);
         break;
       case 'DELETE':
-        priceStore.deletePrice(this.id);
+        deleteService(this.id);
         break;
       case 'DELETE-ALL':
-        priceStore.deleteAllPrice();
+        deleteAllServices();
         break;
       default:
         return

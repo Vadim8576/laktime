@@ -57,11 +57,10 @@ const HeaderAppBar: React.FC<AppBarProps> = observer(({ setMenuState }) => {
 					</IconButton>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						Laktime
-
 					</Typography>
-					
+
 					<Link style={{ color: 'yellow' }} to='../login'>login</Link>
-					<Link style={{ color: 'yellow' }} to='../price'>Прайс</Link>
+					<Link style={{ color: 'yellow' }} to='../services'>Прайс</Link>
 					<Link style={{ color: 'yellow' }} to='../portfolio'>Портфолио</Link>
 
 					{isAuth

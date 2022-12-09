@@ -10,26 +10,26 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Checkbox, FormControlLabel } from '@mui/material';
-import usePayload from '../../../hooks/usePayload';
+import usePayload from '../../../../hooks/usePayload';
 import { observer } from 'mobx-react-lite';
-import formStore from '../../../store/formStore';
-import useFormText from '../../../hooks/useFormText';
+import formStore from '../../../../store/formStore';
+import useFormText from '../../../../hooks/useFormText';
 import { useState } from 'react';
-import { MenuActionType } from './prices';
-import ChangeImage from './changeImage';
-import { IPrice } from '../../../store/storeTypes';
+import { MenuActionType } from '../servicesListPage/servicesPage';
+import ChangeImage from '../../../widgets/changeImage';
+import { IService } from '../../../../store/storeTypes';
 
 
-interface IPriceFormProps {
+interface IServiceFormProps {
   formOpen: boolean;
   setFormOpen: (formOpen: boolean) => void;
   menuActionType: MenuActionType;
 }
 
-const PriceForm: React.FC<IPriceFormProps> = observer(({ formOpen, setFormOpen, menuActionType }) => {
+const servicesForm: React.FC<IServiceFormProps> = observer(({ formOpen, setFormOpen, menuActionType }) => {
 
   // получаем дефолтные данные формы из стора
-  const defaultFormData: IPrice = formStore.defaultFormData;
+  const defaultFormData: IService = formStore.defaultFormData;
 
   const [checkBoxState, setCheckBoxState] = useState<boolean>(defaultFormData.active);
   const formTittle = useFormText(defaultFormData);
@@ -54,7 +54,7 @@ const PriceForm: React.FC<IPriceFormProps> = observer(({ formOpen, setFormOpen, 
     control,
     formState: { errors },
     reset
-  } = useForm<IPrice>({
+  } = useForm<IService>({
     resolver: yupResolver(validationSchema)
   });
 
@@ -153,7 +153,7 @@ const PriceForm: React.FC<IPriceFormProps> = observer(({ formOpen, setFormOpen, 
   );
 })
 
-export default PriceForm;
+export default servicesForm;
 
 
 
