@@ -1,25 +1,24 @@
 import React, { useEffect, useCallback } from "react";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
-import { IContextMenuList } from '../pages/services/servicesListPage/servicesGrids/grid1/serviceCard/card';
 import useConfirm from "../../hooks/useConfirm";
 import usePayload from "../../hooks/usePayload";
 import formStore from "../../store/formStore";
 import servicesStore from "../../store/servicesStore";
-import { MenuActionType } from '../pages/services/servicesListPage/servicesPage';
+import { IServicesContextMenu, MenuActionType } from '../../types/types';
 
 
-interface ICardMenuProps {
+interface IContextMenuProps {
   anchorEl: null | HTMLElement;
   setAnchorEl: (anchorEl: null | HTMLElement) => void;
   cardMenuOpen: boolean;
-  menuItemList: IContextMenuList[];
+  menuItemList: IServicesContextMenu[];
   id: string;
   setMenuActionType: (actionType: MenuActionType) => void;
   setFormOpen: (formOpen: boolean) => void;
 }
 
-const ContextMenu: React.FC<ICardMenuProps> = ({
+const ContextMenu: React.FC<IContextMenuProps> = ({
   anchorEl,
   setAnchorEl,
   cardMenuOpen,
@@ -28,7 +27,6 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
   setMenuActionType,
   setFormOpen
 }) => {
-
 
   const [isConfirmed, setIsConfirmed] = React.useState<boolean>(false);
   const [itemNumber, setItemNumber] = React.useState<number | null>(null);
@@ -86,7 +84,7 @@ const ContextMenu: React.FC<ICardMenuProps> = ({
         'aria-labelledby': 'basic-button',
       }}
     >
-      {menuItemList.map((menuItem: IContextMenuList, index: number) => {
+      {menuItemList.map((menuItem: IServicesContextMenu, index: number) => {
         return (
           <MenuItem key={menuItem.actionName} onClick={() => handleClick(index)} >
             <ListItemIcon>

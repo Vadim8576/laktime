@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Typography } from "@mui/material";
 
-export interface IPageTitleProps {
+interface IPageTitleProps {
   title: string;
 }
 

@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import servicesStore from "./servicesStore";
-import { MenuActionType } from '../components/pages/services/servicesListPage/servicesPage';
-import { IService } from './storeTypes';
+import { MenuActionType } from '../types/types';
+import { IService } from '../types/types';
 
 const { addService, patchService, deleteService, deleteAllServices } = servicesStore;
 
@@ -43,7 +43,7 @@ class FormStore {
 
   
 
-  onSubmit = (type: MenuActionType) => {
+  onSubmit = (type: MenuActionType, idsOfSelectedItems: number[]) => {
     console.log(type)
     switch(type) {
       case 'ADD':
@@ -56,7 +56,11 @@ class FormStore {
         deleteService(this.id);
         break;
       case 'DELETE-ALL':
-        deleteAllServices();
+        deleteAllServices(idsOfSelectedItems);
+        break;
+      case 'DELETE-ARRAY':
+        deleteAllServices(idsOfSelectedItems);
+        console.log('Удалить выбранные')
         break;
       default:
         return

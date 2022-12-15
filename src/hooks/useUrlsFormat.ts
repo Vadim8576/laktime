@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { IPortfolioList } from '../store/storeTypes';
+import { IPortfolioList } from '../types/types';
 
 const baseUrl = 'http://localhost:4000/images/';
 

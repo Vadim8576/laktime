@@ -6,7 +6,7 @@ import NoData from '../../widgets/noData';
 import useMediaQueryMatches from '../../../hooks/useMediaQueryMatches';
 import ImageItem from './imageItem';
 
-import { IPortfolioList } from '../../../store/storeTypes';
+import { IPortfolioList } from '../../../types/types';
 
 
 interface IPortfolioGridProps {

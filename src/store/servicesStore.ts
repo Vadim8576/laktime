@@ -1,6 +1,6 @@
 import { makeAutoObservable, toJS } from "mobx";
 import servicesAPI from "../api/servicesAPI";
-import { IServicesList, IService } from './storeTypes';
+import { IServicesList, IService } from '../types/types';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import authStore from "./authStore";
 
@@ -95,14 +95,15 @@ class ServicesStore {
     
   }
 
-  deleteAllServices = async () => {
+  deleteAllServices = async (checkedItems: number[]) => {
     this.resetFlags();
 
     try {
-      const response = await servicesAPI.deleteAllServices();
+      const response = await servicesAPI.deleteAllServices(checkedItems);
       if(response.status === 'ok') { 
         this.setSuccess(true);
-        this.setServices([]);
+        // this.setServices([]);
+        this.setServices(response.data);
       }
     }
     catch (error: any) {

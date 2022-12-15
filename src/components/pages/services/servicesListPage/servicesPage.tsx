@@ -1,30 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import ShowMessage from '../../../popupMessages/showMessage';
-// import ShowMessage from '../../../popupMessages';
 import ServicesForm from '../forms/servicesForm';
 import servicesStore from '../../../../store/servicesStore';
 import formStore from '../../../../store/formStore';
 import useConfirm from '../../../../hooks/useConfirm';
 import usePayload from '../../../../hooks/usePayload';
 import EditPanel from '../../../widgets/EditPanel';
-import ServicesGrid from './servicesGrids/grid2/servicesGrid';
+import ServicesList from './servicesList';
 import PortfolioExamples from '../../../widgets/portfolioExamples';
+import { IDeleteButtonText, MenuActionType } from '../../../../types/types';
 
 
-export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL';
 
 const ServicesPage = observer(() => {
-
   const { servicesError, servicesSuccess } = servicesStore;
-  const [ formOpen, setFormOpen ] = React.useState<boolean>(false);
-  const [ menuActionType, setMenuActionType ] = React.useState<MenuActionType>('');
+  const [ formOpen, setFormOpen ] = useState<boolean>(false);
+  const [ menuActionType, setMenuActionType ] = useState<MenuActionType>('');
+  const [ idsOfSelectedItems, setIdsOfSelectedItems ] = useState<number[]>([])
+  const [ deleteButtonText, setDeleteButtonText ] = useState<IDeleteButtonText>('Удалить все');
   const { confirm } = useConfirm();
   const { formOnSubmit } = usePayload();
-  
+
+  useEffect(() => {
+    console.log(idsOfSelectedItems)
+    setDeleteButtonText(idsOfSelectedItems.length > 0 ? 'Удалить выбранные': 'Удалить все')
+  }, [idsOfSelectedItems])
+
   const showConfirm = async () => {
-    const isConfirmed = await confirm('Удалить все записи?');
-    if(isConfirmed) formOnSubmit('DELETE-ALL');   
+    const checkedItemsLenght = idsOfSelectedItems.length;
+    const isConfirmed = await confirm(
+      checkedItemsLenght > 0
+        ? `Удалить выбранные записи? (${checkedItemsLenght})`
+        : 'Удалить все записи?'
+    );
+    if (isConfirmed) formOnSubmit(
+      checkedItemsLenght > 0
+        ? 'DELETE-ARRAY'
+        : 'DELETE-ALL',
+        idsOfSelectedItems
+    );
+    setIdsOfSelectedItems([]);
   }
 
   const addHandler = () => {
@@ -37,6 +53,10 @@ const ServicesPage = observer(() => {
     showConfirm();
   }
 
+  const clearCheckboxs = () => {
+    setIdsOfSelectedItems([]);
+  }
+
   return (
     <>
       <ShowMessage
@@ -44,9 +64,11 @@ const ServicesPage = observer(() => {
         success={servicesSuccess}
       />
 
-      <ServicesGrid
+      <ServicesList
         setFormOpen={setFormOpen}
         setMenuActionType={setMenuActionType}
+        idsOfSelectedItems={idsOfSelectedItems}
+        setIdsOfSelectedItems={setIdsOfSelectedItems}
       />
 
       <PortfolioExamples />
@@ -56,11 +78,13 @@ const ServicesPage = observer(() => {
         setFormOpen={setFormOpen}
         menuActionType={menuActionType}
       />
-     
+
       <EditPanel
         changeHandler={null}
         addHandler={addHandler}
         removeAllHandler={removeAllHandler}
+        deleteButtonText={deleteButtonText}
+        clearCheckboxs={clearCheckboxs}
       />
     </>
   )

@@ -33,6 +33,7 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
   const [images, setImages] = useState<any>(null);
   const [imagesLength, setImagesLength] = useState<number>(0);
   const [zoomImageIndex, setZoomImageIndex] = useState<number>(0);
+  const [ deleteButtonText, setDeleteButtonText ] = useState<string>('Удалить все');
 
 
 
@@ -73,18 +74,22 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
     setImages(data);
   }, [])
 
-  const addHandler = useCallback(() => {
+  const addHandler = () => {
     // uploadImages(images);
     // setImages(null);
-  }, [])
+  }
 
-  const removeAllHandler = useCallback(() => {
+  const removeAllHandler = () => {
     showConfirm();
-  }, [])
+  }
 
-  const zoomHandler = useCallback((index: number) => {
+  const zoomHandler = (index: number) => {
     setZoomImageIndex(index + 1);
-  }, [])
+  }
+
+  const clearCheckboxs = () => {
+    
+  }
 
   return (
     <>
@@ -108,6 +113,8 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
         changeHandler={changeHandler}
         addHandler={null}
         removeAllHandler={removeAllHandler}
+        deleteButtonText={deleteButtonText}
+        clearCheckboxs={clearCheckboxs}
       />
     </>
   )

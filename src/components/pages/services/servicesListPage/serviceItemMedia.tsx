@@ -12,13 +12,13 @@ const style = {
   }
 }
 
-interface IMyCardMediaProps {
+interface IServiceItemMediaProps {
   imgIsLoading: Boolean;
   image: string;
   id: string;
 }
 
-const MyCardMedia: React.FC<IMyCardMediaProps> = observer(({ ...props }) => {
+const ServiceItemMedia: React.FC<IServiceItemMediaProps> = observer(({ ...props }) => {
 
   const { imgIsLoading, image, id } = props;
 
@@ -38,4 +38,4 @@ const MyCardMedia: React.FC<IMyCardMediaProps> = observer(({ ...props }) => {
 })
 
 
-export default MyCardMedia;
+export default ServiceItemMedia;

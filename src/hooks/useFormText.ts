@@ -1,4 +1,4 @@
-import { IService } from '../store/storeTypes';
+import { IService } from '../types/types';
 
 const useFormText = (defaultFormData: IService) => {
   return (

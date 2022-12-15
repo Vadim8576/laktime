@@ -10,6 +10,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: column;
+background-color: #e7ebf0;
 `
 
 export const headerStyle = {

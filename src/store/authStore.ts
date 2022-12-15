@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import authAPI from "../api/authAPI";
 import { setTokenToLocalStorage } from '../helpers/localStorage';
-import { IUser } from './storeTypes';
+import { IUser } from '../types/types';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 
 

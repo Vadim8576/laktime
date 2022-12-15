@@ -15,9 +15,9 @@ import { observer } from 'mobx-react-lite';
 import formStore from '../../../../store/formStore';
 import useFormText from '../../../../hooks/useFormText';
 import { useState } from 'react';
-import { MenuActionType } from '../servicesListPage/servicesPage';
+import { MenuActionType } from '../../../../types/types';
 import ChangeImage from '../../../widgets/changeImage';
-import { IService } from '../../../../store/storeTypes';
+import { IService } from '../../../../types/types';
 
 
 interface IServiceFormProps {

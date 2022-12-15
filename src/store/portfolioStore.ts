@@ -1,6 +1,6 @@
 import { makeAutoObservable, toJS } from "mobx";
 import portfolioAPI from "../api/portfolioAPI";
-import { IPortfolioList } from './storeTypes';
+import { IPortfolioList } from '../types/types';
 import { getErrorMessage } from '../helpers/getErrorMessage';
 import authStore from "./authStore";
 

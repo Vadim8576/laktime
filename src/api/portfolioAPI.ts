@@ -1,18 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { getTokenFromLocalStorage } from '../helpers/localStorage';
 import { toJS } from 'mobx';
-import { IPortfolioList } from '../store/storeTypes';
-
-
-export interface IPortfolioData {
-    data: IPortfolioList;
-}
-
-export interface IPortfolioResponse {
-    data: IPortfolioList[];
-    status: string;
-    error: string;
-}
+import { IPortfolioList } from '../types/types';
+import { IPortfolioResponse } from '../types/types'
 
 
 const API_KEY = process.env.REACT_APP_API_KEY as string;
@@ -35,7 +25,7 @@ const portfolioAPI = {
     getImages() {
         return instance
             .get('images/')
-            .then((response: AxiosResponse<IPortfolioData>) => {
+            .then((response: AxiosResponse<IPortfolioResponse>) => {
                 return {
                     data: response.data.data,
                     status: 'ok'
@@ -47,7 +37,7 @@ const portfolioAPI = {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
             .post(`images/`, images)
-            .then((response: AxiosResponse<IPortfolioData>) => {
+            .then((response: AxiosResponse<IPortfolioResponse>) => {
                 console.log(response)
                 return {
                     data: response.data.data,
@@ -60,7 +50,7 @@ const portfolioAPI = {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
             .delete(`image/${id}`)
-            .then((response: AxiosResponse<IPortfolioData>) => {
+            .then((response: AxiosResponse<IPortfolioResponse>) => {
                 return {
                     data: response.data.data,
                     status: 'ok'
@@ -72,7 +62,7 @@ const portfolioAPI = {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
             .delete(`images/`)
-            .then((response: AxiosResponse<IPortfolioData>) => {
+            .then((response: AxiosResponse<IPortfolioResponse>) => {
                 console.log(response)
                 return {
                     data: response.data.data,

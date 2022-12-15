@@ -1,7 +1,5 @@
 import formStore from "../store/formStore";
-import { MenuActionType } from '../components/pages/services/servicesListPage/servicesPage';
-
-
+import { MenuActionType } from '../types/types';
 
 
 const usePayload = () => {
@@ -16,8 +14,8 @@ const usePayload = () => {
     formStore.setId(id);
   }
 
-  const formOnSubmit = (type: MenuActionType) => {
-    formStore.onSubmit(type);
+  const formOnSubmit = (type: MenuActionType, idsOfSelectedItems: number[] = []) => {
+    formStore.onSubmit(type, idsOfSelectedItems);
   }
 
   return {setPayload, setId, formOnSubmit, formState}
