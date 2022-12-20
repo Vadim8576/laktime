@@ -3,7 +3,7 @@ import servicesStore from "./servicesStore";
 import { MenuActionType } from '../types/types';
 import { IService } from '../types/types';
 
-const { addService, patchService, deleteService, deleteAllServices } = servicesStore;
+const { addService, patchService } = servicesStore;
 
 class FormStore {
   payload: any = null;
@@ -23,7 +23,7 @@ class FormStore {
     this.defaultFormData = data;
   }
 
-  clearDefaultFormData = () => {
+  clearForm = () => {
     this.defaultFormData = {
       servicename: '',
       price: '',
@@ -36,14 +36,11 @@ class FormStore {
     this.payload = payload;
   }
 
-
   setId = (id: string) => {
     this.id = id;
   }
 
-  
-
-  onSubmit = (type: MenuActionType, idsOfSelectedItems: number[]) => {
+  onSubmit = (type: MenuActionType) => {
     console.log(type)
     switch(type) {
       case 'ADD':
@@ -52,26 +49,14 @@ class FormStore {
       case 'EDIT':
         patchService(this.id, this.payload);
         break;
-      case 'DELETE':
-        deleteService(this.id);
-        break;
-      case 'DELETE-ALL':
-        deleteAllServices(idsOfSelectedItems);
-        break;
-      case 'DELETE-ARRAY':
-        deleteAllServices(idsOfSelectedItems);
-        console.log('Удалить выбранные')
-        break;
       default:
         return
     }
-    
   };
 
   formState = () => {
     return {payload: this.payload, id: this.id, defaultFormData: this.defaultFormData}
   }
-
 }
 
 export default new FormStore();

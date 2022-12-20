@@ -95,11 +95,12 @@ const servicesAPI = {
             })
     },
     
-    deleteAllServices(idsOfSelectedItems: number[]) {
-        // const arr = [345, 347]
+    deleteAllServices(ids: number[]) {
+        const params = ids.length > 0 ? {ids: [...ids]} : null;
+  
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
-            .delete(`services/`, {params: {ids: [...idsOfSelectedItems]}})
+            .delete(`services/`, {params: {ids: [...ids]}})
             .then((response: AxiosResponse<IServiceResponse>) => {
                 console.log(response)
                 return {

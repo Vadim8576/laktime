@@ -6,6 +6,7 @@ import image from '../../../images/professional-manicure-tools.jpg';
 import { observer } from "mobx-react-lite";
 import PortfolioExamples from '../../widgets/portfolioExamples';
 import FlexContainer from '../../widgets/flexContainer';
+import { FullScreenTitle } from "../../widgets/fullScreenTittle";
 
 const style = {
   color: 'black', fontSize: '22px', marginTop: '0'
@@ -49,7 +50,8 @@ const PortfolioPage = observer(() => {
 
   return (
     <>
-      <PagesTitle title='О Лактайм' />
+      {/* <PagesTitle title='О Лактайм' /> */}
+      <FullScreenTitle title={'О Лактайм'} />
       <FlexContainer textSide='left' image={image}>
         {content}
       </FlexContainer>

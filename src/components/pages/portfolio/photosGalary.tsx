@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { IPortfolioList } from '../../../types/types';
 import { useUrlsFormat } from '../../../hooks/useUrlsFormat';
 
-const baseUrl = 'http://localhost:4000/images/';
+// const baseUrl = 'http://localhost:4000/images/';
 
 interface IPhotosGaleryProps {
   sortImages: IPortfolioList[];

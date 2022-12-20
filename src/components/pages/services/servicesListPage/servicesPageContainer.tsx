@@ -4,6 +4,8 @@ import { observer } from 'mobx-react-lite';
 import servicesStore from "../../../../store/servicesStore";
 import { Spiner } from '../../../ui/spiner';
 import ServicesPage from './servicesPage';
+import { FullScreenTitle } from '../../../widgets/fullScreenTittle';
+
 
 
 const ServicesPageContainer = observer(() => {
@@ -17,12 +19,14 @@ const ServicesPageContainer = observer(() => {
 
   return (
     <>
-      <PagesTitle title={'Услуги и цены'} />
+      {/* <PagesTitle title={'Услуги и цены'} /> */}
+      <FullScreenTitle title={'Услуги и цены'} />
       <ServicesPage />
       <Spiner open={servicesIsLoading} />
     </>
   )
 })
+
 
 export default ServicesPageContainer;
 

@@ -14,8 +14,8 @@ const usePayload = () => {
     formStore.setId(id);
   }
 
-  const formOnSubmit = (type: MenuActionType, idsOfSelectedItems: number[] = []) => {
-    formStore.onSubmit(type, idsOfSelectedItems);
+  const formOnSubmit = (type: MenuActionType) => {
+    formStore.onSubmit(type);
   }
 
   return {setPayload, setId, formOnSubmit, formState}

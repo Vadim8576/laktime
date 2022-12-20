@@ -25,17 +25,18 @@ interface IContextMenuProps {
   anchorEl: null | HTMLElement;
   setAnchorEl: (anchorEl: null | HTMLElement) => void;
   cardMenuOpen: boolean;
-  // id: string;
-  // setMenuActionType: (actionType: MenuActionType) => void;
-  // setFormOpen: (formOpen: boolean) => void;
-  actionsOfContextMenuItems: any
+  id: string;
+  setMenuActionType: (actionType: MenuActionType) => void;
+  setFormOpen: (formOpen: boolean) => void;
 }
 
 const ContextMenu: React.FC<IContextMenuProps> = ({
   anchorEl,
   setAnchorEl,
   cardMenuOpen,
-  actionsOfContextMenuItems
+  id,
+  setMenuActionType,
+  setFormOpen
 }) => {
 
   const { confirm } = useConfirm();
@@ -47,7 +48,7 @@ const ContextMenu: React.FC<IContextMenuProps> = ({
   const showConfirm = async () => {
     const confirmed = await confirm('Вы уверены?')
     if (confirmed) {
-      actionsOfContextMenuItems.delete();
+      servicesStore.deleteService(id);
     }
   }
 
@@ -55,14 +56,21 @@ const ContextMenu: React.FC<IContextMenuProps> = ({
 
   const handleClick = (index: number) => {
 
+    formStore.setId(id);
     const actionType = menuItemList[index].actionType
 
     switch(actionType) {
       case 'DELETE':
-        showConfirm();
+        showConfirm()
         break;
       case 'EDIT':
-        actionsOfContextMenuItems.edit();
+        const data = servicesStore.getServiceValues(id);
+
+        console.log(data)
+
+        formStore.setDefaultFormData(data);
+        setMenuActionType(menuItemList[index].actionType);
+        setFormOpen(true);
         break;
       default:
     }

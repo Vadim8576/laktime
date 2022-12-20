@@ -95,11 +95,11 @@ class ServicesStore {
     
   }
 
-  deleteAllServices = async (checkedItems: number[]) => {
+  deleteAllServices = async (ids: number[] = []) => {
     this.resetFlags();
 
     try {
-      const response = await servicesAPI.deleteAllServices(checkedItems);
+      const response = await servicesAPI.deleteAllServices(ids);
       if(response.status === 'ok') { 
         this.setSuccess(true);
         // this.setServices([]);

@@ -5,10 +5,9 @@ import style from './loading2.module.css';
 
 const Loading2 = () => {
   return (
-
     <Backdrop
       sx={{
-        background: 'none',
+        background: '#fff',
         color: '#fff',
         flexDirection: 'column',
         zIndex: (theme) => theme.zIndex.appBar - 1
@@ -26,10 +25,9 @@ const Loading2 = () => {
         <div></div>
         <div></div>
       </div>
-      <Typography sx={{color: '#999'}} variant="overline" display="block" gutterBottom>
+      <Typography sx={{ color: '#999' }} variant="overline" display="block" gutterBottom>
         Loading...
       </Typography>
-
     </Backdrop>
   )
 }

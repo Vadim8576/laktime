@@ -11,45 +11,14 @@ import image from '../../../../images/manicure.jpg';
 import { Button, Checkbox, Grow, Paper } from '@mui/material';
 import ContextMenu from '../../../ui/contextMenu';
 import { observer } from 'mobx-react-lite';
-import { IServicesContextMenu, MenuActionType } from '../../../../types/types';
+import {  MenuActionType } from '../../../../types/types';
 import { IServicesList } from '../../../../types/types';
-import ServiceItemMedia from './serviceItemMedia';
 import { useLoadImage } from '../../../../hooks/useLoadImage';
 import ServiceItemHeader from './serviceItemHeader';
 import authStore from '../../../../store/authStore';
-import { useCheckBoxChecked } from '../../../../hooks/useCheckBoxChecked';
-
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
-
-const menuItemList: IServicesContextMenu[] = [
-  {
-    actionName: 'Редактировать',
-    actionType: 'EDIT',
-    confirmed: false
-  },
-  {
-    actionName: 'Удалить',
-    actionType: 'DELETE',
-    confirmed: true
-  }
-];
-
-
-
+import { useCheckBox } from '../../../../hooks/useCheckBox';
+import servicesStore from '../../../../store/servicesStore';
+import formStore from '../../../../store/formStore';
 
 
 
@@ -68,23 +37,36 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
     const { id, servicename, price, description, active } = service;
     const buttonText = active ? 'Записаться' : 'Недоступно';
 
-    const checked = useCheckBoxChecked(idsOfSelectedItems, +id)
-
-    // const imgIsLoading = useLoadImage(image);
+    const { setNewIds, checkboxChecked } = useCheckBox();
+    const checked = checkboxChecked(idsOfSelectedItems, +id);
 
     // context Menu
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const cardMenuOpen = Boolean(anchorEl);
-
+    
     const serviceItemChangeHandler = useCallback(() => {
-      setIdsOfSelectedItems((checkedIds: number[]) => {
-        if(checkedIds.includes(+id)) {
-          return checkedIds.filter((checkedId: number) => checkedId !== +id)
-        } else {
-          return [...checkedIds, id]
-        }       
-      })
-    }, [id])
+      setIdsOfSelectedItems((Ids: number[]) => setNewIds(Ids, +id));
+    }, [id]);
+
+
+
+    const actionsOfContextMenuItems = {
+      delete: () => {
+        formStore.setId(id);
+        servicesStore.deleteService(id);
+      },
+      edit: () => {
+        formStore.setId(id);
+        const data = servicesStore.getServiceValues(id);
+
+        console.log(data)
+
+        formStore.setDefaultFormData(data);
+        setMenuActionType('EDIT');
+        setFormOpen(true);
+      }
+    }
+
 
     return (
       <>
@@ -98,7 +80,8 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
           <Checkbox
             checked={checked}
             sx={{
-              padding: '5px'
+              padding: 0,
+              paddingRight: '5px',
             }}
             onChange={serviceItemChangeHandler}
           />
@@ -106,9 +89,10 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
 
         <Card
           sx={{
-            width: '60%',
+            width: '50%',
             minWidth: 200,
-            border: 'none'
+            border: 'none',
+            backgroundColor: 'none'
           }}
           variant="outlined"
         >
@@ -123,10 +107,7 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
             anchorEl={anchorEl}
             setAnchorEl={setAnchorEl}
             cardMenuOpen={cardMenuOpen}
-            menuItemList={menuItemList}
-            id={id}
-            setMenuActionType={setMenuActionType}
-            setFormOpen={setFormOpen}
+            actionsOfContextMenuItems={actionsOfContextMenuItems}
           />
 
           <CardContent sx={{ paddingTop: 0, paddingBottom: '24px' }}>
@@ -138,7 +119,7 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
           <CardContent
             sx={{
               paddingTop: 0,
-              paddingBottom: '8px',
+              paddingBottom: '10px',
               borderBottom: '1px #d9d9d9 solid'
             }}
           >
@@ -159,7 +140,7 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
             sx={{
               display: 'flex',
               justifyContent: 'flex-end',
-              // paddingTop: 0,
+              padding: '10px 0 8px 0'
             }}
           >
             <Button

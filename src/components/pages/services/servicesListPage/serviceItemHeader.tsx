@@ -23,7 +23,9 @@ const ServiceItemHeader: React.FC<IServiceItemHeaderProps> = observer(({ ...prop
   return (
     <CardHeader
       sx={{
-        backgroundColor: '#f1f5ff'
+        backgroundColor: 'none',
+        paddingTop: '1px',
+        paddingBottom: '5px' 
       }}
       action={
         <IconButton

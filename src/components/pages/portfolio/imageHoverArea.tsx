@@ -30,7 +30,9 @@ interface IImageHoverAreaProps {
 
 const ImageHoverArea: FC<IImageHoverAreaProps> = observer(({ ...props }) => {
   const { hover, imgIsLoading } = props;
+
   if(imgIsLoading) return null;
+  
   return (
     <ImageHoverContainer
       hover={hover}

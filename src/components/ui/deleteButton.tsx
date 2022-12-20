@@ -1,8 +1,10 @@
 import React, { FC, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import ClearIcon from '@mui/icons-material/Clear';
 import authStore from '../../store/authStore';
 import { observer } from 'mobx-react-lite';
+import { Checkbox, IconButton } from '@mui/material';
 
 
 interface IDeleteButtonContainerProps {
@@ -10,16 +12,19 @@ interface IDeleteButtonContainerProps {
 }
 
 const DeleteButtonContainer = styled.div<IDeleteButtonContainerProps>`
-  background-color: none;
+  width: 100%;
+  height: 40px;
+  background-color: rgba(255, 255, 255, .2);
   transition: .5s all;
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 0;
+  right: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   cursor: pointer;
   event-pointer: none;
+  padding: 0 3px;
 `
 
 interface IDeleteButtonBackProps {
@@ -27,13 +32,13 @@ interface IDeleteButtonBackProps {
 }
 
 const DeleteButtonBack = styled.div<IDeleteButtonBackProps>`
-  opacity: ${(props) => (props.hover ? 1 : .6)};
+  opacity: ${(props) => (props.hover ? 1 : 1)};
   background-color: none;
   transition: .5s all;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  padding: 0;
   border-radius: 50%;
 `
 
@@ -45,6 +50,7 @@ const DeleteButton: FC<IDeleteButtonProps> = observer(({ ...props }) => {
 
   const { isAuth } = authStore;
   const [hover, setHover] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(false);
   const { deleteButtonClickHandler } = props;
 
   const handlerClick = useCallback(() => {
@@ -67,11 +73,16 @@ const DeleteButton: FC<IDeleteButtonProps> = observer(({ ...props }) => {
       onMouseMove={mouseEnterHandler}
       onMouseOut={mouseLeaveHandler}
     >
+      <Checkbox checked={checked} />
       <DeleteButtonBack
         hover={hover}
         onClick={handlerClick}
       >
-        <DeleteForeverOutlinedIcon fontSize='large' sx={{ color: '#fff' }} />
+        <IconButton aria-label="delete">
+          {/* <DeleteIcon /> */}
+          <ClearIcon color='action' fontSize='medium' />
+        </IconButton>
+        
       </DeleteButtonBack>
     </DeleteButtonContainer>
   )

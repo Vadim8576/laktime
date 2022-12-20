@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import ShowMessage from '../../../popupMessages/showMessage';
 import ServicesForm from '../forms/servicesForm';
@@ -9,23 +9,23 @@ import usePayload from '../../../../hooks/usePayload';
 import EditPanel from '../../../widgets/EditPanel';
 import ServicesList from './servicesList';
 import PortfolioExamples from '../../../widgets/portfolioExamples';
-import { IDeleteButtonText, MenuActionType } from '../../../../types/types';
+import { MenuActionType } from '../../../../types/types';
+import { useDeleteButtonText } from '../../../../hooks/useDeleteButtonText';
 
 
 
 const ServicesPage = observer(() => {
-  const { servicesError, servicesSuccess } = servicesStore;
+  const { servicesError, servicesSuccess, deleteAllServices } = servicesStore;
   const [ formOpen, setFormOpen ] = useState<boolean>(false);
   const [ menuActionType, setMenuActionType ] = useState<MenuActionType>('');
   const [ idsOfSelectedItems, setIdsOfSelectedItems ] = useState<number[]>([])
-  const [ deleteButtonText, setDeleteButtonText ] = useState<IDeleteButtonText>('Удалить все');
   const { confirm } = useConfirm();
-  const { formOnSubmit } = usePayload();
+  const deleteButtonText = useDeleteButtonText(idsOfSelectedItems);
 
-  useEffect(() => {
-    console.log(idsOfSelectedItems)
-    setDeleteButtonText(idsOfSelectedItems.length > 0 ? 'Удалить выбранные': 'Удалить все')
-  }, [idsOfSelectedItems])
+
+  const clearCheckboxs = () => {
+    setIdsOfSelectedItems([]);
+  }
 
   const showConfirm = async () => {
     const checkedItemsLenght = idsOfSelectedItems.length;
@@ -34,17 +34,13 @@ const ServicesPage = observer(() => {
         ? `Удалить выбранные записи? (${checkedItemsLenght})`
         : 'Удалить все записи?'
     );
-    if (isConfirmed) formOnSubmit(
-      checkedItemsLenght > 0
-        ? 'DELETE-ARRAY'
-        : 'DELETE-ALL',
-        idsOfSelectedItems
-    );
-    setIdsOfSelectedItems([]);
+
+    if (isConfirmed) deleteAllServices(idsOfSelectedItems);
+    clearCheckboxs();
   }
 
   const addHandler = () => {
-    formStore.clearDefaultFormData();
+    formStore.clearForm();
     setMenuActionType('ADD');
     setFormOpen(true);
   }
@@ -53,9 +49,7 @@ const ServicesPage = observer(() => {
     showConfirm();
   }
 
-  const clearCheckboxs = () => {
-    setIdsOfSelectedItems([]);
-  }
+  
 
   return (
     <>

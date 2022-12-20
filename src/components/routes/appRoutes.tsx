@@ -1,28 +1,20 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from "./privateRoute";
-import { Container } from '@mui/material';
 import Loading2 from "../ui/loading2";
 import { PagesTitle } from '../widgets/pagesTitle';
+import { withPageContainer } from "../../hoc/withPageContainer";
 
 const About = lazy(() => import('../pages/about/aboutPage'));
 const Privacy = lazy(() => import('../pages/privacy/privacy'));
 const Login = lazy(() => import('../pages/login/loginPage'));
 const Services = lazy(() => import('../pages/services/servicesListPage/servicesPageContainer'));
 const CardDetail = lazy(() => import('../pages/services/detailsPage/serviceDetails'));
-const Portfolio = lazy(() => import('../pages/portfolio/portfolioPage'));
+const Portfolio = lazy(() => import('../pages/portfolio/portfolioPageContainer'));
 
 const AppRoutes = () => {
   return (
-    <Container
-      maxWidth='lg'
-      sx={{
-        marginBottom: 10,
-        position: 'relative',
-        marginTop: '102px',
-        minHeight: 'calc(100vh - 182px)'
-      }}
-    >
+    <>
       <Routes>
         <Route
           path='/'
@@ -90,11 +82,11 @@ const AppRoutes = () => {
           }
         />
     </Routes>
-    </Container >
+    </>
   )
 }
 
-export default AppRoutes;
+export default withPageContainer(AppRoutes);
 
 
 

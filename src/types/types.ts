@@ -1,5 +1,5 @@
 export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL' | 'DELETE-ARRAY';
-export type IDeleteButtonText = 'Удалить выбранные' | 'Удалить все';
+
 
 //************* Start AuthStore Types *************
 export type IUser = string | null;

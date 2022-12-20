@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -21,7 +21,6 @@ const ConfirmDialog = observer(() => {
       onConfirm();
       onClose();
     }
-   
     
     return (
       <Dialog

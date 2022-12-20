@@ -8,29 +8,30 @@ import AppRoutes from './components/routes/appRoutes';
 import ConfirmDialog from './components/ui/confirmDialog';
 import ShowMessage from './components/popupMessages/showMessage';
 
-
-
 const App = observer(() => {
 
   const { login, authError } = authStore;
 
   useEffect(() => {
-    // login();
+    const payload = {
+      email: 'admin101@mail.ru',
+      password: '123'
+    }
+    login(payload);
     // console.log('useEffect login')
   }, [])
 
 
   return (
     <div className="App">
+      <Header />
       <ShowMessage
         error={authError}
         success={false}
       />
-      <Header />
       <AppRoutes />
       <ConfirmDialog />
       <Footer />
-
     </div>
   )
 })

@@ -25,13 +25,13 @@ const ServicesList: FC<IServicesListProps> = observer(({ ...props }) => {
   if (!servicesListLength) return <NoData text={'Нет доступных услуг'} />
 
   return (
-    <List sx={{ width: '100%', minWidth: 300, bgcolor: 'background.paper' }}>
+    <List sx={{ width: '100%', minWidth: 280, bgcolor: 'background.paper' }}>
       {sortServices.map((service: IServicesList) => (
         <ListItem
           alignItems='flex-start'
           sx={{
             justifyContent: 'center',
-            paddingBottom: '30px'
+            // paddingBottom: '30px'
           }}
           key={service.id}
         >

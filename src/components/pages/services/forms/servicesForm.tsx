@@ -67,19 +67,21 @@ const servicesForm: React.FC<IServiceFormProps> = observer(({ formOpen, setFormO
     console.log(data)
     console.log('actionType = ', menuActionType)
     const payload = { ...data, active: `${data.active}` };
+
     setPayload(payload);
+
     formOnSubmit(menuActionType);
     setFormOpen(false);
   };
 
-  const handleClose = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClose = () => {
     setFormOpen(false);
     reset(defaultFormData);
-  }, []);
+  }
 
-  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCheckBoxState(event.target.checked);
-  }, []);
+  }
 
 
 
@@ -91,7 +93,7 @@ const servicesForm: React.FC<IServiceFormProps> = observer(({ formOpen, setFormO
           paddingBottom: '32px'
         }}>
           <DialogContentText mb={4}>
-            Введите название, стоимость, краткое описание услуги, а также укажите будет ли услуга активна.
+            Введите название, стоимость, краткое описание услуги, а также укажите, будет ли услуга доступна для записи.
           </DialogContentText>
 
           <TextField
@@ -140,7 +142,7 @@ const servicesForm: React.FC<IServiceFormProps> = observer(({ formOpen, setFormO
                 onChange={handleChange}
               />
             }
-            label="Услуга доступна для заказа"
+            label="Услуга доступна для записи"
           />
 
         </DialogContent>

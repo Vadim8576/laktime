@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Container, Stack } from '@mui/material';
+import { Container, Portal, Stack } from '@mui/material';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Event } from '../pages/portfolio/portfolio';
+import { Event } from '../pages/portfolio/portfolioPage';
 import { observer } from 'mobx-react-lite';
 import authStore from "../../store/authStore";
 
@@ -38,37 +38,40 @@ const EditPanel: React.FC<IEditPanelProps> = observer(({ ...props }) => {
   if (!isAuth) return null;
 
   return (
-    <Panel>
-      <Container sx={{ height: '100%' }}>
-        <Stack
-          direction="row"
-          height="100%"
-          justifyContent="flex-end"
-          alignItems="center"
-          spacing={4}
-        >
-          <ChangeImageButton changeHandler={changeHandler} />
-          {addHandler && <Button onClick={addHandler}>Добавить</Button>}
-          <Button
-            color="error"
-            variant="outlined"
-            startIcon={<DeleteIcon />}
-            onClick={removeAllHandler}
+    <Portal>
+      <Panel>
+        <Container sx={{ height: '100%' }}>
+          <Stack
+            direction="row"
+            height="100%"
+            justifyContent="flex-end"
+            alignItems="center"
+            spacing={4}
           >
-            {deleteButtonText}
-          </Button>
-          {deleteButtonText === 'Удалить выбранные' &&
+            <ChangeImageButton changeHandler={changeHandler} />
+            {addHandler && <Button onClick={addHandler}>Добавить</Button>}
             <Button
-              color="secondary"
+              color="error"
               variant="outlined"
-              onClick={clearCheckboxs}
+              startIcon={<DeleteIcon />}
+              onClick={removeAllHandler}
             >
-              Снять выделение
+              {deleteButtonText}
             </Button>
-          }
-        </Stack>
-      </Container>
-    </Panel>
+            {deleteButtonText === 'Удалить выбранные' &&
+              <Button
+                color="secondary"
+                variant="outlined"
+                onClick={clearCheckboxs}
+              >
+                Снять выделение
+              </Button>
+            }
+          </Stack>
+        </Container>
+      </Panel>
+    </Portal>
+
   )
 })
 
