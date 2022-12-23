@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from "./privateRoute";
 import Loading2 from "../ui/loading2";
 import { PagesTitle } from '../widgets/pagesTitle';
-import { withPageContainer } from "../../hoc/withPageContainer";
+import { WithPageContainer } from "../../hoc/withPageContainer";
 
 const About = lazy(() => import('../pages/about/aboutPage'));
 const Privacy = lazy(() => import('../pages/privacy/privacy'));
@@ -86,7 +86,7 @@ const AppRoutes = () => {
   )
 }
 
-export default withPageContainer(AppRoutes);
+export default WithPageContainer(AppRoutes);
 
 
 

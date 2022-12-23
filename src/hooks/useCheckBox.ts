@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 export const useCheckBox = () => {
 
-  const setNewIds = (ids: number[], id: number) => {
+  const setNewIds = (ids: number[], id: number): number[] => {
     let newIds: number[] = [];
     let checked: boolean = false;
 
@@ -16,7 +16,6 @@ export const useCheckBox = () => {
 
     return newIds;
   }
-
 
   const checkboxChecked = (ids: number[], id: number) => {
     if (ids.length === 0) return false;

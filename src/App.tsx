@@ -3,10 +3,11 @@ import Header from './components/header/header';
 import authStore from './store/authStore';
 import { observer } from 'mobx-react-lite';
 import { withCustomTheme } from './hoc/withCustomTheme';
-import Footer from './components/footer/footer';
+import FooterContainer from './components/footer/footerContainer';
 import AppRoutes from './components/routes/appRoutes';
 import ConfirmDialog from './components/ui/confirmDialog';
 import ShowMessage from './components/popupMessages/showMessage';
+
 
 const App = observer(() => {
 
@@ -22,6 +23,7 @@ const App = observer(() => {
   }, [])
 
 
+
   return (
     <div className="App">
       <Header />
@@ -31,7 +33,7 @@ const App = observer(() => {
       />
       <AppRoutes />
       <ConfirmDialog />
-      <Footer />
+      <FooterContainer />
     </div>
   )
 })

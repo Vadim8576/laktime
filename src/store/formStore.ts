@@ -7,7 +7,8 @@ const { addService, patchService } = servicesStore;
 
 class FormStore {
   payload: any = null;
-  id: string = '';
+  // id: number | null = null;
+  id: number = 0;
   defaultFormData: IService = {
     servicename: '',
     price: '',
@@ -36,7 +37,7 @@ class FormStore {
     this.payload = payload;
   }
 
-  setId = (id: string) => {
+  setId = (id: number) => {
     this.id = id;
   }
 

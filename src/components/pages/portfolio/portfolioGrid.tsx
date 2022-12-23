@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from "react";
-import { ImageList } from '@mui/material';
+import { Button, ImageList } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import Box from '@mui/material/Box';
 import NoData from '../../widgets/noData';
 import useMediaQueryMatches from '../../../hooks/useMediaQueryMatches';
-import ImageItem from './imageItem';
+import PortfolioItem from './portfolioItem';
 
 import { IPortfolioList } from '../../../types/types';
 
@@ -13,11 +13,13 @@ interface IPortfolioGridProps {
   sortImages: IPortfolioList[];
   imageListLength: number;
   zoomHandler: (zoomImage: any) => void;
+  idsOfSelectedItems: number[];
+  setIdsOfSelectedItems: (arr: number[]) => void;
 }
 
 const PortfolioGrid: FC<IPortfolioGridProps> = observer(( {...props} ) => {
 
-  const { sortImages, imageListLength, zoomHandler } = props;
+  const { sortImages, imageListLength, zoomHandler, idsOfSelectedItems, setIdsOfSelectedItems } = props;
   const { cols, gap } = useMediaQueryMatches('(max-width:1000px)');
 
   useEffect(() => {
@@ -31,12 +33,14 @@ const PortfolioGrid: FC<IPortfolioGridProps> = observer(( {...props} ) => {
     <Box sx={{ width: '100%', height: '100%', overflowY: 'hidden',  }}>
       <ImageList cols={cols} gap={gap} sx={{margin: 2}}>
         {sortImages.map((image, imageIndex) => (
-          <ImageItem
+          <PortfolioItem
             key={image.id}
             imagePath={image.image_path}
             id={image.id}
             zoomHandler={zoomHandler}
             imageIndex={imageIndex}
+            idsOfSelectedItems={idsOfSelectedItems}
+            setIdsOfSelectedItems={setIdsOfSelectedItems}
           />
         ))}
       </ImageList>

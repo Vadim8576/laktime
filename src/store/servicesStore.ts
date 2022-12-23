@@ -57,7 +57,7 @@ class ServicesStore {
     }
   }
 
-  patchService = async (id: string, service: IService) => {
+  patchService = async (id: number, service: IService) => {
     this.resetFlags();
     try {
       const response = await servicesAPI.patchService(id, service);
@@ -75,7 +75,7 @@ class ServicesStore {
     }
   }
 
-  deleteService = async (id: string) => {
+  deleteService = async (id: number) => {
     this.resetFlags();
 
     try {
@@ -132,7 +132,7 @@ class ServicesStore {
     }
   }
 
-  getService = async (id: string) => {
+  getService = async (id: number) => {
     this.resetFlags();
 
     try {
@@ -150,7 +150,7 @@ class ServicesStore {
   }
 
 
-  getServiceValues(serviceId: string): IService {
+  getServiceValues(serviceId: number): IService {
     const value: IServicesList = this.servicesList.filter((service) => service.id === serviceId)[0];
     const  { id, ...newValue } = value;
     return newValue;
@@ -160,7 +160,7 @@ class ServicesStore {
     const sort = 'id'; //сотировка по ID
     // переписать функцию для сортировки по буквам
     // const sort = 'servicename'; //сотировка по ID
-    return [...this.servicesList].sort((a: IServicesList, b: IServicesList) => parseInt(a[sort]) - parseInt(b[sort]));
+    return [...this.servicesList].sort((a: IServicesList, b: IServicesList) => (a[sort] - b[sort]));
   }
 
   get servicesListLength() {

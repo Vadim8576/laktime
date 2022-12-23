@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Slide, Typography } from "@mui/material";
 import styled from "styled-components";
 
@@ -6,6 +6,7 @@ import styled from "styled-components";
 const TitleContainer = styled.div`
   width: 100%;
   height: calc(100vh - 64px);
+  max-height: 500px;
   margin-top: 64px;
   display: flex;
   align-items: center;
@@ -19,9 +20,14 @@ interface IFullScreenTitleProps {
 }
 
 export const FullScreenTitle: FC<IFullScreenTitleProps> = ({ title }) => {
+
+  useEffect(() => {
+    
+  }, [])
+
   return (
     <TitleContainer>
-      <Slide direction="up" in={true} mountOnEnter unmountOnExit>
+      <Slide direction="down" in={true} mountOnEnter unmountOnExit>
         <Title>
           <Typography
             variant='h1'

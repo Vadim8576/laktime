@@ -5,6 +5,7 @@ import { Spiner } from '../../ui/spiner';
 import Portfolio from './portfolioPage';
 import { observer } from "mobx-react-lite";
 import { FullScreenTitle } from "../../widgets/fullScreenTittle";
+import { Button } from "@mui/material";
 
 
 const PortfolioPage = observer(() => {
@@ -15,13 +16,17 @@ const PortfolioPage = observer(() => {
   useEffect(() => {
     console.log('useEffect getImages')
     getImages();
+
   }, [])
+
+
+  
 
   return (
     <>
       <Spiner open={portfolioIsLoading} />
-      <PagesTitle title={'Портфолио'} />
-      {/* <FullScreenTitle title={'Портфолио'} /> */}
+      {/* <PagesTitle title={'Портфолио'} /> */}
+      <FullScreenTitle title={'Портфолио'} />
       <Portfolio />
     </>
   )

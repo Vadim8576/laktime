@@ -58,7 +58,7 @@ class PortfolioStore {
   }
 
   
-  deleteImage = async (id: string) => { 
+  deleteImage = async (id: number) => { 
     this.resetFlags();  
     try {
       const response = await portfolioAPI.deleteImage(id);  
@@ -76,13 +76,13 @@ class PortfolioStore {
     }
   }
 
-  deleteAllImages = async () => {
+  deleteAllImages = async (ids: number[]) => {
     this.resetFlags();  
     try {
-      const response = await portfolioAPI.deleteAllImages();
+      const response = await portfolioAPI.deleteAllImages(ids);
       if(response.status === 'ok') {
         this.setSuccess(true);
-        this.setImages([]);
+        this.setImages(response.data);
       }
     }
     catch (error: any) {
@@ -113,7 +113,7 @@ class PortfolioStore {
     const sort = 'id'; //сотировка по ID
     // переписать функцию для сортировки по буквам
     // const sort = 'servicename';   
-    return [...this.portfolioList].sort((a: IPortfolioList, b: IPortfolioList) => parseInt(a[sort]) - parseInt(b[sort]));
+    return [...this.portfolioList].sort((a: IPortfolioList, b: IPortfolioList) => a[sort] - b[sort]);
   }
 
   get imageListLength() {

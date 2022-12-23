@@ -45,7 +45,7 @@ const servicesAPI = {
             })
     },
 
-    getService(id: string) {
+    getService(id: number) {
         return instance
             .get(`services/${id}`)
             .then((response: AxiosResponse<IServiceResponse>) => {
@@ -69,7 +69,7 @@ const servicesAPI = {
             })
     },
 
-    patchService(id: string, service: IService) {    
+    patchService(id: number, service: IService) {    
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
             .put(`services/${id}`, {...service})
@@ -82,7 +82,7 @@ const servicesAPI = {
             })
     },
 
-    deleteService(id: string) {
+    deleteService(id: number) {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
             .delete(`services/${id}`)
@@ -96,7 +96,7 @@ const servicesAPI = {
     },
     
     deleteAllServices(ids: number[]) {
-        const params = ids.length > 0 ? {ids: [...ids]} : null;
+        // const params = ids.length > 0 ? {ids: [...ids]} : null;
   
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance

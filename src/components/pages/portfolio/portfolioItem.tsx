@@ -1,13 +1,14 @@
-import React, { useState, useCallback, FC } from 'react';
-import { ImageListItem, Grow } from '@mui/material';
+import React, { useState, FC, useCallback } from 'react';
+import { ImageListItem } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { useUrlsFormat } from '../../../hooks/useUrlsFormat';
 import portfolioStore from '../../../store/portfolioStore';
 import useConfirm from '../../../hooks/useConfirm';
 import ImageHoverArea from './imageHoverArea';
-import DeleteButton from '../../ui/deleteButton';
+import PortfolioItemActionsPanel from './portfolioItemActionsPanel';
 import ImageSpiner from '../../ui/imageSpiner';
+import { useCheckBox } from '../../../hooks/useCheckBox';
 
 
 
@@ -30,19 +31,23 @@ const Img = styled.img<IImgProps>`
 
 interface IImageItemProps {
   imagePath: string;
-  id: string;
+  id: number;
   zoomHandler: (index: number) => void;
   imageIndex: number;
+  idsOfSelectedItems: number[];
+  setIdsOfSelectedItems: (arr: any) => void;
 }
 
 
-const ImageItem: FC<IImageItemProps> = observer(({ ...props }) => {
+const PortfolioItem: FC<IImageItemProps> = observer(({ ...props }) => {
 
   const { deleteImage } = portfolioStore;
-  const { imagePath, id, zoomHandler, imageIndex } = props;
+  const { imagePath, id, zoomHandler, imageIndex, setIdsOfSelectedItems, idsOfSelectedItems } = props;
   const url = useUrlsFormat(imagePath) as string;
   const [imgIsLoading, setImgIsLoading] = useState<boolean>(true);
   const [hover, setHover] = useState<boolean>(false);
+  const { setNewIds, checkboxChecked } = useCheckBox();
+  const checked = checkboxChecked(idsOfSelectedItems, +id);
   const { confirm } = useConfirm();
 
   const onLoad = () => {
@@ -54,8 +59,11 @@ const ImageItem: FC<IImageItemProps> = observer(({ ...props }) => {
     if (isConfirmed) deleteImage(id);
   }
 
-  const deleteButtonClickHandler = () => {
-    showConfirm();
+  const panelActions = {
+    deleteButtonOnClick: () => showConfirm(),
+    checkboxOnChange: () => { 
+      setIdsOfSelectedItems((ids: number[]) => setNewIds(ids, +id));
+    }
   }
 
   const mouseEnterHandler = () => {
@@ -87,14 +95,15 @@ const ImageItem: FC<IImageItemProps> = observer(({ ...props }) => {
         imgIsLoading={imgIsLoading}
         hover={hover}
       />
-      <DeleteButton
-        deleteButtonClickHandler={deleteButtonClickHandler}
+      <PortfolioItemActionsPanel
+        panelActions={panelActions}
+        checked={checked}
       />
     </ImageListItem>
   )
 })
 
-export default ImageItem;
+export default PortfolioItem;
 
 
 

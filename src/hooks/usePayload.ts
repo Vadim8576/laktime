@@ -10,7 +10,7 @@ const usePayload = () => {
     formStore.setPayload(payload);
   }
 
-  const setId = (id: string) => {
+  const setId = (id: number) => {
     formStore.setId(id);
   }
 

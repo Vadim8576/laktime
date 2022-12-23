@@ -15,7 +15,7 @@ const style = {
 interface IServiceItemMediaProps {
   imgIsLoading: Boolean;
   image: string;
-  id: string;
+  id: number;
 }
 
 const ServiceItemMedia: React.FC<IServiceItemMediaProps> = observer(({ ...props }) => {

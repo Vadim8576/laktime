@@ -2,9 +2,7 @@ import React from "react";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import useConfirm from "../../hooks/useConfirm";
-import formStore from "../../store/formStore";
-import servicesStore from "../../store/servicesStore";
-import { IServicesContextMenu, MenuActionType } from '../../types/types';
+import { IServicesContextMenu } from '../../types/types';
 
 
 
@@ -25,9 +23,6 @@ interface IContextMenuProps {
   anchorEl: null | HTMLElement;
   setAnchorEl: (anchorEl: null | HTMLElement) => void;
   cardMenuOpen: boolean;
-  // id: string;
-  // setMenuActionType: (actionType: MenuActionType) => void;
-  // setFormOpen: (formOpen: boolean) => void;
   actionsOfContextMenuItems: any
 }
 
@@ -66,7 +61,6 @@ const ContextMenu: React.FC<IContextMenuProps> = ({
         break;
       default:
     }
-
     handleClose();
   }
 

@@ -23,7 +23,7 @@ const CardDetail: FC<CardDetail> = observer(() => {
   const serviceItem = servicesList[0];
 
   useEffect(() => {
-    if (id) getService(id);
+    if (id) getService(+id);
   }, [])
 
 

@@ -25,7 +25,7 @@ interface IContextMenuProps {
   anchorEl: null | HTMLElement;
   setAnchorEl: (anchorEl: null | HTMLElement) => void;
   cardMenuOpen: boolean;
-  id: string;
+  id: number;
   setMenuActionType: (actionType: MenuActionType) => void;
   setFormOpen: (formOpen: boolean) => void;
 }

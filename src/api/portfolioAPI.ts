@@ -46,7 +46,7 @@ const portfolioAPI = {
             })
     },
 
-    deleteImage(id: string) {
+    deleteImage(id: number) {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
             .delete(`image/${id}`)
@@ -58,10 +58,12 @@ const portfolioAPI = {
             })
     },
     
-    deleteAllImages() {
+    deleteAllImages(ids: number[]) {
+        // const params = ids.length > 0 ? {ids: [...ids]} : null;
+
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
-            .delete(`images/`)
+            .delete(`images/`, {params: {ids: [...ids]}})
             .then((response: AxiosResponse<IPortfolioResponse>) => {
                 console.log(response)
                 return {

@@ -30,13 +30,12 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
     portfolioError,
     portfolioSuccess
   } = portfolioStore;
-  
-  const [ images, setImages ] = useState<any>(null);
-  const [ imagesLength, setImagesLength ] = useState<number>(0);
-  const [ zoomImageIndex, setZoomImageIndex ] = useState<number>(0);
-  const [ idsOfSelectedItems, setIdsOfSelectedItems ] = useState<number[]>([]);
-  const deleteButtonText = useDeleteButtonText(idsOfSelectedItems);
 
+  const [images, setImages] = useState<any>(null);
+  const [imagesLength, setImagesLength] = useState<number>(0);
+  const [zoomImageIndex, setZoomImageIndex] = useState<number>(0);
+  const [idsOfSelectedItems, setIdsOfSelectedItems] = useState<number[]>([]);
+  const deleteButtonText = useDeleteButtonText(idsOfSelectedItems);
 
   useEffect(() => {
     images && showUploadConfirm();
@@ -45,11 +44,18 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
   const { confirm } = useConfirm();
 
   const showConfirm = async () => {
-    const isConfirmed = await confirm('Удалить все записи?');
+    const checkedItemsLenght = idsOfSelectedItems.length;
+    const isConfirmed = await confirm(
+      checkedItemsLenght > 0
+        ? `Удалить выбранные записи? (${checkedItemsLenght})`
+        : 'Удалить все записи?'
+    );
+
     if (isConfirmed) {
-      deleteAllImages();
+      deleteAllImages(idsOfSelectedItems);
       setImages(null);
     }
+    clearCheckboxs();
   }
 
   const showUploadConfirm = async () => {
@@ -85,7 +91,7 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
     setZoomImageIndex(index + 1);
   }
 
-  
+
 
   return (
     <>
@@ -97,8 +103,10 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
         sortImages={sortImages}
         imageListLength={imageListLength}
         zoomHandler={zoomHandler}
+        idsOfSelectedItems={idsOfSelectedItems}
+        setIdsOfSelectedItems={setIdsOfSelectedItems}
       />
-      
+
       <PhotosGalery
         sortImages={sortImages}
         zoomImageIndex={zoomImageIndex}

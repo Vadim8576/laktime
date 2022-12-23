@@ -9,13 +9,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 interface IServiceItemHeaderProps {
   setAnchorEl: (anchor: null | HTMLElement) => void;
   servicename: string;
-  id: string;
 }
 
 const ServiceItemHeader: React.FC<IServiceItemHeaderProps> = observer(({ ...props }) => {
 
   const { isAuth } = authStore;
-  const { setAnchorEl, servicename, id } = props;
+  const { setAnchorEl, servicename } = props;
   const handleSettingClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   }

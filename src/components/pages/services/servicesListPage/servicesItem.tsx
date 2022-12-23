@@ -38,14 +38,14 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
     const buttonText = active ? 'Записаться' : 'Недоступно';
 
     const { setNewIds, checkboxChecked } = useCheckBox();
-    const checked = checkboxChecked(idsOfSelectedItems, +id);
+    const checked = checkboxChecked(idsOfSelectedItems, id);
 
     // context Menu
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const cardMenuOpen = Boolean(anchorEl);
     
-    const serviceItemChangeHandler = useCallback(() => {
-      setIdsOfSelectedItems((Ids: number[]) => setNewIds(Ids, +id));
+    const changeHandler = useCallback(() => {
+      setIdsOfSelectedItems((ids: number[]) => setNewIds(ids, id));
     }, [id]);
 
 
@@ -74,7 +74,8 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
           sx={{
             paddingLeft: 0,
             paddingRight: 0,
-            visibility: isAuth ? 'visible' : 'hidden'
+            visibility: isAuth ? 'visible' : 'hidden',
+            width: isAuth ? 'auto' : 0
           }}
         >
           <Checkbox
@@ -83,7 +84,7 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
               padding: 0,
               paddingRight: '5px',
             }}
-            onChange={serviceItemChangeHandler}
+            onChange={changeHandler}
           />
         </CardContent>
 
@@ -100,7 +101,6 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
           <ServiceItemHeader
             setAnchorEl={setAnchorEl}
             servicename={servicename}
-            id={id}
           />
 
           <ContextMenu
