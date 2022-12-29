@@ -9,7 +9,7 @@ interface IErrorShowProps {
   success: boolean;
 }
 
-const ShowMessage: React.FC<IErrorShowProps> = observer(({ ...props }) => {
+const ShowMessage = observer(({ ...props }: IErrorShowProps) => {
 
   const {error, success} = props;
   const severity = error ? 'error' : 'success';

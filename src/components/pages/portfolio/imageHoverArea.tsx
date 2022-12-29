@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import styled from 'styled-components';
@@ -28,7 +28,7 @@ interface IImageHoverAreaProps {
   imgIsLoading: boolean;
 }
 
-const ImageHoverArea: FC<IImageHoverAreaProps> = observer(({ ...props }) => {
+const ImageHoverArea = observer(({ ...props }: IImageHoverAreaProps) => {
   const { hover, imgIsLoading } = props;
 
   if(imgIsLoading) return null;

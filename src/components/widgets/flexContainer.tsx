@@ -1,4 +1,4 @@
-import React, { useState, FC, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import styled from "styled-components";
 import { Skeleton, useMediaQuery } from '@mui/material';
 import { useLoadImage } from '../../hooks/useLoadImage';
@@ -15,7 +15,7 @@ export const FlexWrapper = styled.div`
   width: 80%;
   justify-content: center;
   align-items: center;
-  margin: 30px auto 0;
+  margin: 0 auto;
 `
 export const GridWrapper = styled.div<ITextSideProps>`
   display: grid;
@@ -34,7 +34,9 @@ export const GridWrapper = styled.div<ITextSideProps>`
 export const TextArea = styled.div<ITextSideProps>`
   grid-area: A;
   justify-self: flex-start;
-  min-width: 300px;
+
+  width: 100%;
+  min-height: 400px;
 `
 
 interface IMediaArea {
@@ -47,30 +49,31 @@ export const MediaArea = styled.div<IMediaArea>`
   grid-area: B;
   justify-self : center;
   width: calc(100% - 20px);
-  min-width: 300px;
-  height: 500px;
+
+  height: auto;
+  min-height: 400px;
   background-image: url(${(props) => props.image});
   background-size: cover;
   background-repeat: no-repeat;
 `
 
-interface IImgProps {
-  transparency: boolean;
-}
+// interface IImgProps {
+//   transparency: boolean;
+// }
 
-const Img = styled.img<IImgProps>`
-  opacity: ${(props) => (props.transparency ? 0 : 1)};
-  transition: 1s all;
-  width: calc(100% - 20px);
-  height: 500px;
-  object-fit: cover;
-  width: 100%;
-  height: auto;
-  flex-grow: 1;
-  &:hover {
-    cursor: pointer;
-  }
-`
+// const Img = styled.img<IImgProps>`
+//   opacity: ${(props) => (props.transparency ? 0 : 1)};
+//   transition: 1s all;
+//   width: calc(100% - 20px);
+//   height: 500px;
+//   object-fit: cover;
+//   width: 100%;
+//   height: auto;
+//   flex-grow: 1;
+//   &:hover {
+//     cursor: pointer;
+//   }
+// `
 
 
 interface IFlexContainerProps {
@@ -79,17 +82,11 @@ interface IFlexContainerProps {
   children: ReactNode;
 }
 
-const FlexContainer: FC<IFlexContainerProps> = observer(({ ...props }) => {
+const FlexContainer = observer(({ ...props }: IFlexContainerProps) => {
 
   const { image, textSide, children } = props;
-
-  console.log()
-  // const imgIsLoading = useLoadImage(image);
   const matches = useMediaQuery('(max-width:820px)');
-
   const imgIsLoading = useLoadImage(image);
-
-  console.log(imgIsLoading)
 
   return (
     <FlexWrapper>

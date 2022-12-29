@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import CameraOutlinedIcon from '@mui/icons-material/CameraOutlined';
 
@@ -31,7 +31,7 @@ interface IImageSpinerProps {
   imgIsLoading: boolean;
 }
 
-const ImageSpiner: FC<IImageSpinerProps> = ({ imgIsLoading }) => {
+const ImageSpiner = ({ imgIsLoading }: IImageSpinerProps) => {
   if(!imgIsLoading) return null;
   return (
     <ImageSpinerContainer>

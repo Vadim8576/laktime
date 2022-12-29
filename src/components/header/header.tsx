@@ -4,11 +4,12 @@ import {useState} from 'react';
 import HeaderAppBar from './headerAppBar';
 
 
+
 // interface HeaderProps {
 // 	auth: boolean
 // }
 
-const Header: React.FC<any> = ({ props }: any) => {
+const Header = () => {
 
   const [menuState, setMenuState] = useState<boolean>(false);
 

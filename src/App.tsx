@@ -7,6 +7,7 @@ import FooterContainer from './components/footer/footerContainer';
 import AppRoutes from './components/routes/appRoutes';
 import ConfirmDialog from './components/ui/confirmDialog';
 import ShowMessage from './components/popupMessages/showMessage';
+import ScrollToTop from './components/ui/scrollTop';
 
 
 const App = observer(() => {

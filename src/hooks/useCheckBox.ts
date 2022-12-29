@@ -6,8 +6,8 @@ export const useCheckBox = () => {
     let newIds: number[] = [];
     let checked: boolean = false;
 
-    if (ids.includes(+id)) {
-      newIds = ids.filter((checkedId: number) => checkedId !== +id);
+    if (ids.includes(id)) {
+      newIds = ids.filter((checkedId: number) => checkedId !== id);
     } else {
       newIds = [...ids, id];
     }

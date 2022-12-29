@@ -1,4 +1,4 @@
-export type MenuActionType = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL' | 'DELETE-ARRAY';
+export type ContextMenuAction = '' | 'EDIT' | 'DELETE' | 'ADD' | 'DELETE-ALL' | 'DELETE-ARRAY';
 
 
 //************* Start AuthStore Types *************
@@ -18,7 +18,7 @@ export interface IServicesList extends IService {
 }
 export interface IServicesContextMenu {
   actionName: string;
-  actionType: MenuActionType;
+  actionType: ContextMenuAction;
   confirmed: boolean;
 }
 //************* End Services Types *************
@@ -36,3 +36,6 @@ export interface IPortfolioResponse {
   data: IPortfolioList;
 }
 //************* End Portfolio Types *************
+export interface Event<T = EventTarget> {
+  target: T;
+}

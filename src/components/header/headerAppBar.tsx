@@ -14,29 +14,36 @@ import { observer } from 'mobx-react-lite';
 import authStore from '../../store/authStore';
 
 
-interface AppBarProps {
+const pages = [
+	{
+		linkText: 'О Laktime',
+		to: '/'
+	},
+	{
+		linkText: 'Портфолио',
+		to: '../portfolio'
+	},
+	{
+		linkText: 'Услуги',
+		to: '../services'
+	},
+	{
+		linkText: 'Запись online',
+		to: '/'
+	}
+];
+
+interface IAppBarProps {
 	setMenuState: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-
-const HeaderAppBar: React.FC<AppBarProps> = observer(({ setMenuState }) => {
+const HeaderAppBar = observer(({ setMenuState }: IAppBarProps) => {
 
 	const isAuth = authStore.isAuth;
-
-	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorEl(event.currentTarget);
-	};
 
 	const handleMainMenu = (event: React.MouseEvent<HTMLElement>) => {
 		// setAnchorEl(event.currentTarget);
 		setMenuState(true);
-	};
-
-
-	const handleClose = () => {
-		setAnchorEl(null);
 	};
 
 	return (
@@ -50,19 +57,40 @@ const HeaderAppBar: React.FC<AppBarProps> = observer(({ setMenuState }) => {
 						edge="start"
 						color="inherit"
 						aria-label="menu"
-						sx={{ mr: 2 }}
+						sx={{
+							mr: 2,
+							display: { sx: 'flex', md: 'none' }
+						}}
 						onClick={handleMainMenu}
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						Laktime
+
+
+					<Typography variant="h5" component="h1" sx={{ flexGrow: 1, textTransform: 'uppercase' }}>
+						<Link to='/' style={{ color: '#fff', textDecoration: 'none' }}>
+							Laktime
+						</Link>
 					</Typography>
 
-					<Link style={{ color: 'yellow' }} to='../login'>login</Link>
-					<Link style={{ color: 'yellow' }} to='../services'>Прайс</Link>
-					<Link style={{ color: 'yellow' }} to='../portfolio'>Портфолио</Link>
+					<Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+						{pages.map((page) => (
+							<Link
+								key={page.linkText}
+								to={page.to}
+								style={{ textDecoration: 'none' }}
+							>
+								<Button
+									component="button"
+									sx={{ my: 2, color: 'white', display: 'block' }}
+								>
+									{page.linkText}
+								</Button>
+							</Link>
+						))}
+					</Box>
 
+					{/* //////////////////////////////////////////////////////////// */}
 					{isAuth
 						?
 						<Button
@@ -86,46 +114,63 @@ const HeaderAppBar: React.FC<AppBarProps> = observer(({ setMenuState }) => {
 							LogIn
 						</Button>
 					}
+					{/* //////////////////////////////////////////////////////////// */}
+					{isAuth && <ProfileMenu />}
 
-
-
-					{isAuth && (
-						<div>
-							<IconButton
-								size="large"
-								aria-label="account of current user"
-								aria-controls="menu-appbar"
-								aria-haspopup="true"
-								onClick={handleMenu}
-								color="inherit"
-							>
-								<AccountCircle />
-							</IconButton>
-							<Menu
-								id="menu-appbar"
-								anchorEl={anchorEl}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								keepMounted
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								open={Boolean(anchorEl)}
-								onClose={handleClose}
-							>
-								<MenuItem onClick={handleClose}>Profile ({'user'})</MenuItem>
-								<MenuItem onClick={handleClose}>My account</MenuItem>
-							</Menu>
-						</div>
-					)}
 				</Toolbar>
 			</AppBar>
 		</Box>
 	);
 })
 
-
 export default HeaderAppBar;
+
+
+
+
+
+const ProfileMenu = () => {
+
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+	return (
+		<>
+			<IconButton
+				size="large"
+				aria-label="account of current user"
+				aria-controls="menu-appbar"
+				aria-haspopup="true"
+				onClick={handleMenu}
+				color="inherit"
+			>
+				<AccountCircle />
+			</IconButton>
+			<Menu
+				id="menu-appbar"
+				anchorEl={anchorEl}
+				anchorOrigin={{
+					vertical: 'top',
+					horizontal: 'right',
+				}}
+				keepMounted
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'right',
+				}}
+				open={Boolean(anchorEl)}
+				onClose={handleClose}
+			>
+				<MenuItem onClick={handleClose}>Profile ({'user'})</MenuItem>
+				<MenuItem onClick={handleClose}>My account</MenuItem>
+			</Menu>
+		</>
+	)
+}

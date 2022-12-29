@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Container, Portal, Stack } from '@mui/material';
-import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Event } from '../pages/portfolio/portfolioPage';
 import { observer } from 'mobx-react-lite';
 import authStore from "../../store/authStore";
-
-
+import IconButton from '@mui/material/IconButton';
+import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import Tooltip from '@mui/material/Tooltip';
+import ImageChangeButton from "../ui/imageChangeButton";
+import { Event } from "../../types/types";
 
 const Panel = styled.div`
   width: 100%;
-  height: 70px;
+  height: 60px;
   display: block;
   position: fixed;
   left: 0;
@@ -23,17 +25,17 @@ const Panel = styled.div`
 
 
 interface IEditPanelProps {
-  changeHandler: { (e: Event<HTMLInputElement>): void } | null;
+  imageChangeHandler: { (e: Event<HTMLInputElement>): void } | null;
   addHandler: { (): void } | null;
   removeAllHandler: () => void;
-  deleteButtonText: string;
+  itemsSelected: boolean;
   clearCheckboxs: () => void;
 }
 
-const EditPanel: React.FC<IEditPanelProps> = observer(({ ...props }) => {
+const EditPanel = observer(({ ...props }: IEditPanelProps) => {
 
   const { isAuth } = authStore;
-  const { changeHandler, addHandler, removeAllHandler, deleteButtonText, clearCheckboxs } = props;
+  const { imageChangeHandler, addHandler, removeAllHandler, itemsSelected, clearCheckboxs } = props;
 
   if (!isAuth) return null;
 
@@ -44,34 +46,58 @@ const EditPanel: React.FC<IEditPanelProps> = observer(({ ...props }) => {
           <Stack
             direction="row"
             height="100%"
-            justifyContent="flex-end"
+            justifyContent="center"
             alignItems="center"
-            spacing={4}
+            spacing={1}
           >
-            <ChangeImageButton changeHandler={changeHandler} />
-            {addHandler && <Button onClick={addHandler}>Добавить</Button>}
-            <Button
+            <ImageChangeButton imageChangeHandler={imageChangeHandler} multiple={true} />
+
+            {/* {addHandler && <Button onClick={addHandler}>Добавить</Button>} */}
+            {addHandler &&
+              <IconButton color='primary' onClick={addHandler}>
+                <AddCircleOutlineOutlinedIcon
+                  fontSize='large'
+                />
+              </IconButton>
+            }
+
+            {/* <Button
               color="error"
               variant="outlined"
               startIcon={<DeleteIcon />}
               onClick={removeAllHandler}
             >
               {deleteButtonText}
-            </Button>
-            {deleteButtonText === 'Удалить выбранные' &&
-              <Button
-                color="secondary"
-                variant="outlined"
-                onClick={clearCheckboxs}
-              >
-                Снять выделение
-              </Button>
+            </Button> */}
+            <Tooltip title={itemsSelected ? 'Удалить выделенное' : 'Удалить все'}>
+              <IconButton color="primary" aria-label="delete" onClick={removeAllHandler}>
+                <DeleteIcon
+                  fontSize='large'
+                />
+              </IconButton>
+            </Tooltip>
+
+
+            {itemsSelected  &&
+              // <Button
+              //   color="secondary"
+              //   variant="outlined"
+              //   onClick={clearCheckboxs}
+              // >
+              //   Снять выделение
+              // </Button>
+              <Tooltip title="Снять выделение">
+                <IconButton color="primary" onClick={clearCheckboxs}>
+                  <CheckBoxOutlineBlankOutlinedIcon
+                    fontSize='large'
+                  />
+                </IconButton>
+              </Tooltip>
             }
           </Stack>
         </Container>
       </Panel>
     </Portal>
-
   )
 })
 
@@ -79,17 +105,4 @@ export default EditPanel;
 
 
 
-interface IChangeImageButtonProps {
-  changeHandler: { (e: Event<HTMLInputElement>): void } | null;
-}
 
-const ChangeImageButton: React.FC<IChangeImageButtonProps> = ({ ...props }) => {
-  const { changeHandler } = props;
-  if (!changeHandler) return null;
-  return (
-    <Button variant="contained" component="label">
-      Выбрать изображения
-      <input hidden accept=".png, .jpg" multiple type="file" onChange={changeHandler} />
-    </Button>
-  )
-}

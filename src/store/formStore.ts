@@ -1,19 +1,19 @@
 import { makeAutoObservable } from "mobx";
 import servicesStore from "./servicesStore";
-import { MenuActionType } from '../types/types';
+import { ContextMenuAction } from '../types/types';
 import { IService } from '../types/types';
 
 const { addService, patchService } = servicesStore;
 
 class FormStore {
   payload: any = null;
-  // id: number | null = null;
-  id: number = 0;
+  id: number | null = null;
+  
   defaultFormData: IService = {
     servicename: '',
     price: '',
     description: '',
-    active: false
+    active: true
   };
   
   constructor() {
@@ -29,7 +29,7 @@ class FormStore {
       servicename: '',
       price: '',
       description: '',
-      active: false
+      active: true
     };
   }
 
@@ -41,7 +41,7 @@ class FormStore {
     this.id = id;
   }
 
-  onSubmit = (type: MenuActionType) => {
+  onSubmit = (type: ContextMenuAction) => {
     console.log(type)
     switch(type) {
       case 'ADD':
@@ -55,9 +55,9 @@ class FormStore {
     }
   };
 
-  formState = () => {
-    return {payload: this.payload, id: this.id, defaultFormData: this.defaultFormData}
-  }
+  // getFormState = () => {
+  //   return {payload: this.payload, id: this.id, defaultFormData: this.defaultFormData}
+  // }
 }
 
 export default new FormStore();

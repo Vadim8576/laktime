@@ -5,22 +5,21 @@ import ServicesForm from '../forms/servicesForm';
 import servicesStore from '../../../../store/servicesStore';
 import formStore from '../../../../store/formStore';
 import useConfirm from '../../../../hooks/useConfirm';
-import usePayload from '../../../../hooks/usePayload';
 import EditPanel from '../../../widgets/EditPanel';
 import ServicesList from './servicesList';
 import PortfolioExamples from '../../../widgets/portfolioExamples';
-import { MenuActionType } from '../../../../types/types';
-import { useDeleteButtonText } from '../../../../hooks/useDeleteButtonText';
+import { ContextMenuAction } from '../../../../types/types';
+import { useSelectedItems } from '../../../../hooks/useSelectedItems';
 
 
 
 const ServicesPage = observer(() => {
   const { servicesError, servicesSuccess, deleteAllServices } = servicesStore;
-  const [ formOpen, setFormOpen ] = useState<boolean>(false);
-  const [ menuActionType, setMenuActionType ] = useState<MenuActionType>('');
-  const [ idsOfSelectedItems, setIdsOfSelectedItems ] = useState<number[]>([])
+  const [formOpen, setFormOpen] = useState<boolean>(false);
+  const [contextMenuAction, setContextMenuAction] = useState<ContextMenuAction>('');
+  const [idsOfSelectedItems, setIdsOfSelectedItems] = useState<number[]>([])
   const { confirm } = useConfirm();
-  const deleteButtonText = useDeleteButtonText(idsOfSelectedItems);
+  const itemsSelected = useSelectedItems(idsOfSelectedItems);
 
 
   const clearCheckboxs = () => {
@@ -28,20 +27,22 @@ const ServicesPage = observer(() => {
   }
 
   const showConfirm = async () => {
-    const checkedItemsLenght = idsOfSelectedItems.length;
+    const checkedItemsLenght = idsOfSelectedItems?.length | 0;
     const isConfirmed = await confirm(
       checkedItemsLenght > 0
-        ? `Удалить выбранные записи? (${checkedItemsLenght})`
-        : 'Удалить все записи?'
+        ? `Удаление выбранных записей: ${checkedItemsLenght}`
+        : 'Удаление всех записей!'
     );
 
-    if (isConfirmed) deleteAllServices(idsOfSelectedItems);
-    clearCheckboxs();
+    if (isConfirmed) {
+      deleteAllServices(idsOfSelectedItems);
+      clearCheckboxs();
+    }
   }
 
   const addHandler = () => {
     formStore.clearForm();
-    setMenuActionType('ADD');
+    setContextMenuAction('ADD');
     setFormOpen(true);
   }
 
@@ -49,7 +50,7 @@ const ServicesPage = observer(() => {
     showConfirm();
   }
 
-  
+
 
   return (
     <>
@@ -60,7 +61,7 @@ const ServicesPage = observer(() => {
 
       <ServicesList
         setFormOpen={setFormOpen}
-        setMenuActionType={setMenuActionType}
+        setContextMenuAction={setContextMenuAction}
         idsOfSelectedItems={idsOfSelectedItems}
         setIdsOfSelectedItems={setIdsOfSelectedItems}
       />
@@ -70,14 +71,14 @@ const ServicesPage = observer(() => {
       <ServicesForm
         formOpen={formOpen}
         setFormOpen={setFormOpen}
-        menuActionType={menuActionType}
+        contextMenuAction={contextMenuAction}
       />
 
       <EditPanel
-        changeHandler={null}
+        imageChangeHandler={null}
         addHandler={addHandler}
         removeAllHandler={removeAllHandler}
-        deleteButtonText={deleteButtonText}
+        itemsSelected={itemsSelected}
         clearCheckboxs={clearCheckboxs}
       />
     </>

@@ -1,6 +1,5 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import ClearIcon from '@mui/icons-material/Clear';
 import authStore from '../../../store/authStore';
 import { observer } from 'mobx-react-lite';
@@ -49,7 +48,7 @@ interface IPortfolioItemActionsPanelProps {
   checked: boolean;
 }
 
-const PortfolioItemActionsPanel: FC<IPortfolioItemActionsPanelProps> = observer(({ ...props }) => {
+const PortfolioItemActionsPanel = observer(({ ...props }: IPortfolioItemActionsPanelProps) => {
 
   const { isAuth } = authStore;
   const [ hover, setHover ] = useState<boolean>(false);

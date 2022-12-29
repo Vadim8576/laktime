@@ -18,7 +18,7 @@ interface IServiceItemMediaProps {
   id: number;
 }
 
-const ServiceItemMedia: React.FC<IServiceItemMediaProps> = observer(({ ...props }) => {
+const ServiceItemMedia = observer(({ ...props }: IServiceItemMediaProps) => {
 
   const { imgIsLoading, image, id } = props;
 

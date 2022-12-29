@@ -1,5 +1,5 @@
-import React, { FC, useEffect } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import servicesStore from "../../../../store/servicesStore";
 import image from '../../../../images/professional-manicure-tools.jpg';
 import { observer } from "mobx-react-lite";
@@ -7,18 +7,15 @@ import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import PortfolioExamples from "../../../widgets/portfolioExamples";
 import FlexContainer from "../../../widgets/flexContainer";
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import GoToBackButton from "../../../ui/goToBackButton";
 
-interface CardDetail {
 
-}
-
-const CardDetail: FC<CardDetail> = observer(() => {
+const CardDetail = observer(() => {
 
   const { id } = useParams();
   if (!id) return null;
 
-  const navigate = useNavigate();
+
   const { getService, servicesList } = servicesStore;
   const serviceItem = servicesList[0];
 
@@ -27,18 +24,9 @@ const CardDetail: FC<CardDetail> = observer(() => {
   }, [])
 
 
-
-  const handleBack = () => {
-    navigate(-1);
-  }
-
   return (
     <>
-      <Button color='inherit' size="large" onClick={handleBack}>
-        <KeyboardArrowLeft />
-        Back
-      </Button>
-
+      <GoToBackButton />
       <FlexContainer
         textSide='right'
         image={image}
@@ -67,6 +55,7 @@ const CardDetail: FC<CardDetail> = observer(() => {
           Записаться
         </Button>
         <p>Лактайм</p>
+        <p>+7(999) 999 99 99</p>
         <p>Псков, ул. Юбилейная, д. 50</p>
       </FlexContainer>
 

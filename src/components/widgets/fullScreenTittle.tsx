@@ -1,7 +1,7 @@
-import React, { FC, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Slide, Typography } from "@mui/material";
 import styled from "styled-components";
-
+import ContentCutIcon from '@mui/icons-material/ContentCut';
 
 const TitleContainer = styled.div`
   width: 100%;
@@ -15,11 +15,16 @@ const TitleContainer = styled.div`
 const Title = styled.div`
 `
 
+const Scissors = styled.span`
+  transform: scale(1.2) rotate(270deg);
+  display: inline-flex;
+`
+
 interface IFullScreenTitleProps {
   title: string;
 }
 
-export const FullScreenTitle: FC<IFullScreenTitleProps> = ({ title }) => {
+export const FullScreenTitle = ({ title }: IFullScreenTitleProps) => {
 
   useEffect(() => {
     
@@ -39,10 +44,13 @@ export const FullScreenTitle: FC<IFullScreenTitleProps> = ({ title }) => {
               padding: '0',
               textTransform: 'uppercase',
               fontWeight: 500,
-              marginBottom: 1
+              marginBottom: 1,
+              whiteSpace: 'nowrap'
             }}
           >
-            Laktime
+            Lak
+            <Scissors><ContentCutIcon /></Scissors>
+            time
           </Typography>
           <Typography
             variant='h4'

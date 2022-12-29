@@ -23,15 +23,15 @@ interface IContextMenuProps {
   anchorEl: null | HTMLElement;
   setAnchorEl: (anchorEl: null | HTMLElement) => void;
   cardMenuOpen: boolean;
-  actionsOfContextMenuItems: any
+  actionsOfContextMenu: any
 }
 
-const ContextMenu: React.FC<IContextMenuProps> = ({
+const ContextMenu = ({
   anchorEl,
   setAnchorEl,
   cardMenuOpen,
-  actionsOfContextMenuItems
-}) => {
+  actionsOfContextMenu
+}: IContextMenuProps) => {
 
   const { confirm } = useConfirm();
 
@@ -42,7 +42,7 @@ const ContextMenu: React.FC<IContextMenuProps> = ({
   const showConfirm = async () => {
     const confirmed = await confirm('Вы уверены?')
     if (confirmed) {
-      actionsOfContextMenuItems.delete();
+      actionsOfContextMenu.delete();
     }
   }
 
@@ -57,7 +57,7 @@ const ContextMenu: React.FC<IContextMenuProps> = ({
         showConfirm();
         break;
       case 'EDIT':
-        actionsOfContextMenuItems.edit();
+        actionsOfContextMenu.edit();
         break;
       default:
     }

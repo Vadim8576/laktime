@@ -34,7 +34,7 @@ const ConfirmDialog = observer(() => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Это действие нельзя будет отменить.
+            Вы уверены?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -57,7 +57,8 @@ class ServicesStore {
     }
   }
 
-  patchService = async (id: number, service: IService) => {
+  patchService = async (id: number | null, service: IService) => {
+    if(!id || !service) return
     this.resetFlags();
     try {
       const response = await servicesAPI.patchService(id, service);

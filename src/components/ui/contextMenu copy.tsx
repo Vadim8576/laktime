@@ -4,7 +4,7 @@ import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import useConfirm from "../../hooks/useConfirm";
 import formStore from "../../store/formStore";
 import servicesStore from "../../store/servicesStore";
-import { IServicesContextMenu, MenuActionType } from '../../types/types';
+import { IServicesContextMenu, ContextMenuAction } from '../../types/types';
 
 
 
@@ -26,18 +26,18 @@ interface IContextMenuProps {
   setAnchorEl: (anchorEl: null | HTMLElement) => void;
   cardMenuOpen: boolean;
   id: number;
-  setMenuActionType: (actionType: MenuActionType) => void;
+  setMenuActionType: (actionType: ContextMenuAction) => void;
   setFormOpen: (formOpen: boolean) => void;
 }
 
-const ContextMenu: React.FC<IContextMenuProps> = ({
+const ContextMenu = ({
   anchorEl,
   setAnchorEl,
   cardMenuOpen,
   id,
   setMenuActionType,
   setFormOpen
-}) => {
+}: IContextMenuProps) => {
 
   const { confirm } = useConfirm();
 
@@ -52,14 +52,14 @@ const ContextMenu: React.FC<IContextMenuProps> = ({
     }
   }
 
-  
+
 
   const handleClick = (index: number) => {
 
     formStore.setId(id);
     const actionType = menuItemList[index].actionType
 
-    switch(actionType) {
+    switch (actionType) {
       case 'DELETE':
         showConfirm()
         break;

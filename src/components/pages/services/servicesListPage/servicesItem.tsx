@@ -1,19 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import image from '../../../../images/manicure.jpg';
-import { Button, Checkbox, Grow, Paper } from '@mui/material';
+import { Button, Checkbox } from '@mui/material';
 import ContextMenu from '../../../ui/contextMenu';
 import { observer } from 'mobx-react-lite';
-import {  MenuActionType } from '../../../../types/types';
+import { ContextMenuAction } from '../../../../types/types';
 import { IServicesList } from '../../../../types/types';
-import { useLoadImage } from '../../../../hooks/useLoadImage';
 import ServiceItemHeader from './serviceItemHeader';
 import authStore from '../../../../store/authStore';
 import { useCheckBox } from '../../../../hooks/useCheckBox';
@@ -22,17 +15,18 @@ import formStore from '../../../../store/formStore';
 
 
 
+
 interface IServicesCardItemProps {
   service: IServicesList;
-  setMenuActionType: (actionType: MenuActionType) => void;
+  setContextMenuAction: (contextMenuAction: ContextMenuAction) => void;
   setFormOpen: (formOpen: boolean) => void;
   idsOfSelectedItems: number[];
   setIdsOfSelectedItems: (arr: any) => void;
 }
 
-const ServicesItem: React.FC<IServicesCardItemProps> = observer(
-  ({ ...props }) => {
-    const { service, setMenuActionType, setFormOpen, idsOfSelectedItems, setIdsOfSelectedItems } = props;
+const ServicesItem = observer(
+  ({ ...props }: IServicesCardItemProps) => {
+    const { service, setContextMenuAction, setFormOpen, idsOfSelectedItems, setIdsOfSelectedItems } = props;
     const { isAuth } = authStore;
     const { id, servicename, price, description, active } = service;
     const buttonText = active ? 'Записаться' : 'Недоступно';
@@ -43,14 +37,14 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
     // context Menu
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const cardMenuOpen = Boolean(anchorEl);
-    
+
     const changeHandler = useCallback(() => {
       setIdsOfSelectedItems((ids: number[]) => setNewIds(ids, id));
     }, [id]);
 
 
 
-    const actionsOfContextMenuItems = {
+    const actionsOfContextMenu = {
       delete: () => {
         formStore.setId(id);
         servicesStore.deleteService(id);
@@ -62,7 +56,7 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
         console.log(data)
 
         formStore.setDefaultFormData(data);
-        setMenuActionType('EDIT');
+        setContextMenuAction('EDIT');
         setFormOpen(true);
       }
     }
@@ -91,7 +85,7 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
         <Card
           sx={{
             width: '50%',
-            minWidth: 200,
+            // minWidth: 200,
             border: 'none',
             backgroundColor: 'none'
           }}
@@ -101,13 +95,14 @@ const ServicesItem: React.FC<IServicesCardItemProps> = observer(
           <ServiceItemHeader
             setAnchorEl={setAnchorEl}
             servicename={servicename}
+            id={id}
           />
 
           <ContextMenu
             anchorEl={anchorEl}
             setAnchorEl={setAnchorEl}
             cardMenuOpen={cardMenuOpen}
-            actionsOfContextMenuItems={actionsOfContextMenuItems}
+            actionsOfContextMenu={actionsOfContextMenu}
           />
 
           <CardContent sx={{ paddingTop: 0, paddingBottom: '24px' }}>

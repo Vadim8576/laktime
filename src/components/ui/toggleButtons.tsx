@@ -10,7 +10,7 @@ interface IToggleButtonProps {
   toggleButtonChange: (event: React.MouseEvent<HTMLElement>, nextView: string) => void;
 }
 
-export const ToggleButtons: React.FC<IToggleButtonProps> = ({ view, toggleButtonChange }) => {
+export const ToggleButtons = ({ view, toggleButtonChange }: IToggleButtonProps) => {
   return (
     <Container sx={{
       display: 'flex',

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
  const useMediaQueryMatches = (query: string) => {

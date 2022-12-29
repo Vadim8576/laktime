@@ -6,22 +6,12 @@ import ShowMessage from '../../popupMessages/showMessage';
 import PortfolioGrid from './portfolioGrid';
 import EditPanel from '../../widgets/EditPanel';
 import PhotosGalery from './photosGalary';
-import { useDeleteButtonText } from '../../../hooks/useDeleteButtonText';
+import { useSelectedItems } from '../../../hooks/useSelectedItems';
+import { Event } from '../../../types/types';
 
 
-export interface Event<T = EventTarget> {
-  target: T;
-}
 
-
-interface IPortfolioProps {
-  // error: string;
-  // success: boolean;
-}
-
-const Portfolio: React.FC<IPortfolioProps> = observer(() => {
-
-
+const Portfolio = observer(() => {
   const {
     sortImages,
     imageListLength,
@@ -35,42 +25,47 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
   const [imagesLength, setImagesLength] = useState<number>(0);
   const [zoomImageIndex, setZoomImageIndex] = useState<number>(0);
   const [idsOfSelectedItems, setIdsOfSelectedItems] = useState<number[]>([]);
-  const deleteButtonText = useDeleteButtonText(idsOfSelectedItems);
+  const itemsSelected = useSelectedItems(idsOfSelectedItems);
 
   useEffect(() => {
     images && showUploadConfirm();
   }, [images])
 
+
+   // Передать эту функцию в PortfolioItem вместо setIdsOfSelectedItems([]);
+   const clearCheckboxs = () => {
+    setIdsOfSelectedItems([]);
+  }
   const { confirm } = useConfirm();
 
   const showConfirm = async () => {
-    const checkedItemsLenght = idsOfSelectedItems.length;
+    const checkedItemsLenght = idsOfSelectedItems?.length | 0;
     const isConfirmed = await confirm(
       checkedItemsLenght > 0
-        ? `Удалить выбранные записи? (${checkedItemsLenght})`
-        : 'Удалить все записи?'
+        ? `Удаление выбранных записей: ${checkedItemsLenght}`
+        : 'Удаление всех записей!'
     );
 
-    if (isConfirmed) {
+    if(isConfirmed) {
+      clearCheckboxs();
       deleteAllImages(idsOfSelectedItems);
-      setImages(null);
-    }
-    clearCheckboxs();
+      setImages(null);   
+    } 
   }
 
   const showUploadConfirm = async () => {
-    const isConfirmed = await confirm(`Добавить выбранные изображения: ${imagesLength}?`);
+    const isConfirmed = await confirm(`Добавление выбранных изображений: ${imagesLength}`);
     if (isConfirmed) {
+      clearCheckboxs();
       uploadImages(images);
       setImages(null);
     }
   }
 
-  const clearCheckboxs = () => {
-    setIdsOfSelectedItems([]);
-  }
 
-  const changeHandler = useCallback((e: Event<HTMLInputElement>) => {
+ 
+
+  const imageChangeHandler = useCallback((e: Event<HTMLInputElement>) => {
     const data = new FormData();
     const files = { ...e.target.files };
     files && setImagesLength(Object.keys(files).length);
@@ -90,7 +85,6 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
   const zoomHandler = (index: number) => {
     setZoomImageIndex(index + 1);
   }
-
 
 
   return (
@@ -114,10 +108,10 @@ const Portfolio: React.FC<IPortfolioProps> = observer(() => {
       />
 
       <EditPanel
-        changeHandler={changeHandler}
+        imageChangeHandler={imageChangeHandler}
         addHandler={null}
         removeAllHandler={removeAllHandler}
-        deleteButtonText={deleteButtonText}
+        itemsSelected={itemsSelected}
         clearCheckboxs={clearCheckboxs}
       />
     </>

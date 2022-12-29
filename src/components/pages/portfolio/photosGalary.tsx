@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import FsLightbox from 'fslightbox-react';
 import { observer } from 'mobx-react-lite';
 import { IPortfolioList } from '../../../types/types';
@@ -12,7 +12,7 @@ interface IPhotosGaleryProps {
   setZoomImageIndex: (index: number) => void;
 }
 
-const PhotosGalery: FC<IPhotosGaleryProps> = observer(({ ...props }) => {
+const PhotosGalery = observer(({ ...props }: IPhotosGaleryProps) => {
 
   const { sortImages, setZoomImageIndex, zoomImageIndex } = props;
   const urls = useUrlsFormat(sortImages) as string[];

@@ -1,11 +1,11 @@
-import React, { FC } from "react";
+import React from "react";
 import { Backdrop, CircularProgress } from "@mui/material";
 
 interface ISpinerProps {
   open: boolean
 }
 
-export const Spiner: FC<ISpinerProps> = ({ open }) => {
+export const Spiner = ({ open }: ISpinerProps) => {
 
   if(!open) return null;
   

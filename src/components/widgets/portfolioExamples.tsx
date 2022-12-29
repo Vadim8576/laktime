@@ -6,11 +6,11 @@ const PortfolioArea = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-direction: row;
   width: 100%;
-  min-width: 300px;
+
   margin-top: 150px;
 `
 const PortfolioItem = styled.div`

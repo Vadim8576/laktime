@@ -1,10 +1,10 @@
 import formStore from "../store/formStore";
-import { MenuActionType } from '../types/types';
+import { ContextMenuAction } from '../types/types';
 
 
 const usePayload = () => {
 
-  const formState = formStore.formState();
+  // const getFormState = formStore.getFormState();
 
   const setPayload = (payload: any) => {
     formStore.setPayload(payload);
@@ -14,11 +14,11 @@ const usePayload = () => {
     formStore.setId(id);
   }
 
-  const formOnSubmit = (type: MenuActionType) => {
+  const formOnSubmit = (type: ContextMenuAction) => {
     formStore.onSubmit(type);
   }
 
-  return {setPayload, setId, formOnSubmit, formState}
+  return {setPayload, setId, formOnSubmit}
 }
 
 

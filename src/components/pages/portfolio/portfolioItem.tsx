@@ -1,4 +1,4 @@
-import React, { useState, FC, useCallback } from 'react';
+import React, { useState } from 'react';
 import { ImageListItem } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
@@ -39,7 +39,7 @@ interface IImageItemProps {
 }
 
 
-const PortfolioItem: FC<IImageItemProps> = observer(({ ...props }) => {
+const PortfolioItem = observer(({ ...props }: IImageItemProps) => {
 
   const { deleteImage } = portfolioStore;
   const { imagePath, id, zoomHandler, imageIndex, setIdsOfSelectedItems, idsOfSelectedItems } = props;
@@ -55,14 +55,17 @@ const PortfolioItem: FC<IImageItemProps> = observer(({ ...props }) => {
   }
 
   const showConfirm = async () => {
-    const isConfirmed = await confirm('Удалить эту запись?');
-    if (isConfirmed) deleteImage(id);
+    const isConfirmed = await confirm('Удаление записи!');
+    if (isConfirmed) {
+      setIdsOfSelectedItems([]);
+      deleteImage(id);
+    }
   }
 
   const panelActions = {
     deleteButtonOnClick: () => showConfirm(),
     checkboxOnChange: () => { 
-      setIdsOfSelectedItems((ids: number[]) => setNewIds(ids, +id));
+      setIdsOfSelectedItems((ids: number[]) => setNewIds(ids, id));
     }
   }
 

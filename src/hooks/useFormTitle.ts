@@ -1,6 +1,6 @@
 import { IService } from '../types/types';
 
-const useFormText = (defaultFormData: IService) => {
+const useFormTitle = (defaultFormData: IService) => {
   return (
     defaultFormData.servicename == '' &&
     defaultFormData.price == '' &&
@@ -10,4 +10,4 @@ const useFormText = (defaultFormData: IService) => {
   : 'Редактировать запись';
 }
 
-export default useFormText;
+export default useFormTitle;

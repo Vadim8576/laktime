@@ -5,7 +5,7 @@ interface INoDataProps  {
   text: String;
 }
 
-const NoData: React.FC<INoDataProps> = ( {...props} ) => {
+const NoData = ( { ...props }: INoDataProps ) => {
   const {text} = props;
   return (
     <Container>

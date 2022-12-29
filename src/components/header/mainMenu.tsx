@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -14,26 +12,21 @@ import Avatar from '@mui/material/Avatar';
 import { Link } from 'react-router-dom';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
-// ['О Лактайм', 'Услуги и цены', 'Портфолио', 'Запись online', 'Контакты']
-{/* <Link style={{ color: 'yellow' }} to='../login'>login</Link> */}
+
 const mainMenuItems = [
-	{text: 'О Лактайм', link: '../'},
-	{text: 'Услуги и цены', link: '../services'},
-	{text: 'Портфолио', link: '../portfolio'},
-	{text: 'Запись online', link: '../services'},
-	{text: 'Контакты', link: '../'},
+	{linkText: 'О Лактайм', to: '../'},
+	{linkText: 'Портфолио', to: '../portfolio'},
+	{linkText: 'Услуги', to: '../services'},
+	{linkText: 'Запись online', to: '../services'},
+	{linkText: 'Контакты', to: '../'},
 ]
 
-
-
-
-
-interface MainMenuProps {
+interface IMainMenuProps {
 	setMenuState: React.Dispatch<React.SetStateAction<boolean>>,
 	menuState: boolean
 }
 
-const MainMenu: React.FC<MainMenuProps> = ({ setMenuState, menuState }) => {
+const MainMenu = ({ setMenuState, menuState }: IMainMenuProps) => {
 	const anchor = 'left';
 
 	const toggleDrawer = (open: boolean) =>
@@ -70,20 +63,19 @@ const MainMenu: React.FC<MainMenuProps> = ({ setMenuState, menuState }) => {
 			{/* <Divider /> */}
 			<List>
 				{mainMenuItems.map((item, index) => (
-					<ListItem key={item.text} disablePadding >
+					<ListItem key={item.linkText} disablePadding >
 						<ListItemButton>
 							<ListItemIcon>
 								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
 								{/* {index % 2 === 0 ? <InboxIcon sx={{color: "#999"}} /> : <MailIcon />} */}
 							</ListItemIcon>
-							<Link style={{ color: '#999' }} to={item.link}><ListItemText primary={item.text} /></Link>
+							<Link style={{ color: '#999' }} to={item.to}><ListItemText primary={item.linkText} /></Link>
 							
 							{/* <ListItemText primary={text} sx={{color: '#fff'}} /> */}
 						</ListItemButton>
 					</ListItem>
 				))}
 			</List>
-
 		</Box>
 	);
 

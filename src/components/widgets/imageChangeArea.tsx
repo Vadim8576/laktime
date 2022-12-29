@@ -1,9 +1,10 @@
 import React from "react";
 import styled from 'styled-components';
-import Button from '@mui/material/Button';
+import ImageChangeButton from "../ui/imageChangeButton";
+import { Event } from "../../types/types";
 
 
-const ChangeImageArea = styled.div`
+const ImageChangeAreaContainer = styled.div`
   margin: 8px 0 4px 0;
 `;
 const Image = styled.img`
@@ -15,9 +16,12 @@ const ImageView = styled.div`
 `;
 
 
-const ChangeImage = () => {
+
+const ImageChangeArea = () => {
+
   const [image, setImage] = React.useState<string>('');
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  
+  const imageChangeHandler = (event: Event<HTMLInputElement>) => {
     if (event.target.files != null) {
       setImage(URL.createObjectURL(event.target.files[0]));   
       // formData.append("fileupload", event.target.files[0]);   
@@ -27,19 +31,20 @@ const ChangeImage = () => {
   }
 
   return (
-    <ChangeImageArea>
-      <Button variant="contained" component="label">
+    <ImageChangeAreaContainer>
+      {/* <Button variant="contained" component="label">
         Изображение
         <input hidden accept="image/*" type="file" onChange={changeHandler} />
-      </Button>
+      </Button> */}
+      <ImageChangeButton imageChangeHandler={imageChangeHandler} multiple={false} />
       <ImageView>
         {image
           ? <Image src={image} alt='Фото услуги' />
           : <></>
         }
       </ImageView>
-    </ChangeImageArea>
+    </ImageChangeAreaContainer>
   )
 }
 
-export default ChangeImage;
+export default ImageChangeArea;

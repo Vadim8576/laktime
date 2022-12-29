@@ -1,13 +1,11 @@
-import React, { FC, useEffect } from "react";
-import { Button, ImageList } from '@mui/material';
+import React, { useEffect } from "react";
+import { ImageList } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import Box from '@mui/material/Box';
 import NoData from '../../widgets/noData';
 import useMediaQueryMatches from '../../../hooks/useMediaQueryMatches';
 import PortfolioItem from './portfolioItem';
-
 import { IPortfolioList } from '../../../types/types';
-
 
 interface IPortfolioGridProps {
   sortImages: IPortfolioList[];
@@ -17,7 +15,7 @@ interface IPortfolioGridProps {
   setIdsOfSelectedItems: (arr: number[]) => void;
 }
 
-const PortfolioGrid: FC<IPortfolioGridProps> = observer(( {...props} ) => {
+const PortfolioGrid = observer(( {...props}: IPortfolioGridProps ) => {
 
   const { sortImages, imageListLength, zoomHandler, idsOfSelectedItems, setIdsOfSelectedItems } = props;
   const { cols, gap } = useMediaQueryMatches('(max-width:1000px)');

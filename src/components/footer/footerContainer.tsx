@@ -8,10 +8,12 @@ import styled from 'styled-components';
 const FooterFooterLine = styled.div`
   width: 100%;
   display: flex;
+  justify-content: center;
+  overflow: hidden;
   padding: 20px 0;
   background-color: #000;
   color: #878585;
-  justify-content: center;
+  
 `
 
 const FooterContainer = () => {
@@ -35,7 +37,7 @@ const FooterContainer = () => {
           maxWidth='lg'
           sx={{
             marginTop: '0',
-            color: '#bdbdbd'
+            color: '#8d8c8c'
           }}
         >
           <Footer />
