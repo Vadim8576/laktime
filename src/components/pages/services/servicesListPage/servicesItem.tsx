@@ -2,14 +2,12 @@ import React, { useState, useCallback } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Button, Checkbox } from '@mui/material';
+import { Button } from '@mui/material';
 import ContextMenu from '../../../ui/contextMenu';
 import { observer } from 'mobx-react-lite';
 import { ContextMenuAction } from '../../../../types/types';
 import { IServicesList } from '../../../../types/types';
 import ServiceItemHeader from './serviceItemHeader';
-import authStore from '../../../../store/authStore';
-import { useCheckBox } from '../../../../hooks/useCheckBox';
 import servicesStore from '../../../../store/servicesStore';
 import formStore from '../../../../store/formStore';
 
@@ -27,20 +25,20 @@ interface IServicesCardItemProps {
 const ServicesItem = observer(
   ({ ...props }: IServicesCardItemProps) => {
     const { service, setContextMenuAction, setFormOpen, idsOfSelectedItems, setIdsOfSelectedItems } = props;
-    const { isAuth } = authStore;
+    // const { isAuth } = authStore;
     const { id, servicename, price, description, active } = service;
     const buttonText = active ? 'Записаться' : 'Недоступно';
 
-    const { setNewIds, checkboxChecked } = useCheckBox();
-    const checked = checkboxChecked(idsOfSelectedItems, id);
+    // const { setNewIds, checkboxChecked } = useCheckBox();
+    // const checked = checkboxChecked(idsOfSelectedItems, id);
 
     // context Menu
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const cardMenuOpen = Boolean(anchorEl);
 
-    const changeHandler = useCallback(() => {
-      setIdsOfSelectedItems((ids: number[]) => setNewIds(ids, id));
-    }, [id]);
+    // const changeHandler = useCallback(() => {
+    //   setIdsOfSelectedItems((ids: number[]) => setNewIds(ids, id));
+    // }, [id]);
 
 
 
@@ -63,94 +61,80 @@ const ServicesItem = observer(
 
 
     return (
-      <>
-        <CardContent
-          sx={{
-            paddingLeft: 0,
-            paddingRight: 0,
-            visibility: isAuth ? 'visible' : 'hidden',
-            width: isAuth ? 'auto' : 0
-          }}
-        >
-          <Checkbox
-            checked={checked}
+      <Card
+        sx={{
+          width: '50%',
+          // minWidth: 200,
+          border: 'none'
+        }}
+        variant="outlined"
+      >
+
+        <ServiceItemHeader
+          setAnchorEl={setAnchorEl}
+          servicename={servicename}
+          id={id}
+          idsOfSelectedItems={idsOfSelectedItems}
+          setIdsOfSelectedItems={setIdsOfSelectedItems}
+        />
+
+        <ContextMenu
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          cardMenuOpen={cardMenuOpen}
+          actionsOfContextMenu={actionsOfContextMenu}
+        />
+
+        <CardContent sx={{ paddingTop: 0, paddingBottom: '24px' }}>
+          <Typography
+            variant="subtitle1"
             sx={{
-              padding: 0,
-              paddingRight: '5px',
+              color: '#999'
             }}
-            onChange={changeHandler}
-          />
+          >
+            {description}
+          </Typography>
         </CardContent>
 
-        <Card
+        <CardContent
           sx={{
-            width: '50%',
-            // minWidth: 200,
-            border: 'none',
-            backgroundColor: 'none'
+            paddingTop: 0,
+            paddingBottom: '10px',
+            borderBottom: '1px #d9d9d9 solid'
           }}
-          variant="outlined"
         >
-
-          <ServiceItemHeader
-            setAnchorEl={setAnchorEl}
-            servicename={servicename}
-            id={id}
-          />
-
-          <ContextMenu
-            anchorEl={anchorEl}
-            setAnchorEl={setAnchorEl}
-            cardMenuOpen={cardMenuOpen}
-            actionsOfContextMenu={actionsOfContextMenu}
-          />
-
-          <CardContent sx={{ paddingTop: 0, paddingBottom: '24px' }}>
-            <Typography>
-              {description}
-            </Typography>
-          </CardContent>
-
-          <CardContent
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="div"
             sx={{
-              paddingTop: 0,
-              paddingBottom: '10px',
-              borderBottom: '1px #d9d9d9 solid'
+              color: 'red',
+              textAlign: 'right',
             }}
           >
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="div"
-              sx={{
-                color: 'red',
-                textAlign: 'left',
-              }}
-            >
-              {price} &#8381;
-            </Typography>
-          </CardContent>
+            {price} &#8381;
+          </Typography>
+        </CardContent>
 
-          <CardContent
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              padding: '10px 0 8px 0'
-            }}
+        <CardContent
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            padding: '10px 0 8px 0'
+          }}
+        >
+          <Button
+            disabled={!active}
+            size="medium"
+            color="primary"
+            variant="outlined"
           >
-            <Button
-              disabled={!active}
-              size="medium"
-              color="primary"
-              variant="outlined"
-            >
-              {buttonText}
-            </Button>
+            {buttonText}
+          </Button>
 
-            {/* <p>Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь c Политикой Конфиденциальности</p> */}
-          </CardContent>
-        </Card>
-      </>
+          {/* <p>Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь c Политикой Конфиденциальности</p> */}
+        </CardContent>
+      </Card>
     );
   })
 

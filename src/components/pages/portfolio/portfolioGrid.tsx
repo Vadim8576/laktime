@@ -33,7 +33,7 @@ const PortfolioGrid = observer(( {...props}: IPortfolioGridProps ) => {
         {sortImages.map((image, imageIndex) => (
           <PortfolioItem
             key={image.id}
-            imagePath={image.image_path}
+            imageName={image.image_name}
             id={image.id}
             zoomHandler={zoomHandler}
             imageIndex={imageIndex}

@@ -49,7 +49,7 @@ class PortfolioStore {
       }
     }
     catch (error: any) {
-      (error.response.status === 403) && this.logout();
+      if(error.response.status === 403) this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -68,7 +68,7 @@ class PortfolioStore {
       }
     }
     catch (error: any) {
-      (error.response.status === 403) && this.logout();
+      if(error.response.status === 403) this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -86,7 +86,7 @@ class PortfolioStore {
       }
     }
     catch (error: any) {
-      (error.response.status === 403) && this.logout();
+      if(error.response.status === 403) this.logout();
       this.setError(getErrorMessage(error).error);
     } finally {
       this.setLoading(false);
@@ -99,6 +99,7 @@ class PortfolioStore {
       const response = await portfolioAPI.getImages();
       if(response.status === 'ok')  {
         this.setImages(response.data);
+        console.log(response.data);
       }
     }
     catch(error: any) {

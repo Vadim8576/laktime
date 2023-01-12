@@ -16,7 +16,7 @@ interface IServiceResponse {
 
 
 const API_KEY = process.env.REACT_APP_API_KEY as string;
-const TOKEN_HEADER_NAME = process.env.REACT_APP_TOKEN_HEADER_NAME  as string; // например "x-access-token"
+const TOKEN_HEADER_NAME = process.env.REACT_APP_TOKEN_HEADER_NAME as string; // например "x-access-token"
 const BASE_URL = process.env.REACT_APP_BASE_URL as string;
 
 
@@ -46,7 +46,7 @@ const servicesAPI = {
     },
 
     getService(id: number) {
-        return instance
+        return instance 
             .get(`services/${id}`)
             .then((response: AxiosResponse<IServiceResponse>) => {
                 return {
@@ -56,12 +56,16 @@ const servicesAPI = {
             })
     },
 
-    addService(service: IService) {
+    addService(service: any) {
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
+        instance.defaults.headers = {
+            ...instance.defaults.headers,
+            'Content-Type': 'multipart/form-data'       
+        }
+     
         return instance
-            .post(`services/`, {...service})
+            .post(`services/`, service)
             .then((response: AxiosResponse<IServiceResponse>) => {
-                console.log(response)
                 return {
                     data: response.data.data,
                     status: 'ok'
@@ -69,10 +73,15 @@ const servicesAPI = {
             })
     },
 
-    patchService(id: number, service: IService) {    
+    patchService(id: number, service: IService) {
+        console.log(service)
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
+        instance.defaults.headers = {
+            ...instance.defaults.headers,
+            'Content-Type': 'multipart/form-data'       
+        }
         return instance
-            .put(`services/${id}`, {...service})
+            .put(`services/${id}`, service)
             .then((response: AxiosResponse<IServiceResponse>) => {
                 console.log(response)
                 return {
@@ -94,13 +103,12 @@ const servicesAPI = {
                 }
             })
     },
-    
+
     deleteAllServices(ids: number[]) {
         // const params = ids.length > 0 ? {ids: [...ids]} : null;
-  
         instance.defaults.headers.common[TOKEN_HEADER_NAME] = getTokenFromLocalStorage('token');
         return instance
-            .delete(`services/`, {params: {ids: [...ids]}})
+            .delete(`services/`, { params: { ids: [...ids] } })
             .then((response: AxiosResponse<IServiceResponse>) => {
                 console.log(response)
                 return {

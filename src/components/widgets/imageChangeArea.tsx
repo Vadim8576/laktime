@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from 'styled-components';
 import ImageChangeButton from "../ui/imageChangeButton";
 import { Event } from "../../types/types";
+import { observer } from 'mobx-react-lite';
+
+const BASE_URL = process.env.REACT_APP_BASE_URL as string;
 
 
 const ImageChangeAreaContainer = styled.div`
@@ -16,18 +19,43 @@ const ImageView = styled.div`
 `;
 
 
+interface IImageChangeArea {
+  setImage: (file: any) => void;
+  image: any;
+}
 
-const ImageChangeArea = () => {
+const ImageChangeArea = observer(({ ...props }: IImageChangeArea) => {
+  const { setImage, image } = props;
 
-  const [image, setImage] = React.useState<string>('');
-  
+  const [imageUrl, setImageUrl] = useState<string>('')
+
+  useEffect(() => {
+    setImageUrl(
+      (typeof image === 'object')? URL.createObjectURL(image) : image ? `${BASE_URL}images/${image}`: ''
+    );
+    console.log(imageUrl)
+  }, [image])
+
+
   const imageChangeHandler = (event: Event<HTMLInputElement>) => {
-    if (event.target.files != null) {
-      setImage(URL.createObjectURL(event.target.files[0]));   
-      // formData.append("fileupload", event.target.files[0]);   
-      // console.log(formData.get('fileupload'))
-      // setFormData(formData);
+
+    // const data = new FormData();
+    let file = event.target.files ? event.target.files[0] : null;
+
+    console.log(file)
+    console.log(typeof file)
+    console.log(file?.name)
+
+    if (file) {
+      
+      setImage(file);
+      setImageUrl(typeof file === 'object' ? URL.createObjectURL(file) : `${BASE_URL}images/${image}`);
+      // data.append(`image_name`, file);
+      // setImageUrl(URL.createObjectURL(file));
+      
+      // URL.revokeObjectURL() // удалить URL, когда он не нужен
     }
+
   }
 
   return (
@@ -38,13 +66,13 @@ const ImageChangeArea = () => {
       </Button> */}
       <ImageChangeButton imageChangeHandler={imageChangeHandler} multiple={false} />
       <ImageView>
-        {image
-          ? <Image src={image} alt='Фото услуги' />
+        {imageUrl
+          ? <Image src={imageUrl} alt='Фото услуги' />
           : <></>
         }
       </ImageView>
     </ImageChangeAreaContainer>
   )
-}
+})
 
 export default ImageChangeArea;

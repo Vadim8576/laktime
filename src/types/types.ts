@@ -12,6 +12,7 @@ export interface IService {
   price: string;
   description: string;
   active: boolean;
+  image_name: string;
 }
 export interface IServicesList extends IService {
   id: number;
@@ -27,7 +28,7 @@ export interface IServicesContextMenu {
 //************* Start Portfolio Types *************
 export interface IPortfolio {
   image_id: number;
-  image_path: string;
+  image_name: string;
 }
 export interface IPortfolioList extends IPortfolio {
   id: number;

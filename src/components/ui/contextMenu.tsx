@@ -1,6 +1,6 @@
 import React from "react";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
+import { ListItemIcon, ListItemText, Menu, MenuItem, MenuList } from '@mui/material';
 import useConfirm from "../../hooks/useConfirm";
 import { IServicesContextMenu } from '../../types/types';
 
@@ -33,11 +33,13 @@ const ContextMenu = ({
   actionsOfContextMenu
 }: IContextMenuProps) => {
 
-  const { confirm } = useConfirm();
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+
+  const { confirm } = useConfirm();
 
   const showConfirm = async () => {
     const confirmed = await confirm('Вы уверены?')
@@ -46,13 +48,11 @@ const ContextMenu = ({
     }
   }
 
-  
-
   const handleClick = (index: number) => {
 
     const actionType = menuItemList[index].actionType
 
-    switch(actionType) {
+    switch (actionType) {
       case 'DELETE':
         showConfirm();
         break;
@@ -75,16 +75,14 @@ const ContextMenu = ({
         'aria-labelledby': 'basic-button',
       }}
     >
-      {menuItemList.map((menuItem: IServicesContextMenu, index: number) => {
-        return (
-          <MenuItem key={menuItem.actionName} onClick={() => handleClick(index)} >
-            <ListItemIcon>
-              <EditOutlinedIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>{menuItem.actionName}</ListItemText>
-          </MenuItem>
-        )
-      })}
+      {menuItemList.map((menuItem: IServicesContextMenu, index: number) =>
+        <MenuItem key={menuItem.actionName} onClick={() => handleClick(index)} >
+          <ListItemIcon>
+            <EditOutlinedIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>{menuItem.actionName}</ListItemText>
+        </MenuItem>
+      )}
     </Menu>
   )
 }

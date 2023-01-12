@@ -3,18 +3,14 @@ import { IPortfolioList } from '../types/types';
 
 const baseUrl = 'http://localhost:4000/images/';
 
-
-export const useUrlsFormat = (imagePath: string | IPortfolioList[]) => {
+export const useUrlsFormat = (imageNames: string | IPortfolioList[]) => {
   const urls = useMemo(() => {
-    if(Array.isArray(imagePath)) {
-      const pathList: string[] = imagePath.map(path => `${baseUrl}${path.image_path}?w=248&fit=crop&auto=format`);
-      return pathList;
+    if(Array.isArray(imageNames)) {
+      return imageNames.map(name => `${baseUrl}${name.image_name}?w=248&fit=crop&auto=format`)
     } else {
-      const src: string = `${baseUrl}${imagePath}?w=248&fit=crop&auto=format`;
-      return src;
+      return `${baseUrl}${imageNames}?w=248&fit=crop&auto=format`;
     }
-  }, [imagePath])
-
+  }, [imageNames])
 
   return urls;
 }

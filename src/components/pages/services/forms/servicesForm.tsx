@@ -32,7 +32,12 @@ const ServicesForm = observer(({ formOpen, setFormOpen, contextMenuAction }: ISe
   // получаем дефолтные данные формы из стора
   const defaultFormData: IService = formStore.defaultFormData;
 
-  const [checkBoxChecked, setCheckBoxChecked] = useState<boolean>(defaultFormData.active);
+
+  console.log(defaultFormData.image_name)
+
+  const [checkBoxChecked, setCheckBoxChecked] = useState<boolean>(false);
+
+  const [image, setImage] = useState<string>('');
 
   const formTittle = useFormTitle(defaultFormData);
 
@@ -66,28 +71,35 @@ const ServicesForm = observer(({ formOpen, setFormOpen, contextMenuAction }: ISe
     if (formOpen) {
       reset(defaultFormData);
       setCheckBoxChecked(defaultFormData.active);
+      setImage(defaultFormData.image_name)
     }
-  }, [formOpen])
+  }, [formOpen, defaultFormData])
 
 
 
   const onSubmit = (data: any) => {
-    console.log(data)
-    // console.log('actionType = ', contextMenuAction)
 
     const payload = { ...data, active: `${data.active}` };
     console.log(payload)
+    console.log(image)
 
 
-    setPayload(payload);
+    const formData = new FormData();
+    formData.append('service', JSON.stringify(payload));
+    formData.append('image_name', image);
+
+    setPayload(formData);
+
 
     formOnSubmit(contextMenuAction);
     setFormOpen(false);
+    setImage('');
   };
 
   const handleClose = () => {
     setFormOpen(false);
     reset(defaultFormData);
+    setImage('');
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,7 +153,10 @@ const ServicesForm = observer(({ formOpen, setFormOpen, contextMenuAction }: ISe
           helperText={errors.description?.message}
         />
 
-        <ImageChangeArea />
+        <ImageChangeArea
+          setImage={setImage}
+          image={image}
+        />
 
         <FormControlLabel
           control={

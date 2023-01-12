@@ -13,7 +13,8 @@ class FormStore {
     servicename: '',
     price: '',
     description: '',
-    active: true
+    active: true,
+    image_name: ''
   };
   
   constructor() {
@@ -29,7 +30,8 @@ class FormStore {
       servicename: '',
       price: '',
       description: '',
-      active: true
+      active: true,
+      image_name: ''
     };
   }
 

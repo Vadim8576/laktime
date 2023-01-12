@@ -30,7 +30,7 @@ const Img = styled.img<IImgProps>`
 
 
 interface IImageItemProps {
-  imagePath: string;
+  imageName: string;
   id: number;
   zoomHandler: (index: number) => void;
   imageIndex: number;
@@ -42,8 +42,9 @@ interface IImageItemProps {
 const PortfolioItem = observer(({ ...props }: IImageItemProps) => {
 
   const { deleteImage } = portfolioStore;
-  const { imagePath, id, zoomHandler, imageIndex, setIdsOfSelectedItems, idsOfSelectedItems } = props;
-  const url = useUrlsFormat(imagePath) as string;
+  const { imageName, id, zoomHandler, imageIndex, setIdsOfSelectedItems, idsOfSelectedItems } = props;
+  const url = useUrlsFormat(imageName) as string;
+
   const [imgIsLoading, setImgIsLoading] = useState<boolean>(true);
   const [hover, setHover] = useState<boolean>(false);
   const { setNewIds, checkboxChecked } = useCheckBox();

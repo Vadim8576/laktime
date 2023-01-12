@@ -32,7 +32,6 @@ const Portfolio = observer(() => {
   }, [images])
 
 
-   // Передать эту функцию в PortfolioItem вместо setIdsOfSelectedItems([]);
    const clearCheckboxs = () => {
     setIdsOfSelectedItems([]);
   }
@@ -65,17 +64,23 @@ const Portfolio = observer(() => {
 
  
 
-  const imageChangeHandler = useCallback((e: Event<HTMLInputElement>) => {
+  const imageChangeHandler = useCallback((event: Event<HTMLInputElement>) => {
+    const files = { ...event.target.files };
+    const len = Object.keys(files).length;
+
+    if(len === 0) return;
+
+    setImagesLength(len);
+    event.target.files = null;
+    event.target.value = '';
+
     const data = new FormData();
-    const files = { ...e.target.files };
-    files && setImagesLength(Object.keys(files).length);
-    e.target.files = null;
-    e.target.value = '';
     for (const key in files) {
-      // 'image_path' - эта метка установлена на сервере
-      data.append(`image_path`, files[key]);
+      // 'image_name' - эта метка установлена на сервере
+      data.append(`image_name`, files[key]);
     }
     setImages(data);
+
   }, [])
 
   const removeAllHandler = () => {

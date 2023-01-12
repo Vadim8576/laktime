@@ -38,7 +38,7 @@ class ServicesStore {
     this.servicesSuccess = success;
   }
 
-  addService = async (service: IService) => {
+  addService = async (service: any) => {
     this.resetFlags();
 
     try {
@@ -49,7 +49,10 @@ class ServicesStore {
       }
     }
     catch (error: any) {
-      (error.response.status === 403) && this.logout();
+      console.log(error)
+
+      if(error.response.status === 403) this.logout();
+
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -68,7 +71,7 @@ class ServicesStore {
       }
     }
     catch (error: any) {
-      (error.response.status === 403) && this.logout();
+      if(error.response.status === 403) this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -87,7 +90,7 @@ class ServicesStore {
       }
     }
     catch (error: any) {
-      (error.response.status === 403) && this.logout();
+      if(error.response.status === 403) this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -108,7 +111,8 @@ class ServicesStore {
       }
     }
     catch (error: any) {
-      (error.response.status === 403) && this.logout();
+      console.log(error)
+      if(error.response.status === 403) this.logout();
       this.setError(getErrorMessage(error).error);
     }
     finally {
@@ -161,6 +165,7 @@ class ServicesStore {
     const sort = 'id'; //сотировка по ID
     // переписать функцию для сортировки по буквам
     // const sort = 'servicename'; //сотировка по ID
+    console.log(toJS(this.servicesList))
     return [...this.servicesList].sort((a: IServicesList, b: IServicesList) => (a[sort] - b[sort]));
   }
 
