@@ -29,7 +29,7 @@ const PortfolioGrid = observer(( {...props}: IPortfolioGridProps ) => {
 
   return (
     <Box sx={{ width: '100%', height: '100%', overflowY: 'hidden',  }}>
-      <ImageList cols={cols} gap={gap} sx={{margin: 2}}>
+      <ImageList cols={cols} gap={gap} sx={{margin: 2}} variant="woven">
         {sortImages.map((image, imageIndex) => (
           <PortfolioItem
             key={image.id}

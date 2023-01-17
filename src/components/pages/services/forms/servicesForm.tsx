@@ -18,7 +18,7 @@ import { useState } from 'react';
 import { ContextMenuAction } from '../../../../types/types';
 import { IService } from '../../../../types/types';
 import ImageChangeArea from '../../../widgets/imageChangeArea';
-import { toJS } from 'mobx';
+
 
 
 interface IServiceFormProps {
@@ -83,14 +83,11 @@ const ServicesForm = observer(({ formOpen, setFormOpen, contextMenuAction }: ISe
     console.log(payload)
     console.log(image)
 
-
     const formData = new FormData();
     formData.append('service', JSON.stringify(payload));
     formData.append('image_name', image);
 
     setPayload(formData);
-
-
     formOnSubmit(contextMenuAction);
     setFormOpen(false);
     setImage('');
@@ -106,14 +103,10 @@ const ServicesForm = observer(({ formOpen, setFormOpen, contextMenuAction }: ISe
     setCheckBoxChecked(event.target.checked);
   }
 
-
-
   return (
     <Dialog open={formOpen} onClose={handleClose}>
       <DialogTitle>{formTittle}</DialogTitle>
-      <DialogContent dividers sx={{
-        paddingBottom: '32px'
-      }}>
+      <DialogContent dividers>
         <DialogContentText mb={4}>
           Введите название, стоимость, краткое описание услуги, а также укажите, будет ли услуга доступна для записи.
         </DialogContentText>
@@ -146,16 +139,13 @@ const ServicesForm = observer(({ formOpen, setFormOpen, contextMenuAction }: ISe
           margin="normal"
           id="description"
           label="Описание"
+          multiline
+          rows={2}
           fullWidth
           variant="outlined"
           {...register('description')}
           error={errors.description ? true : false}
           helperText={errors.description?.message}
-        />
-
-        <ImageChangeArea
-          setImage={setImage}
-          image={image}
         />
 
         <FormControlLabel
@@ -168,6 +158,11 @@ const ServicesForm = observer(({ formOpen, setFormOpen, contextMenuAction }: ISe
             />
           }
           label="Услуга доступна для записи"
+        />
+
+        <ImageChangeArea
+          setImage={setImage}
+          image={image}
         />
 
       </DialogContent>

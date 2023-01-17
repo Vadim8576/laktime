@@ -9,7 +9,7 @@ export type IUser = string | null;
 //************* Start Services Types *************
 export interface IService {
   servicename: string;
-  price: string;
+  price: number;
   description: string;
   active: boolean;
   image_name: string;

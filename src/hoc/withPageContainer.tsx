@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container } from '@mui/material';
 
+
 export const WithPageContainer = (Child: React.ComponentType) => {
   return (props: JSX.IntrinsicAttributes) => {
     return (

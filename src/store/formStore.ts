@@ -11,7 +11,7 @@ class FormStore {
   
   defaultFormData: IService = {
     servicename: '',
-    price: '',
+    price: 0,
     description: '',
     active: true,
     image_name: ''
@@ -28,7 +28,7 @@ class FormStore {
   clearForm = () => {
     this.defaultFormData = {
       servicename: '',
-      price: '',
+      price: 0,
       description: '',
       active: true,
       image_name: ''

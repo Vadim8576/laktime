@@ -4,7 +4,7 @@ import servicesStore from "../../../../store/servicesStore";
 import { ContextMenuAction } from '../../../../types/types';
 import { IServicesList } from '../../../../types/types';
 import NoData from "../../../widgets/noData";
-import ServicesItem from "./servicesItem";
+import { ServicesItem } from "./servicesItem";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 
@@ -33,7 +33,7 @@ const ServicesList = observer(({ ...props }: IServicesListProps) => {
           alignItems='flex-start'
           sx={{
             justifyContent: 'center',
-            // paddingBottom: '30px'
+            paddingBottom: '30px'
           }}
           key={service.id}
         >

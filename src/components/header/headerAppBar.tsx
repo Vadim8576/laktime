@@ -9,7 +9,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import authStore from '../../store/authStore';
 
@@ -75,18 +75,20 @@ const HeaderAppBar = observer(({ setMenuState }: IAppBarProps) => {
 
 					<Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
 						{pages.map((page) => (
-							<Link
+							<NavLink
 								key={page.linkText}
 								to={page.to}
 								style={{ textDecoration: 'none' }}
 							>
-								<Button
-									component="button"
-									sx={{ my: 2, color: 'white', display: 'block' }}
-								>
-									{page.linkText}
-								</Button>
-							</Link>
+								{({ isActive }) => (
+									<Button
+										component="button"
+										sx={{ my: 2, color: isActive ? 'yellow' : 'white', display: 'block' }}
+									>
+										{page.linkText}
+									</Button>
+								)}
+							</NavLink>
 						))}
 					</Box>
 

@@ -5,8 +5,6 @@ import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from "react-router-dom";
-import Avatar from '@mui/material/Avatar';
-import { red } from '@mui/material/colors';
 import { Checkbox } from '@mui/material';
 import { useCheckBox } from "../../../../hooks/useCheckBox";
 
@@ -38,7 +36,7 @@ const ServiceItemHeader = observer(({ ...props }: IServiceHeaderProps) => {
   return (
     <CardHeader
       sx={{
-        backgroundColor: 'none'
+        paddingLeft: '6px'
       }}
       avatar={
         isAuth
@@ -52,6 +50,7 @@ const ServiceItemHeader = observer(({ ...props }: IServiceHeaderProps) => {
           />
           : null
       }
+      
       action={
         <IconButton
           aria-label="settings"
@@ -68,10 +67,10 @@ const ServiceItemHeader = observer(({ ...props }: IServiceHeaderProps) => {
         <Link
           to={`../card-detail/${id}`}
           style={{
-            color: '#000',
             outline: 'none',
             textDecoration: 'none',
-            fontSize: '1.2rem'
+            fontSize: '1.2rem',
+            color: '#000'
           }}
         >
           {servicename}

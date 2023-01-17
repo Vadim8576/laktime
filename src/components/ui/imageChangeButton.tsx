@@ -1,8 +1,9 @@
 import React from "react";
 import Tooltip from '@mui/material/Tooltip';
+import { Event } from "../../types/types";
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { Event } from "../../types/types";
+
 
 interface IImageChangeButtonProps {
   imageChangeHandler: { (e: Event<HTMLInputElement>): void } | null;
@@ -14,11 +15,13 @@ const ImageChangeButton = ({ ...props }: IImageChangeButtonProps) => {
   if (!imageChangeHandler) return null;
   return (
     <Tooltip title="Выбрать изображения">
-      <IconButton color="primary" aria-label="upload picture" component="label">
+      {/* <Button variant="contained" component="label" sx={{ marginBottom: '0' }}>
+        Изображение
         <input hidden accept=".png, .jpg" multiple={multiple} type="file" onChange={imageChangeHandler} />
-        <PhotoCamera
-          fontSize='large'
-        />
+      </Button> */}
+      <IconButton sx={{marginLeft: '-9px'}} color="primary" aria-label="upload picture" component="label">
+        <input hidden accept=".png, .jpg" multiple={multiple} type="file" onChange={imageChangeHandler} />
+        <PhotoCamera fontSize="large" />
       </IconButton>
     </Tooltip>
   )

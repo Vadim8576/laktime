@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Slide, Typography } from "@mui/material";
 import styled from "styled-components";
 import ContentCutIcon from '@mui/icons-material/ContentCut';
+import { ArrowDown } from "../ui/arrowDown";
 
 const TitleContainer = styled.div`
   width: 100%;
@@ -13,6 +14,14 @@ const TitleContainer = styled.div`
   justify-content: center;
 `
 const Title = styled.div`
+`
+const ArrowWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px;
 `
 
 const Scissors = styled.span`
@@ -27,7 +36,7 @@ interface IFullScreenTitleProps {
 export const FullScreenTitle = ({ title }: IFullScreenTitleProps) => {
 
   useEffect(() => {
-    
+
   }, [])
 
   return (
@@ -45,7 +54,7 @@ export const FullScreenTitle = ({ title }: IFullScreenTitleProps) => {
               textTransform: 'uppercase',
               fontWeight: 500,
               marginBottom: 1,
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
             }}
           >
             Lak
@@ -66,6 +75,9 @@ export const FullScreenTitle = ({ title }: IFullScreenTitleProps) => {
           >
             {title}
           </Typography>
+          {/* <ArrowWrapper>
+            <ArrowDown />
+          </ArrowWrapper>  */}
         </Title>
       </Slide>
     </TitleContainer>

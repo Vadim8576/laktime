@@ -1,41 +1,63 @@
-import React from 'react';
-import { Skeleton } from '@mui/material';
+import React, { useRef, useEffect, useState } from 'react';
 import CardMedia from '@mui/material/CardMedia';
-import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { useObserver } from '../../../../hooks/useObserver';
+import { NoPhoto } from '../../../ui/noPhoto';
+import { MySkeleton } from '../../../ui/skeleton';
 
 
-const style = {
-  background: '#e9e9e9',
-  '&:hover': {
-    cursor: 'pointer',
-  }
-}
+const BASE_URL = process.env.REACT_APP_BASE_URL as string;
 
 interface IServiceItemMediaProps {
-  imgIsLoading: Boolean;
-  image: string;
-  id: number;
+  imageName: string;
 }
 
-const ServiceItemMedia = observer(({ ...props }: IServiceItemMediaProps) => {
+export const ServiceItemMedia = observer(({ ...props }: IServiceItemMediaProps) => {
 
-  const { imgIsLoading, image, id } = props;
+  let { imageName } = props;
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [loadingComplite, setLoadingComplite] = useState<boolean>(false);
+  const [imageInView, setImageInView] = useState<boolean>(false);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const imageEntry = useObserver(imageRef, { rootMargin: '0px' });
 
-  if (imgIsLoading) return <Skeleton variant="rectangular" animation="wave" width='100%' height={194} />
+  useEffect(() => {
+    if (!imageEntry) return;
+    setImageInView(true);
+  }, [imageEntry])
+
+  useEffect(() => {
+    if (!imageName) return;
+    setImageUrl(`${BASE_URL}images/${imageName}`);
+  }, [imageName])
+
+  const onLoadImage = () => {
+    setLoadingComplite(true);
+  }
+
+  const CardWithImage = () => (
+    <>
+      <CardMedia
+        component='img'
+        // height='194'
+        image={imageUrl}
+        alt='Изображение услуги'
+        onLoad={onLoadImage}
+        style={{
+          filter: `blur(${loadingComplite ? '0' : '10'}px)`,
+          opacity: loadingComplite ? '1' : '0',
+          width: loadingComplite ? '100%' : '0',
+          height: loadingComplite ? '194px' : '0',
+          transition: '.5s filter',
+        }}
+      />
+      {!loadingComplite && <MySkeleton animationType='wave' />}
+    </>
+  )
 
   return (
-    <Link to={`../card-detail/${id}`}>
-      <CardMedia
-        component="img"
-        height="194"
-        image={image}
-        alt="manicure"
-        sx={style}
-      />
-    </Link>
+    <div ref={imageRef}>
+      {imageInView && imageUrl ? CardWithImage() : <NoPhoto type='text' width='100%' height='194px' />}
+    </div>
   )
 })
-
-
-export default ServiceItemMedia;
